@@ -1,8 +1,41 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+    <!-- the theme applied to the application or activity -->
+    <style name="CustomActionBarTheme"
+        parent="@android:style/Theme.Holo.Light">
+        <item name="android:actionBarTabBarStyle">@style/MyTabbarBg</item>
+        <item name="android:actionBarTabStyle">@style/MyActionBar</item>
+        <item name="android:actionBarTabTextStyle">@style/MyTheme.ActionBar.TabText</item>
+
+        <item name="android:windowBackground">@color/tab_unselected</item>
+
+        <item name="android:actionBarStyle">@style/MyTheme.ActionBarStyle</item>
+
+    </style>
+
+    <style name="MyTheme.ActionBarStyle" parent="@android:style/Widget.Holo.Light.ActionBar">
+        <item name="android:titleTextStyle">@style/MyTheme.ActionBar.TitleTextStyle</item>
+        <!--<item name="android:background">@color/tab_unselected</item>-->
+    </style>
+
+    <style name="MyTheme.ActionBar.TitleTextStyle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
+    <!-- ActionBar styles -->
+    <style name="MyActionBar"
+        parent="@android:style/Widget.Holo.Light.ActionBar.TabView">
+        <item name="android:background">@drawable/actionbar_tab_indicator</item>
+    </style>
+
+    <style name="MyTabbarBg" parent="android:style/Widget.Holo.Light.ActionBar.TabBar">
+        <!-- This is an ORANGE background -->
+        <item name="android:background">@color/tab_unselected</item>
+    </style>
+
+    <style name="MyTheme.ActionBar.TabText" parent="android:style/Widget.Holo.ActionBar.TabText">
+        <!-- This is a WHITE tab color -->
+        <item name="android:textColor">@android:color/white</item>
     </style>
 
 </resources>
