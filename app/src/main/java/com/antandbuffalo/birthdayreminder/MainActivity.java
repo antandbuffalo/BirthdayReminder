@@ -82,6 +82,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
     }
 
+    //https://github.com/astuetz/PagerSlidingTabStrip
+    //http://blog.alwold.com/2013/08/28/styling-tabs-in-the-android-action-bar/
     public class TabsAdapter extends FragmentPagerAdapter {
         List<String> titles = new ArrayList<String>(3);
         public  TabsAdapter(FragmentManager fm) {

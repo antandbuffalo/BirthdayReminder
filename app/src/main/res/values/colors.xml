@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="tab_unselected">#3E2723</color>
-    <color name="tab_selected">#795548</color>
-    <color name="tab_unselected_focused">#6D4C41</color>
-    <color name="tab_selected_focused">#6D4C41</color>
-    <color name="tab_unselected_pressed">#6D4C41</color>
-    <color name="tab_selected_pressed">#6D4C41</color>
+    <color name="tab_unselected">#FF5722</color>
+    <color name="tab_selected">#FFFFFF</color>
 
     <color name="white">#FFFFFF</color>
+    <color name="backgroud">#FBE9E7</color>
+
+    <color name="transparent">#00000000</color>
+    <color name="tab_highlight">#FF7043</color>
 
 </resources>
