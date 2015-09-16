@@ -1,22 +1,11 @@
 package com.antandbuffalo.birthdayreminder;
 
-import android.app.Activity;
 import android.graphics.drawable.ColorDrawable;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Context;
 import android.app.ActionBar;
 import android.os.Bundle;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.support.v4.view.ViewPager;
-
-import com.antandbuffalo.birthdayreminder.fragments.Settings;
-import com.antandbuffalo.birthdayreminder.fragments.Today;
-import com.antandbuffalo.birthdayreminder.fragments.Upcoming;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +27,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         // Set up the action bar.
         final ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-//        actionBar.setDisplayShowTitleEnabled(false);
+//        actionBar.setDisplayShowTitleEnabled(false);  //to hide title
 //        actionBar.setDisplayShowHomeEnabled(false);
         actionBar.setBackgroundDrawable(new ColorDrawable());
         // Set up the ViewPager with the sections adapter.
@@ -80,39 +69,5 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     @Override
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
 
-    }
-
-    //https://github.com/astuetz/PagerSlidingTabStrip
-    //http://blog.alwold.com/2013/08/28/styling-tabs-in-the-android-action-bar/
-    public class TabsAdapter extends FragmentPagerAdapter {
-        List<String> titles = new ArrayList<String>(3);
-        public  TabsAdapter(FragmentManager fm) {
-            super(fm);
-            titles.add("Today");
-            titles.add("Upcoming");
-            titles.add("Settings");
-        }
-        @Override
-        public Fragment getItem(int position) {
-            switch (position) {
-                case 0:
-                    return new Today();
-                case 1:
-                    return new Upcoming();
-                case 2:
-                    return new Settings();
-            }
-            return null;
-        }
-
-        @Override
-        public int getCount() {
-            return 3;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return titles.get(position);
-        }
     }
 }

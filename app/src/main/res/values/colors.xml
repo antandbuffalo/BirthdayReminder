@@ -8,5 +8,6 @@
 
     <color name="transparent">#00000000</color>
     <color name="tab_highlight">#FF7043</color>
+    <color name="bg_minimized_tab">#E64A19</color>
 
 </resources>

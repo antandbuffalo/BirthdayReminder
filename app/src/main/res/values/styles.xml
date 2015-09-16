@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- the theme applied to the application or activity -->
     <style name="CustomActionBarTheme"
@@ -10,6 +10,7 @@
         <item name="android:actionBarStyle">@style/MyTheme.ActionBarStyle</item>
 
         <item name="android:windowBackground">@color/tab_unselected</item>
+        <item name="android:colorPrimary" tools:targetApi="21">@color/bg_minimized_tab</item>
     </style>
 
     <!-- ActionBar styles -->
