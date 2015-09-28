@@ -4,13 +4,31 @@
     android:layout_height="wrap_content"
     >
 
-    <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+    <LinearLayout
+        android:id="@+id/circlebg"
+        android:orientation="vertical"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_alignParentTop="true"
-        />
+        android:background="@drawable/cirlce"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="88"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/white"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/dateField" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dec"
+            android:textColor="@color/white"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/monthField" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/textView1"
@@ -18,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="23dp"
         android:layout_marginTop="10dp"
-        android:layout_toRightOf="@+id/imageView1"
+        android:layout_toRightOf="@+id/circlebg"
         android:text="CodeLearn Chapter 1"
         android:textSize="16sp" />
 
@@ -30,5 +48,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/textView1"
         android:layout_marginTop="29dp" />
+
+
 
 </RelativeLayout>
