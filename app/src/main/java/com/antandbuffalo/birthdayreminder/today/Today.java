@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.antandbuffalo.birthdayreminder.R;
-import com.antandbuffalo.birthdayreminder.TodayListAdapter;
 
 /**
  * Created by i677567 on 28/8/15.

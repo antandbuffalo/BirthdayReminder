@@ -15,12 +15,8 @@
 
     <!-- ActionBar styles -->
     <style name="MyActionBar1" parent="@android:style/Widget.Holo.Light.ActionBar.TabView">
-        <item name="android:background">@drawable/actionbar_tab_indicator1</item>
-    </style>
-    <!--<style name="MyActionBar"
-        parent="@android:style/Widget.Holo.Light.ActionBar.TabView">
         <item name="android:background">@drawable/actionbar_tab_indicator</item>
-    </style>-->
+    </style>
 
 
     <style name="MyTheme.ActionBarStyle" parent="@android:style/Widget.Holo.Light.ActionBar">

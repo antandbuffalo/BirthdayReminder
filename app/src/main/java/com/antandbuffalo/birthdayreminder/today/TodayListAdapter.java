@@ -47,8 +47,8 @@ public class TodayListAdapter extends BaseAdapter {
         TextView desc = (TextView)convertView.findViewById(R.id.textView2);
 
         DateOfBirth dob = dobs.get(position);
-        name.setText(dob.name);
-        desc.setText(dob.description);
+        name.setText(dob.getName());
+        desc.setText(dob.getDescription());
 
         return convertView;
     }
@@ -61,8 +61,8 @@ public class TodayListAdapter extends BaseAdapter {
         {
 
             DateOfBirth chapter = new DateOfBirth();
-            chapter.name = "Chapter "+i;
-            chapter.description = "This is description for chapter "+i;
+            chapter.setName("Chapter "+i);
+            chapter.setDescription("This is description for chapter "+i);
             codeLearnChaptersList.add(chapter);
         }
 

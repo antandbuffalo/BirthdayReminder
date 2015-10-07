@@ -1,25 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="58dp"
     >
 
     <LinearLayout
         android:id="@+id/circlebg"
         android:orientation="vertical"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_alignParentTop="true"
-        android:background="@drawable/cirlce"
-        >
+        android:background="@drawable/cirlce_normal"
+        android:layout_margin="4dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="88"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="8dp"
             android:textColor="@color/white"
             android:layout_gravity="center_horizontal"
+            android:textSize="18sp"
+            android:textStyle="bold"
             android:id="@+id/dateField" />
         <TextView
             android:layout_width="wrap_content"
@@ -27,14 +29,16 @@
             android:text="Dec"
             android:textColor="@color/white"
             android:layout_gravity="center_horizontal"
-            android:id="@+id/monthField" />
+            android:textSize="14sp"
+            android:id="@+id/monthField"
+            android:layout_marginTop="-5dp" />
     </LinearLayout>
 
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="23dp"
+        android:layout_marginLeft="5dp"
         android:layout_marginTop="10dp"
         android:layout_toRightOf="@+id/circlebg"
         android:text="CodeLearn Chapter 1"
@@ -49,6 +53,15 @@
         android:layout_alignStart="@+id/textView1"
         android:layout_marginTop="29dp" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="1988"
+        android:id="@+id/textView"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="10dp" />
 
 
 </RelativeLayout>

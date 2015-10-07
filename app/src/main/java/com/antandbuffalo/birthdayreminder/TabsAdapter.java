@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.antandbuffalo.birthdayreminder.fragments.Settings;
-import com.antandbuffalo.birthdayreminder.fragments.Today;
+import com.antandbuffalo.birthdayreminder.today.Today;
 import com.antandbuffalo.birthdayreminder.fragments.Upcoming;
 
 import java.util.ArrayList;

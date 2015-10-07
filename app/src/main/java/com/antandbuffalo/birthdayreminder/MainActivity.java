@@ -6,6 +6,7 @@ import android.app.FragmentTransaction;
 import android.app.ActionBar;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        Log.e("sadfasf", "asdfsadfs");
+        DBHelper dbHelper = new DBHelper(this);
         mTabsAdapter = new TabsAdapter(getSupportFragmentManager());
 
         // Set up the action bar.
