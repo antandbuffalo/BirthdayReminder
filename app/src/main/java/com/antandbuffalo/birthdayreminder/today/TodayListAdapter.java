@@ -1,11 +1,15 @@
-package com.antandbuffalo.birthdayreminder;
+package com.antandbuffalo.birthdayreminder.today;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+import com.antandbuffalo.birthdayreminder.DateOfBirth;
+import com.antandbuffalo.birthdayreminder.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,5 +68,8 @@ public class TodayListAdapter extends BaseAdapter {
 
         return codeLearnChaptersList;
 
+    }
+    public void printingCheck() {
+        Log.i("calling from out side", "same here too");
     }
 }

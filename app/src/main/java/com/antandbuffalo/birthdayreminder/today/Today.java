@@ -1,10 +1,9 @@
-package com.antandbuffalo.birthdayreminder.fragments;
+package com.antandbuffalo.birthdayreminder.today;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.antandbuffalo.birthdayreminder.R;
@@ -31,7 +30,7 @@ public class Today extends Fragment {
 
         //ArrayAdapter<String> codeLearnArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, codeLearnChapters);
         TodayListAdapter todayListAdapter = new TodayListAdapter();
-
+        todayListAdapter.printingCheck();
         //http://stackoverflow.com/questions/6495898/findviewbyid-in-fragment
         ListView codeLearnLessons = (ListView)rootView.findViewById(R.id.listView1);
         codeLearnLessons.setAdapter(todayListAdapter);
