@@ -3,24 +3,25 @@ package com.antandbuffalo.birthdayreminder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by i677567 on 23/9/15.
  */
 public class DateOfBirth {
-    private int id;
+    private long dobId;
     private String name;
     private String description;
     private Date dob;
     private int age;
     private int year;
 
-    public int getId() {
-        return id;
+    public long getDobId() {
+        return dobId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setDobId(long dobId) {
+        this.dobId = dobId;
     }
 
     public String getName() {

@@ -8,14 +8,15 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.antandbuffalo.birthdayreminder.database.DBHelper;
+import com.antandbuffalo.birthdayreminder.database.DobDBHelper;
 
 
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
     TabsAdapter mTabsAdapter;
     /**
      * The {@link ViewPager} that will host the section contents.
+     * http://www.codelearn.org/android-tutorial/android-listview
      */
     ViewPager mViewPager;
     @Override
@@ -23,7 +24,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.e("sadfasf", "asdfsadfs");
-        DBHelper dbHelper = new DBHelper(this);
+        DBHelper.createInstance(this);
+        DobDBHelper.addDOB();
+        DobDBHelper.getAll();
         mTabsAdapter = new TabsAdapter(getSupportFragmentManager());
 
         // Set up the action bar.
