@@ -12,9 +12,8 @@ public class DateOfBirth {
     private long dobId;
     private String name;
     private String description;
-    private Date dob;
+    private Date dobDate;
     private int age;
-    private int year;
 
     public long getDobId() {
         return dobId;
@@ -40,12 +39,12 @@ public class DateOfBirth {
         this.description = description;
     }
 
-    public Date getDob() {
-        return dob;
+    public Date getDobDate() {
+        return dobDate;
     }
 
-    public void setDob(Date dob) {
-        this.dob = dob;
+    public void setDobDate(Date dobDate) {
+        this.dobDate = dobDate;
     }
 
     public int getAge() {
@@ -56,11 +55,4 @@ public class DateOfBirth {
         this.age = age;
     }
 
-    public int getYear() {
-        return year;
-    }
-
-    public void setYear(int year) {
-        this.year = year;
-    }
 }

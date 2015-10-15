@@ -68,13 +68,13 @@ public class Util {
             for (DateOfBirth dob : dobs) {
                 String name = dob.getName();
                 name = name.replace(" ", "_");
-                String dobString = dob.getDob().getDate()
+                String dobString = dob.getDobDate().getDate()
                         + " "
-                        + (dob.getDob().getMonth() + 1)
+                        + (dob.getDobDate().getMonth() + 1)
                         + " "
-                        + dob.getDob().getYear();
-                int originalYear = dob.getYear();
-                myOutWriter.append(name + " " + dobString + " " + originalYear);
+                        + dob.getDobDate().getYear();
+                //int originalYear = dob.getYear();
+                //myOutWriter.append(name + " " + dobString + " " + originalYear);
                 myOutWriter.append("\n");
             }
 

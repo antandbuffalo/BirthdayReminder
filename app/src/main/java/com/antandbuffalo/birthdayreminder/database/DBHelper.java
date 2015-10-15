@@ -1,17 +1,11 @@
 package com.antandbuffalo.birthdayreminder.database;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.antandbuffalo.birthdayreminder.Constants;
-import com.antandbuffalo.birthdayreminder.DateOfBirth;
 
 public final class DBHelper extends SQLiteOpenHelper {
 
@@ -40,9 +34,9 @@ public final class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         // TODO Auto-generated method stub
-        String CREATE_DOB_TABLE = "CREATE TABLE " + Constants.TABLE_DOB + "(" + Constants.KEY_DOB_ID
-                + " INTEGER PRIMARY KEY autoincrement," + Constants.KEY_DOB_NAME + " TEXT NOT NULL,"
-                + Constants.KEY_DOB_DOB + " DATE NOT NULL" +")";
+        String CREATE_DOB_TABLE = "CREATE TABLE " + Constants.TABLE_DATE_OF_BIRTH + "(" + Constants.COLUMN_DOB_ID
+                + " INTEGER PRIMARY KEY autoincrement," + Constants.COLUMN_DOB_NAME + " TEXT NOT NULL,"
+                + Constants.COLUMN_DOB_DATE + " DATE NOT NULL" +")";
         System.out.println("create query -- " + CREATE_DOB_TABLE);
         db.execSQL(CREATE_DOB_TABLE);
     }
@@ -51,7 +45,7 @@ public final class DBHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int arg1, int arg2) {
         // TODO Auto-generated method stub
         // Drop older table if existed
-        db.execSQL("DROP TABLE IF EXISTS " + Constants.TABLE_DOB);
+        db.execSQL("DROP TABLE IF EXISTS " + Constants.TABLE_DATE_OF_BIRTH);
 
         // Create tables again
         onCreate(db);

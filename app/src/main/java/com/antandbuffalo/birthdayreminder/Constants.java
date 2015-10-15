@@ -10,16 +10,14 @@ public class Constants {
     public static final int DATABASE_VERSION = 1;
 
     // Contacts table name
-    public static final String TABLE_DOB = "DOB";
+    public static final String TABLE_DATE_OF_BIRTH = "DATE_OF_BIRTH";
 
     // Contacts Table Columns names
-    public static final String KEY_DOB_ID = "dob_id";
-    public static final String KEY_DOB_NAME = "name";
-    public static final String KEY_DOB_DOB = "dob";
-    public static final String KEY_DOB_YEAR = "year";
-    public static final String KEY_DOB_EXTRA1 = "extra1";
-    public static final String KEY_DOB_EXTRA2 = "extra2";
-    public static final String KEY_DOB_EXTRA3 = "extra3";
+    public static final String COLUMN_DOB_ID = "DOB_ID";
+    public static final String COLUMN_DOB_NAME = "NAME";
+    public static final String COLUMN_DOB_DATE = "DOB_DATE";
+    public static final String KEY_DOB_EXTRA1 = "EXTRA1";
+
 
     public static final String DATE_FORMAT = "yyyy-MM-dd";
 }

@@ -45,13 +45,13 @@ public class DobDBHelper {
         // Select All Query
         String selectionQuery;
         //selectionQuery = String.format("select %s, %s, %s from  %s ORDER BY CAST (strftime('%j', %s) AS INTEGER",
-                    //Constants.KEY_DOB_ID, Constants.KEY_DOB_NAME, Constants.KEY_DOB_DOB, Constants.TABLE_DOB, Constants.KEY_DOB_DOB);
+                    //Constants.COLUMN_DOB_ID, Constants.COLUMN_DOB_NAME, Constants.COLUMN_DOB_DATE, Constants.TABLE_DATE_OF_BIRTH, Constants.COLUMN_DOB_DATE);
 
-        selectionQuery = "select " + Constants.KEY_DOB_ID + ", "
-                + Constants.KEY_DOB_NAME + ", "
-                + Constants.KEY_DOB_DOB + " from "
-                + Constants.TABLE_DOB + " ORDER BY CAST (strftime('%j', "
-                + Constants.KEY_DOB_DOB + ") AS INTEGER)";
+        selectionQuery = "select " + Constants.COLUMN_DOB_ID + ", "
+                + Constants.COLUMN_DOB_NAME + ", "
+                + Constants.COLUMN_DOB_DATE + " from "
+                + Constants.TABLE_DATE_OF_BIRTH + " ORDER BY CAST (strftime('%j', "
+                + Constants.COLUMN_DOB_DATE + ") AS INTEGER)";
 
         System.out.println("query--" + selectionQuery);
         SQLiteDatabase db = DBHelper.getInstace().getReadableDatabase();
@@ -81,6 +81,6 @@ public class DobDBHelper {
 
     public Boolean deleteRecordForTheId(int givenId) {
         SQLiteDatabase db = DBHelper.getInstace().getWritableDatabase();
-        return db.delete(Constants.TABLE_DOB, Constants.KEY_DOB_ID + "=" + givenId, null) > 0;
+        return db.delete(Constants.TABLE_DATE_OF_BIRTH, Constants.COLUMN_DOB_ID + "=" + givenId, null) > 0;
     }
 }
