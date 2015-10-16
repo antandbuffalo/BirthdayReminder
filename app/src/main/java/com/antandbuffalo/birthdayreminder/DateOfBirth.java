@@ -11,8 +11,8 @@ import java.util.Locale;
 public class DateOfBirth {
     private long dobId;
     private String name;
-    private String description;
     private Date dobDate;
+    private String description;
     private int age;
 
     public long getDobId() {

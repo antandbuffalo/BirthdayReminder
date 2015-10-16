@@ -58,7 +58,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="1988"
-        android:id="@+id/textView"
+        android:id="@+id/yearField"
         android:layout_centerVertical="true"
         android:layout_alignParentEnd="true"
         android:layout_marginRight="10dp" />

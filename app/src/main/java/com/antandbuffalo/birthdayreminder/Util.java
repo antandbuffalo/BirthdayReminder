@@ -7,6 +7,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -18,8 +20,21 @@ import java.util.Locale;
  */
 public class Util {
 
+    public static Date getDateFromString(String input) {
+        DateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT, Locale.getDefault());
+        Date date = null;
+        try {
+            date = format.parse(input);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Log.i("date object", date.toString());
+        return date;
+    }
+
     public static String getStringFromDate(Date date) {
         SimpleDateFormat dateFormat = new SimpleDateFormat(Constants.DATE_FORMAT, Locale.getDefault());
+        Log.i("date string", dateFormat.format(date));
         return dateFormat.format(date);
     }
 
@@ -43,15 +58,14 @@ public class Util {
         return cal;
     }
 
-    public static int getAge(Date first, int originalYear, Date last) {
-        Calendar a = getCalendar(first);
-        Calendar b = getCalendar(last);
-        int diff = b.get(Calendar.YEAR) - originalYear;
-        if (a.get(Calendar.MONTH) > b.get(Calendar.MONTH) ||
-                (a.get(Calendar.MONTH) == b.get(Calendar.MONTH) && a.get(Calendar.DATE) > b.get(Calendar.DATE))) {
-            diff--;
+    public static int getAge(Date date) {
+        Calendar birthDate = getCalendar(date);
+        Calendar currentDate = getCalendar(new Date());
+        int age = currentDate.get(Calendar.YEAR) - birthDate.get(Calendar.YEAR);
+        if((birthDate.get(Calendar.MONTH) > currentDate.get(Calendar.MONTH)) || (birthDate.get(Calendar.MONTH) == currentDate.get(Calendar.MONTH) && birthDate.get(Calendar.DATE) > currentDate.get(Calendar.DATE))) {
+            age--;
         }
-        return diff + 1;
+        return age;
     }
 
     public static void writeToFile() {
