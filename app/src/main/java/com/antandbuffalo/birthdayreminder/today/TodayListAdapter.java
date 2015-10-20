@@ -47,8 +47,8 @@ public class TodayListAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.today_listitem, parent, false);
         }
 
-        TextView name = (TextView)convertView.findViewById(R.id.textView1);
-        TextView desc = (TextView)convertView.findViewById(R.id.textView2);
+        TextView name = (TextView)convertView.findViewById(R.id.nameField);
+        TextView desc = (TextView)convertView.findViewById(R.id.ageField);
 
         TextView dateField = (TextView)convertView.findViewById(R.id.dateField);
         TextView monthField = (TextView)convertView.findViewById(R.id.monthField);

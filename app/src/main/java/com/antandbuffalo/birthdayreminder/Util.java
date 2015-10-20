@@ -1,7 +1,11 @@
 package com.antandbuffalo.birthdayreminder;
 
+import android.content.ComponentName;
 import android.database.Cursor;
+import android.os.Environment;
 import android.util.Log;
+
+import com.antandbuffalo.birthdayreminder.database.DobDBHelper;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -69,29 +73,39 @@ public class Util {
     }
 
     public static void writeToFile() {
-        List<DateOfBirth> dobs = null;
-        String dirPath = "C:/Users/980765/Desktop";
+
+        List<DateOfBirth> dobs = DobDBHelper.selectAll();
         long fileSuffix = System.currentTimeMillis();
-        String fileName = "BirthdayReminder/dob_" + fileSuffix + ".txt";
-        File myFile = new File(dirPath, fileName);
+        File sdcard = Environment.getExternalStorageDirectory();
+
+        String fileName = "/BirthdayReminder/dob.txt";
+        String fileNameBackup = "/BirthdayReminder/dob_" + fileSuffix + ".txt";
+
+        File folder = new File(sdcard + File.separator + "BirthdayReminder");
+        if(!folder.exists()) {
+            folder.mkdir();
+        }
+
+        File myFile = new File(sdcard, fileName);
+        File myFileBackup = new File(sdcard, fileNameBackup);
+        myFile.renameTo(myFileBackup);
+
         try {
             myFile.createNewFile();
 
             FileOutputStream fOut = new FileOutputStream(myFile);
             OutputStreamWriter myOutWriter = new OutputStreamWriter(fOut);
             for (DateOfBirth dob : dobs) {
-                String name = dob.getName();
-                name = name.replace(" ", "_");
-                String dobString = dob.getDobDate().getDate()
-                        + " "
-                        + (dob.getDobDate().getMonth() + 1)
-                        + " "
-                        + dob.getDobDate().getYear();
-                //int originalYear = dob.getYear();
-                //myOutWriter.append(name + " " + dobString + " " + originalYear);
+                String name = dob.getName().replace(" ", Constants.SPACE_REPLACER);
+
+                Calendar cal = getCalendar(dob.getDobDate());
+
+                String dobString = cal.get(Calendar.DATE) + " "
+                        + (cal.get(Calendar.MONTH) + 1) + " "
+                        + cal.get(Calendar.YEAR);
+                myOutWriter.append(name + " " + dobString);
                 myOutWriter.append("\n");
             }
-
             myOutWriter.close();
             fOut.close();
             System.out.println("Write successful");

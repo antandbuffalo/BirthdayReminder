@@ -7,61 +7,62 @@
     <LinearLayout
         android:id="@+id/circlebg"
         android:orientation="vertical"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
         android:layout_alignParentTop="true"
         android:background="@drawable/cirlce_normal"
-        android:layout_margin="4dp">
+        android:layout_margin="6dp">
 
         <TextView
+            android:id="@+id/dateField"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="88"
-            android:layout_marginTop="8dp"
+            android:text="12"
+            android:layout_marginTop="2dp"
             android:textColor="@color/white"
             android:layout_gravity="center_horizontal"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:id="@+id/dateField" />
+             />
         <TextView
+            android:id="@+id/monthField"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Dec"
             android:textColor="@color/white"
             android:layout_gravity="center_horizontal"
             android:textSize="14sp"
-            android:id="@+id/monthField"
             android:layout_marginTop="-5dp" />
     </LinearLayout>
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/nameField"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="8dp"
         android:layout_toRightOf="@+id/circlebg"
         android:text="CodeLearn Chapter 1"
-        android:textSize="16sp" />
+        android:textSize="18sp" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/ageField"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Description"
+        android:textSize="11sp"
         android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/textView1"
-        android:layout_marginTop="29dp" />
+        android:layout_alignStart="@+id/nameField"
+        android:layout_marginTop="30dp" />
 
     <TextView
+        android:id="@+id/yearField"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="1988"
-        android:id="@+id/yearField"
         android:layout_centerVertical="true"
         android:layout_alignParentEnd="true"
         android:layout_marginRight="10dp" />
-
 
 </RelativeLayout>

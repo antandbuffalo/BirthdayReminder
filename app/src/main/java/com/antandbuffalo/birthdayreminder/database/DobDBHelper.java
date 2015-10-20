@@ -24,16 +24,16 @@ public class DobDBHelper {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(Constants.COLUMN_DOB_NAME, "sample_today"); // Contact Name
-        values.put(Constants.COLUMN_DOB_DATE, Util.getStringFromDate(new Date())); // date of birth - 2000
+        values.put(Constants.COLUMN_DOB_NAME, "Jeyabalaji"); // Contact Name
+        values.put(Constants.COLUMN_DOB_DATE, Util.getStringFromDate(new Date(573321600000L))); // date of birth - 2000
         db.insert(Constants.TABLE_DATE_OF_BIRTH, null, values); // Inserting Row
 
-        values.put(Constants.COLUMN_DOB_NAME, "sample_last_year"); // Contact Name
-        values.put(Constants.COLUMN_DOB_DATE, Util.getStringFromDate(new Date())); // date of birth - 2000
+        values.put(Constants.COLUMN_DOB_NAME, "Sivaraj"); // Contact Name
+        values.put(Constants.COLUMN_DOB_DATE, Util.getStringFromDate(new Date(580492800000L))); // date of birth - 2000
         db.insert(Constants.TABLE_DATE_OF_BIRTH, null, values); // Inserting Row
 
-        values.put(Constants.COLUMN_DOB_NAME, "sample_this_year"); // Contact Name
-        values.put(Constants.COLUMN_DOB_DATE, Util.getStringFromDate(new Date())); // date of birth - 2000
+        values.put(Constants.COLUMN_DOB_NAME, "Ram Gilma"); // Contact Name
+        values.put(Constants.COLUMN_DOB_DATE, Util.getStringFromDate(new Date(574358400000L))); // date of birth - 2000
         db.insert(Constants.TABLE_DATE_OF_BIRTH, null, values); // Inserting Row
 
 
