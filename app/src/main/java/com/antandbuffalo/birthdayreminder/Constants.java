@@ -20,6 +20,10 @@ public class Constants {
 
 
     public static final String DATE_FORMAT = "yyyy-MM-dd";
+    public static final String DATE_FORMAT_WITH_SPACE = "dd MM yyyy";
 
     public static final String SPACE_REPLACER = "_";
+    public static final String FOLDER_NAME = "BirthdayReminder";
+    public static final String FILE_NAME = "dob";
+    public static final String FILE_NAME_SUFFIX = ".txt";
 }

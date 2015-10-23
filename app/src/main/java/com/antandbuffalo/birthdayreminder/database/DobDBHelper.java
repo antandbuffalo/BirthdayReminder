@@ -40,7 +40,19 @@ public class DobDBHelper {
         db.close(); // Closing database connection
     }
 
+    public static long insertDOB(DateOfBirth dateOfBirth) {
+        DBHelper dbHelper = DBHelper.getInstace();
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(Constants.COLUMN_DOB_NAME, dateOfBirth.getName()); // Contact Name
+        values.put(Constants.COLUMN_DOB_DATE, Util.getStringFromDate(dateOfBirth.getDobDate())); // date of birth - 2000
+        long returnValue = db.insert(Constants.TABLE_DATE_OF_BIRTH, null, values); // Inserting Row
+        db.close();
+        return returnValue;
+    }
+
     public static List selectAll() {
+
        List<DateOfBirth> dobList = new ArrayList<DateOfBirth>();
         // Select All Query
         String selectionQuery;
@@ -50,6 +62,19 @@ public class DobDBHelper {
                 + Constants.COLUMN_DOB_DATE + " from "
                 + Constants.TABLE_DATE_OF_BIRTH + " ORDER BY CAST (strftime('%j', "
                 + Constants.COLUMN_DOB_DATE + ") AS INTEGER)";
+
+        selectionQuery = "select " + Constants.COLUMN_DOB_ID + ", "
+                + Constants.COLUMN_DOB_NAME + ", "
+                + Constants.COLUMN_DOB_DATE + ", "
+                + "case when day <= strftime('%j', 'now') then priority + 1 else priority end cp from"
+                + " (select "
+                + Constants.COLUMN_DOB_ID + ", "
+                + Constants.COLUMN_DOB_NAME + ", "
+                + Constants.COLUMN_DOB_DATE + ", "
+                + "cast(strftime('%j', "
+                + Constants.COLUMN_DOB_DATE + ") as int) as day, 0 as priority from "
+                + Constants.TABLE_DATE_OF_BIRTH + ") order by cp, day";
+
 
         System.out.println("query--" + selectionQuery);
         SQLiteDatabase db = DBHelper.getInstace().getReadableDatabase();
@@ -72,8 +97,6 @@ public class DobDBHelper {
                 else {
                     dateOfBirth.setDescription("Completing: " + (dateOfBirth.getAge() + 1) + " years");
                 }
-
-                Log.i("dob", dateOfBirth.getName() + dateOfBirth.getDescription());
                 // Adding contact to list
                 dobList.add(dateOfBirth);
             } while (cursor.moveToNext());
@@ -81,6 +104,19 @@ public class DobDBHelper {
         cursor.close();
         db.close();
         return dobList;
+    }
+
+    public static int deleteAll() {
+        SQLiteDatabase db = DBHelper.getInstace().getWritableDatabase();
+
+//		String selectionQuery;
+//		selectionQuery = String.format("delete from %s", TABLE_DOB);
+//		System.out.println("query--" + selectionQuery);
+//		db.rawQuery(selectionQuery, null);
+        int returnValue = db.delete(Constants.TABLE_DATE_OF_BIRTH, null, null);
+        db.close();
+        Log.i("delete all", returnValue + "");
+        return returnValue;
     }
 
     public Boolean deleteRecordForTheId(int givenId) {

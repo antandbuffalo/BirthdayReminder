@@ -27,7 +27,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         DBHelper.createInstance(this);
         //DobDBHelper.addDOB();
         //DobDBHelper.selectAll();
-        Util.writeToFile();
+        //Util.writeToFile();
+        DobDBHelper.deleteAll();
+        Util.readFromFile();
         mTabsAdapter = new TabsAdapter(getSupportFragmentManager());
 
         // Set up the action bar.
