@@ -1,11 +1,6 @@
-package com.antandbuffalo.birthdayreminder.today;
+package com.antandbuffalo.birthdayreminder.upcoming;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.LayerDrawable;
-import android.graphics.drawable.StateListDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,9 +15,7 @@ import com.antandbuffalo.birthdayreminder.R;
 import com.antandbuffalo.birthdayreminder.Util;
 import com.antandbuffalo.birthdayreminder.database.DobDBHelper;
 
-import java.net.URI;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -30,12 +23,12 @@ import java.util.List;
 /**
  * Created by i677567 on 23/9/15.
  */
-public class TodayListAdapter extends BaseAdapter {
+public class UpcomingListAdapter extends BaseAdapter {
+
     int currentDayOfYear, dayOfYear;
     Calendar cal;
     List<DateOfBirth> dobs;
-
-    TodayListAdapter() {
+    UpcomingListAdapter() {
         dobs = getDataForListView();
         currentDayOfYear = Integer.parseInt(Util.getStringFromDate(new Date(), Constants.DAY_OF_YEAR));
         cal = Calendar.getInstance();
@@ -75,9 +68,9 @@ public class TodayListAdapter extends BaseAdapter {
         name.setText(dob.getName());
         desc.setText(dob.getDescription());
         Date date = dob.getDobDate();
+        Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         SimpleDateFormat formatter = new SimpleDateFormat("MMM");
-
         dateField.setText(cal.get(Calendar.DATE) + "");
         monthField.setText(formatter.format(cal.getTime()));
         yearField.setText(cal.get(Calendar.YEAR) + "");
@@ -88,29 +81,18 @@ public class TodayListAdapter extends BaseAdapter {
             circle.setBackgroundResource(R.drawable.cirlce_today);
         }
         else {
-            circle.setBackgroundResource(R.drawable.cirlce_missed);
+            circle.setBackgroundResource(R.drawable.cirlce_normal);
         }
 
-
-        /*LinearLayout cirlce = (LinearLayout)convertView.findViewById(R.id.circlebg);
-        StateListDrawable bgDrawable = (StateListDrawable)cirlce.getBackground();
-        GradientDrawable g = (GradientDrawable)bgDrawable.getCurrent();
-        if(cal.get(Calendar.DAY_OF_YEAR) == currentDayOfYear) {
-            g.setColor(Color.parseColor(Constants.CIRCLE_BG_TODAY));
-        }
-        else {
-            g.setColor(Color.parseColor(Constants.CIRCLE_BG_DEFAULT));
-        }*/
+//        dateField.setText("27");
+//        monthField.setText("Sep");
+//        yearField.setText("2018");
 
         return convertView;
     }
 
-    public List<DateOfBirth> getDataForListView()
-    {
-        List<DateOfBirth> allDobs = DobDBHelper.selectTodayAndBelated();
+    public List<DateOfBirth> getDataForListView() {
+        List<DateOfBirth> allDobs = DobDBHelper.selectAll();
         return allDobs;
-    }
-    public void printingCheck() {
-        Log.i("calling from out side", "same here too");
     }
 }

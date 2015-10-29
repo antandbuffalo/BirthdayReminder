@@ -25,8 +25,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         setContentView(R.layout.activity_main);
         Log.e("sadfasf", "asdfsadfs");
         DBHelper.createInstance(this);
+        //DobDBHelper.deleteAll();
         //DobDBHelper.addDOB();
-        DobDBHelper.selectAll();
+        //DobDBHelper.selectAll();
         //Util.writeToFile();
         //DobDBHelper.deleteAll();
         //Util.readFromFile();

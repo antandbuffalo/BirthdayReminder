@@ -42,9 +42,12 @@ public class Util {
     }
 
     public static String getStringFromDate(Date date) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat(Constants.DATE_FORMAT, Locale.getDefault());
-        //Log.i("date string", dateFormat.format(date));
-        return dateFormat.format(date);
+        return getStringFromDate(date, Constants.DATE_FORMAT);
+    }
+
+    public static String getStringFromDate(Date date, String dateFormat) {
+        SimpleDateFormat dateFormater = new SimpleDateFormat(dateFormat, Locale.getDefault());
+        return dateFormater.format(date);
     }
 
     public static Calendar getCalendar(Date date) {
@@ -57,7 +60,7 @@ public class Util {
         Calendar birthDate = getCalendar(date);
         Calendar currentDate = getCalendar(new Date());
         int age = currentDate.get(Calendar.YEAR) - birthDate.get(Calendar.YEAR);
-        if((birthDate.get(Calendar.MONTH) > currentDate.get(Calendar.MONTH)) || (birthDate.get(Calendar.MONTH) == currentDate.get(Calendar.MONTH) && birthDate.get(Calendar.DATE) > currentDate.get(Calendar.DATE))) {
+        if(currentDate.get(Calendar.DAY_OF_YEAR) <= birthDate.get(Calendar.DAY_OF_YEAR)) {
             age--;
         }
         return age;

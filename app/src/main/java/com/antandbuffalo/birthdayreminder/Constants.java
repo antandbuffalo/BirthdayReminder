@@ -21,9 +21,15 @@ public class Constants {
 
     public static final String DATE_FORMAT = "yyyy-MM-dd";
     public static final String DATE_FORMAT_WITH_SPACE = "dd MM yyyy";
+    public static final String DAY_OF_YEAR = "MMdd";
 
     public static final String SPACE_REPLACER = "_";
     public static final String FOLDER_NAME = "BirthdayReminder";
     public static final String FILE_NAME = "dob";
     public static final String FILE_NAME_SUFFIX = ".txt";
+
+    public static final String CIRCLE_BG_TODAY = "#1B5E20";
+    public static final String CIRCLE_BG_DEFAULT = "#795548";
+
+    public static final int RECENT_DURATION = 3;
 }

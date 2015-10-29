@@ -11,6 +11,7 @@ import com.antandbuffalo.birthdayreminder.DateOfBirth;
 import com.antandbuffalo.birthdayreminder.Util;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -23,20 +24,29 @@ public class DobDBHelper {
         DBHelper dbHelper = DBHelper.getInstace();
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
-        ContentValues values = new ContentValues();
-        values.put(Constants.COLUMN_DOB_NAME, "Jeyabalaji"); // Contact Name
-        values.put(Constants.COLUMN_DOB_DATE, Util.getStringFromDate(new Date(573321600000L))); // date of birth - 2000
-        db.insert(Constants.TABLE_DATE_OF_BIRTH, null, values); // Inserting Row
+        List <DateOfBirth> dobs = new ArrayList<DateOfBirth>();
+        DateOfBirth today = new DateOfBirth();
+        today.setName("Today");
+        today.setDobDate(new Date());
 
-        values.put(Constants.COLUMN_DOB_NAME, "Sivaraj"); // Contact Name
-        values.put(Constants.COLUMN_DOB_DATE, Util.getStringFromDate(new Date(580492800000L))); // date of birth - 2000
-        db.insert(Constants.TABLE_DATE_OF_BIRTH, null, values); // Inserting Row
+        DateOfBirth yesterday = new DateOfBirth();
+        yesterday.setName("Tomorrow");
+        Calendar cal = Util.getCalendar(new Date());
+        cal.add(Calendar.DATE, 1);
+        yesterday.setDobDate(cal.getTime());
 
-        values.put(Constants.COLUMN_DOB_NAME, "Ram Gilma"); // Contact Name
-        values.put(Constants.COLUMN_DOB_DATE, Util.getStringFromDate(new Date(574358400000L))); // date of birth - 2000
-        db.insert(Constants.TABLE_DATE_OF_BIRTH, null, values); // Inserting Row
+        DateOfBirth tomorrow = new DateOfBirth();
+        tomorrow.setName("Yesterday");
+        cal.add(Calendar.DATE, -2);
+        tomorrow.setDobDate(cal.getTime());
 
+        dobs.add(today);
+        dobs.add(yesterday);
+        dobs.add(tomorrow);
 
+        for (DateOfBirth dob : dobs) {
+            Log.i("inserted ", insertDOB(dob) + "");
+        }
         db.close(); // Closing database connection
     }
 
@@ -52,8 +62,6 @@ public class DobDBHelper {
     }
 
     public static List selectAll() {
-
-       List<DateOfBirth> dobList = new ArrayList<DateOfBirth>();
         // Select All Query
         String selectionQuery;
 
@@ -79,8 +87,52 @@ public class DobDBHelper {
         System.out.println("query--" + selectionQuery);
         SQLiteDatabase db = DBHelper.getInstace().getReadableDatabase();
         Cursor cursor = db.rawQuery(selectionQuery, null);
+        List<DateOfBirth> dobList = getDateOfBirthsromCursor(cursor);
+        cursor.close();
+        db.close();
+        return dobList;
+    }
 
-        // looping through all rows and adding to list
+    public static List selectTodayAndBelated() {
+        String selectionQuery;
+        selectionQuery = "select " + Constants.COLUMN_DOB_ID + ", "
+                + Constants.COLUMN_DOB_NAME + ", "
+                + Constants.COLUMN_DOB_DATE + ", "
+                + "cast(strftime('%m%d', "
+                + Constants.COLUMN_DOB_DATE + ") as int) as day from "
+                + Constants.TABLE_DATE_OF_BIRTH + " where day >= (cast(strftime('%m%d', 'now') as int) - "
+                + Constants.RECENT_DURATION + ") AND day <= cast(strftime('%m%d', 'now') as int) order by day desc";
+
+        System.out.println("query today and belated --" + selectionQuery);
+        SQLiteDatabase db = DBHelper.getInstace().getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectionQuery, null);
+        List<DateOfBirth> dobList = getDateOfBirthsromCursor(cursor);
+        cursor.close();
+        db.close();
+        return dobList;
+    }
+
+    public static int getCountTodayAndBelated() {
+        String selectionQuery;
+        selectionQuery = "select count(" + Constants.COLUMN_DOB_ID + "), "
+                + "cast(strftime('%m%d', "
+                + Constants.COLUMN_DOB_DATE + ") as int) as day from "
+                + Constants.TABLE_DATE_OF_BIRTH + " where day = cast(strftime('%m%d', 'now') as int)";
+
+        System.out.println("query today and belated --" + selectionQuery);
+        SQLiteDatabase db = DBHelper.getInstace().getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectionQuery, null);
+        int count = 0;
+        if (cursor.moveToFirst()) {
+            count = cursor.getInt(0);
+        }
+        cursor.close();
+        db.close();
+        return count;
+    }
+
+    public static List getDateOfBirthsromCursor(Cursor cursor) {
+        List<DateOfBirth> dobList = new ArrayList<DateOfBirth>();
         if (cursor.moveToFirst()) {
             do {
                 DateOfBirth dateOfBirth = new DateOfBirth();
@@ -91,9 +143,6 @@ public class DobDBHelper {
                 if(dateOfBirth.getAge() == 0) {
                     dateOfBirth.setDescription("Completing: " + (dateOfBirth.getAge() + 1) + " year");
                 }
-                else if(dateOfBirth.getAge() == 1) {
-                    dateOfBirth.setDescription("Completing: " + (dateOfBirth.getAge() + 1) + " year");
-                }
                 else {
                     dateOfBirth.setDescription("Completing: " + (dateOfBirth.getAge() + 1) + " years");
                 }
@@ -101,8 +150,6 @@ public class DobDBHelper {
                 dobList.add(dateOfBirth);
             } while (cursor.moveToNext());
         }
-        cursor.close();
-        db.close();
         return dobList;
     }
 
