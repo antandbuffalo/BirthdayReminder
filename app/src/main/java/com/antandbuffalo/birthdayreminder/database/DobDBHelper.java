@@ -106,7 +106,7 @@ public class DobDBHelper {
         System.out.println("query today and belated --" + selectionQuery);
         SQLiteDatabase db = DBHelper.getInstace().getReadableDatabase();
         Cursor cursor = db.rawQuery(selectionQuery, null);
-        List<DateOfBirth> dobList = getDateOfBirthsromCursor(cursor);
+        List<DateOfBirth> dobList = getDateOfBirthsromCursor(cursor, "Completed");
         cursor.close();
         db.close();
         return dobList;
@@ -131,7 +131,7 @@ public class DobDBHelper {
         return count;
     }
 
-    public static List getDateOfBirthsromCursor(Cursor cursor) {
+    public static List<DateOfBirth> getDateOfBirthsromCursor(Cursor cursor, String description) {
         List<DateOfBirth> dobList = new ArrayList<DateOfBirth>();
         if (cursor.moveToFirst()) {
             do {
@@ -141,16 +141,20 @@ public class DobDBHelper {
                 dateOfBirth.setDobDate(Util.getDateFromString(cursor.getString(2)));
                 dateOfBirth.setAge(Util.getAge(dateOfBirth.getDobDate()));
                 if(dateOfBirth.getAge() == 0) {
-                    dateOfBirth.setDescription("Completing: " + (dateOfBirth.getAge() + 1) + " year");
+                    dateOfBirth.setDescription(description + ": " + (dateOfBirth.getAge() + 1) + " year");
                 }
                 else {
-                    dateOfBirth.setDescription("Completing: " + (dateOfBirth.getAge() + 1) + " years");
+                    dateOfBirth.setDescription(description + ": " + (dateOfBirth.getAge() + 1) + " years");
                 }
                 // Adding contact to list
                 dobList.add(dateOfBirth);
             } while (cursor.moveToNext());
         }
         return dobList;
+    }
+
+    public static List<DateOfBirth> getDateOfBirthsromCursor(Cursor cursor) {
+        return getDateOfBirthsromCursor(cursor, "Completing");
     }
 
     public static int deleteAll() {
