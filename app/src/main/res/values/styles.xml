@@ -3,8 +3,7 @@
     <!-- the theme applied to the application or activity -->
     <style name="CustomActionBarTheme"
         parent="@android:style/Theme.Holo.Light">
-        <!--<item name="android:actionBarTabStyle">@style/MyActionBar</item>-->
-        <item name="android:actionBarTabStyle">@style/MyActionBar1</item>
+        <item name="android:actionBarTabStyle">@style/MyActionBar</item>
 
         <item name="android:actionBarTabTextStyle">@style/MyTheme.ActionBar.TabText</item>
         <item name="android:actionBarStyle">@style/MyTheme.ActionBarStyle</item>
@@ -14,14 +13,13 @@
     </style>
 
     <!-- ActionBar styles -->
-    <style name="MyActionBar1" parent="@android:style/Widget.Holo.Light.ActionBar.TabView">
+    <style name="MyActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.TabView">
         <item name="android:background">@drawable/actionbar_tab_indicator</item>
     </style>
 
 
     <style name="MyTheme.ActionBarStyle" parent="@android:style/Widget.Holo.Light.ActionBar">
         <item name="android:titleTextStyle">@style/MyTheme.ActionBar.TitleTextStyle</item>
-        <!--<item name="android:background">@color/tab_unselected</item>-->
     </style>
     <style name="MyTheme.ActionBar.TitleTextStyle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
         <item name="android:textColor">#FFFFFF</item>

@@ -25,13 +25,17 @@ import java.util.List;
  */
 public class UpcomingListAdapter extends BaseAdapter {
 
-    int currentDayOfYear, dayOfYear;
+    int currentDayOfYear, dayOfYear, recentDayOfYear;
     Calendar cal;
     List<DateOfBirth> dobs;
     UpcomingListAdapter() {
         dobs = getDataForListView();
-        currentDayOfYear = Integer.parseInt(Util.getStringFromDate(new Date(), Constants.DAY_OF_YEAR));
         cal = Calendar.getInstance();
+        currentDayOfYear = Integer.parseInt(Util.getStringFromDate(new Date(), Constants.DAY_OF_YEAR));
+
+        cal.setTime(new Date());
+        cal.add(Calendar.DATE, Constants.RECENT_DURATION);
+        recentDayOfYear = Integer.parseInt(Util.getStringFromDate(cal.getTime(), Constants.DAY_OF_YEAR));
     }
 
     @Override
@@ -79,6 +83,9 @@ public class UpcomingListAdapter extends BaseAdapter {
         dayOfYear = Integer.parseInt(Util.getStringFromDate(dob.getDobDate(), Constants.DAY_OF_YEAR));
         if(dayOfYear == currentDayOfYear) {
             circle.setBackgroundResource(R.drawable.cirlce_today);
+        }
+        else if(dayOfYear <= recentDayOfYear && dayOfYear > currentDayOfYear ){
+            circle.setBackgroundResource(R.drawable.cirlce_recent);
         }
         else {
             circle.setBackgroundResource(R.drawable.cirlce_normal);
