@@ -7,6 +7,7 @@ import android.app.ActionBar;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.Menu;
 
 import com.antandbuffalo.birthdayreminder.database.DBHelper;
 import com.antandbuffalo.birthdayreminder.database.DobDBHelper;
@@ -19,6 +20,13 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
      * http://www.codelearn.org/android-tutorial/android-listview
      */
     ViewPager mViewPager;
+
+/*    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }*/
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

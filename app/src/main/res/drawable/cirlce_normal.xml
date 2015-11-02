@@ -2,7 +2,7 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/solidCircle">
         <shape>
-            <solid android:color="@color/tab_unselected" />
+            <solid android:color="@color/circle_normal" />
             <corners
                 android:topLeftRadius="30dp"
                 android:topRightRadius="30dp"
