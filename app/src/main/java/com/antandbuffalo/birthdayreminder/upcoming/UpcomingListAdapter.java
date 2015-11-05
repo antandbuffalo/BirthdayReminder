@@ -29,13 +29,14 @@ public class UpcomingListAdapter extends BaseAdapter {
     Calendar cal;
     List<DateOfBirth> dobs;
     UpcomingListAdapter() {
-        dobs = getDataForListView();
         cal = Calendar.getInstance();
         currentDayOfYear = Integer.parseInt(Util.getStringFromDate(new Date(), Constants.DAY_OF_YEAR));
 
         cal.setTime(new Date());
         cal.add(Calendar.DATE, Constants.RECENT_DURATION);
         recentDayOfYear = Integer.parseInt(Util.getStringFromDate(cal.getTime(), Constants.DAY_OF_YEAR));
+
+        dobs = getDataForListView();
     }
 
     @Override

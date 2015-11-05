@@ -1,5 +1,6 @@
 package com.antandbuffalo.birthdayreminder;
 
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v4.app.FragmentActivity;
 import android.app.FragmentTransaction;
@@ -8,7 +9,10 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
+import android.widget.Button;
 
+import com.antandbuffalo.birthdayreminder.addnew.AddNew;
 import com.antandbuffalo.birthdayreminder.database.DBHelper;
 import com.antandbuffalo.birthdayreminder.database.DobDBHelper;
 
@@ -20,6 +24,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
      * http://www.codelearn.org/android-tutorial/android-listview
      */
     ViewPager mViewPager;
+    Button addNew;
 
 /*    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -34,11 +39,13 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         Log.e("sadfasf", "asdfsadfs");
         DBHelper.createInstance(this);
         //DobDBHelper.deleteAll();
-        //DobDBHelper.addDOB();
+        DobDBHelper.addDOB();
         //DobDBHelper.selectAll();
         //Util.writeToFile();
-        //DobDBHelper.deleteAll();
         //Util.readFromFile();
+
+        addNew = (Button)findViewById(R.id.addNew);
+
         mTabsAdapter = new TabsAdapter(getSupportFragmentManager());
 
         // Set up the action bar.
@@ -70,12 +77,28 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                             .setTabListener(this));
         }
 
+        addNew.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+
+                // TODO Auto-generated method stub
+                Intent intent = new Intent(v.getContext(), AddNew.class);
+                startActivity(intent);
+                //finish();
+            }
+        });
     }
 
     @Override
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
         // When the given tab is selected, switch to the corresponding page in the ViewPager.
         mViewPager.setCurrentItem(tab.getPosition());
+        if(tab.getPosition() == 0 || tab.getPosition() == 1) {
+            addNew.setVisibility(View.VISIBLE);
+        }
+        else if(tab.getPosition() == 2) {
+            addNew.setVisibility(View.GONE);
+        }
     }
 
     @Override

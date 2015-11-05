@@ -1,4 +1,22 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent">
 <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/pager"
     android:layout_width="match_parent"
     android:layout_height="match_parent" />
+
+    <Button
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:text="+"
+        android:textSize="26sp"
+        android:textColor="@color/addnew_font"
+        android:id="@+id/addNew"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/rounded_button"
+        android:elevation="10dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="15dp" />
+</RelativeLayout>

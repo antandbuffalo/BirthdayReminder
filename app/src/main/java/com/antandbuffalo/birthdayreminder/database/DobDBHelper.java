@@ -26,23 +26,18 @@ public class DobDBHelper {
 
         List <DateOfBirth> dobs = new ArrayList<DateOfBirth>();
         DateOfBirth today = new DateOfBirth();
-        today.setName("Today");
+        today.setName("Dineshwar");
         today.setDobDate(new Date());
 
-        DateOfBirth yesterday = new DateOfBirth();
-        yesterday.setName("Tomorrow");
         Calendar cal = Util.getCalendar(new Date());
-        cal.add(Calendar.DATE, 1);
-        yesterday.setDobDate(cal.getTime());
 
-        DateOfBirth tomorrow = new DateOfBirth();
-        tomorrow.setName("Yesterday");
+        DateOfBirth yesterday = new DateOfBirth();
+        yesterday.setName("Jeyabalaji");
         cal.add(Calendar.DATE, -2);
-        tomorrow.setDobDate(cal.getTime());
+        yesterday.setDobDate(cal.getTime());
 
         dobs.add(today);
         dobs.add(yesterday);
-        dobs.add(tomorrow);
 
         for (DateOfBirth dob : dobs) {
             Log.i("inserted ", insertDOB(dob) + "");
@@ -74,17 +69,17 @@ public class DobDBHelper {
         selectionQuery = "select " + Constants.COLUMN_DOB_ID + ", "
                 + Constants.COLUMN_DOB_NAME + ", "
                 + Constants.COLUMN_DOB_DATE + ", "
-                + "case when day <= strftime('%j', 'now') then priority + 1 else priority end cp from"
+                + "case when day < cast(strftime('%m%d', 'now') as int) then priority + 1 else priority end cp from"
                 + " (select "
                 + Constants.COLUMN_DOB_ID + ", "
                 + Constants.COLUMN_DOB_NAME + ", "
                 + Constants.COLUMN_DOB_DATE + ", "
-                + "cast(strftime('%j', "
+                + "cast(strftime('%m%d', "
                 + Constants.COLUMN_DOB_DATE + ") as int) as day, 0 as priority from "
                 + Constants.TABLE_DATE_OF_BIRTH + ") order by cp, day";
 
 
-        System.out.println("query--" + selectionQuery);
+        System.out.println("query--select all --- " + selectionQuery);
         SQLiteDatabase db = DBHelper.getInstace().getReadableDatabase();
         Cursor cursor = db.rawQuery(selectionQuery, null);
         List<DateOfBirth> dobList = getDateOfBirthsromCursor(cursor);

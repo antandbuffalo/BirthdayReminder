@@ -2,13 +2,17 @@
 <resources>
 
     <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
     <color name="backgroud">#FBE9E7</color>
 
     <color name="transparent">#00000000</color>
     <color name="tab_unselected">#795548</color>
     <color name="tab_selected">#FFFFFF</color>
     <color name="tab_highlighted">#5D4037</color>
-    <color name="bg_minimized_tab">#D7CCC8</color>
-    <color name="circle_normal">#6D4C41</color>
+    <color name="bg_minimized_tab">#00796B</color>
+    <color name="circle_normal">#5D4037</color>
+    <color name="circle_today">#1B5E20</color>
 
+    <color name="addnew_button">#FF5722</color>
+    <color name="addnew_font">#FFFFFF</color>
 </resources>
