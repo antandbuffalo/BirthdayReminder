@@ -10,6 +10,8 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 
 import com.antandbuffalo.birthdayreminder.addnew.AddNew;
@@ -25,6 +27,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
      */
     ViewPager mViewPager;
     Button addNew;
+    Animation animFadeOut, animFadeIn;
 
 /*    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -39,12 +42,15 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         Log.e("sadfasf", "asdfsadfs");
         DBHelper.createInstance(this);
         //DobDBHelper.deleteAll();
-        DobDBHelper.addDOB();
+        //DobDBHelper.addDOB();
         //DobDBHelper.selectAll();
         //Util.writeToFile();
         //Util.readFromFile();
 
         addNew = (Button)findViewById(R.id.addNew);
+        animFadeOut = AnimationUtils.loadAnimation(getApplicationContext(), android.R.anim.fade_out);
+        animFadeIn = AnimationUtils.loadAnimation(getApplicationContext(), android.R.anim.fade_in);
+        addNew.setAnimation(animFadeOut);
 
         mTabsAdapter = new TabsAdapter(getSupportFragmentManager());
 
@@ -54,7 +60,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 //        actionBar.setDisplayShowTitleEnabled(false);  //to hide title
 //        actionBar.setDisplayShowHomeEnabled(false);
         actionBar.setBackgroundDrawable(new ColorDrawable());
-        // Set up the ViewPager with the sections adapter.
+        // Set up the ViewPager with the sections adapter.+
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mTabsAdapter);
         mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
