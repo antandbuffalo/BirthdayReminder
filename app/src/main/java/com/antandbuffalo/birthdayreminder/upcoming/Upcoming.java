@@ -2,18 +2,25 @@ package com.antandbuffalo.birthdayreminder.upcoming;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.antandbuffalo.birthdayreminder.DateOfBirth;
 import com.antandbuffalo.birthdayreminder.R;
+import com.antandbuffalo.birthdayreminder.database.DobDBHelper;
+import com.antandbuffalo.birthdayreminder.fragments.MyFragment;
 import com.antandbuffalo.birthdayreminder.today.TodayListAdapter;
+
+import java.util.List;
 
 /**
  * Created by i677567 on 28/8/15.
  */
-public class Upcoming extends Fragment {
+public class Upcoming extends MyFragment {
+    UpcomingListAdapter upcomingListAdapter;
     public static Upcoming newInstance() {
         Upcoming fragment = new Upcoming();
         return fragment;
@@ -29,11 +36,18 @@ public class Upcoming extends Fragment {
         View rootView = inflater.inflate(R.layout.upcoming, container, false);
 
         //ArrayAdapter<String> codeLearnArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, codeLearnChapters);
-        UpcomingListAdapter upcomingListAdapter = new UpcomingListAdapter();
+        upcomingListAdapter = new UpcomingListAdapter();
         //http://stackoverflow.com/questions/6495898/findviewbyid-in-fragment
         ListView upcomingListView = (ListView)rootView.findViewById(R.id.upcomingListView);
         upcomingListView.setAdapter(upcomingListAdapter);
 
+        Log.i("upcoming", "inside on create view");
         return rootView;
+    }
+    public void updateData() {
+        System.out.println("in update data - upcoming");
+        //upcomingListAdapter.dobs = DobDBHelper.selectAll();
+        upcomingListAdapter.notifyDataSetChanged();
+        System.out.println(upcomingListAdapter.dobs.size());
     }
 }

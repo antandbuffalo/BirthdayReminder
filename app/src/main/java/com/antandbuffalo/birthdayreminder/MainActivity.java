@@ -1,5 +1,6 @@
 package com.antandbuffalo.birthdayreminder;
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v4.app.FragmentActivity;
@@ -17,6 +18,8 @@ import android.widget.Button;
 import com.antandbuffalo.birthdayreminder.addnew.AddNew;
 import com.antandbuffalo.birthdayreminder.database.DBHelper;
 import com.antandbuffalo.birthdayreminder.database.DobDBHelper;
+import com.antandbuffalo.birthdayreminder.today.Today;
+import com.antandbuffalo.birthdayreminder.upcoming.Upcoming;
 
 
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
@@ -39,7 +42,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.e("sadfasf", "asdfsadfs");
         DBHelper.createInstance(this);
         //DobDBHelper.deleteAll();
         //DobDBHelper.addDOB();
@@ -98,13 +100,22 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     @Override
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
         // When the given tab is selected, switch to the corresponding page in the ViewPager.
+
+        //getting the fragment reference
+        //http://stackoverflow.com/questions/18609261/getting-the-current-fragment-instance-in-the-viewpager
         mViewPager.setCurrentItem(tab.getPosition());
-        if(tab.getPosition() == 0 || tab.getPosition() == 1) {
+        if(tab.getPosition() == 0) {
             addNew.setVisibility(View.VISIBLE);
+        }
+        else if(tab.getPosition() == 1) {
+            addNew.setVisibility(View.VISIBLE);
+            //Upcoming upcoming = (Upcoming)mTabsAdapter.getFragment(tab.getPosition());
+            //upcoming.updateData();
         }
         else if(tab.getPosition() == 2) {
             addNew.setVisibility(View.GONE);
         }
+
     }
 
     @Override

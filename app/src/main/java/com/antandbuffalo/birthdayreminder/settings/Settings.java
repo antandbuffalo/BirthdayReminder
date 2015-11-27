@@ -1,6 +1,5 @@
-package com.antandbuffalo.birthdayreminder.fragments;
+package com.antandbuffalo.birthdayreminder.settings;
 
-import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,13 +10,13 @@ import android.widget.Toast;
 
 import com.antandbuffalo.birthdayreminder.R;
 import com.antandbuffalo.birthdayreminder.Util;
-import com.antandbuffalo.birthdayreminder.addnew.AddNew;
 import com.antandbuffalo.birthdayreminder.database.DobDBHelper;
+import com.antandbuffalo.birthdayreminder.fragments.MyFragment;
 
 /**
  * Created by i677567 on 28/8/15.
  */
-public class Settings extends Fragment {
+public class Settings extends MyFragment {
     public static Settings newInstance() {
         Settings fragment = new Settings();
         return fragment;

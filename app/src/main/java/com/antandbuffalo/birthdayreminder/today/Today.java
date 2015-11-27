@@ -7,11 +7,12 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.antandbuffalo.birthdayreminder.R;
+import com.antandbuffalo.birthdayreminder.fragments.MyFragment;
 
 /**
  * Created by i677567 on 28/8/15.
  */
-public class Today extends Fragment {
+public class Today extends MyFragment {
     String[] codeLearnChapters = new String[] { "Android Introduction","Android Setup/Installation","Android Hello World","Android Layouts/Viewgroups","Android Activity & Lifecycle","Intents in Android"};
 
     public static Today newInstance() {

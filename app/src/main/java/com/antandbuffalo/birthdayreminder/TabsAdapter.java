@@ -3,14 +3,18 @@ package com.antandbuffalo.birthdayreminder;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.view.ViewGroup;
 
 import com.antandbuffalo.birthdayreminder.database.DobDBHelper;
-import com.antandbuffalo.birthdayreminder.fragments.Settings;
+import com.antandbuffalo.birthdayreminder.fragments.MyFragment;
+import com.antandbuffalo.birthdayreminder.settings.Settings;
 import com.antandbuffalo.birthdayreminder.today.Today;
 import com.antandbuffalo.birthdayreminder.upcoming.Upcoming;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by i677567 on 16/9/15.
@@ -19,6 +23,7 @@ import java.util.List;
 //http://blog.alwold.com/2013/08/28/styling-tabs-in-the-android-action-bar/
 public class TabsAdapter extends FragmentPagerAdapter {
     List<String> titles = new ArrayList<String>(3);
+    Map<Integer, MyFragment> mPageReferenceMap = new HashMap<Integer, MyFragment>();
     public  TabsAdapter(FragmentManager fm) {
         super(fm);
         titles.add("Today");
@@ -27,15 +32,26 @@ public class TabsAdapter extends FragmentPagerAdapter {
     }
     @Override
     public Fragment getItem(int position) {
+        MyFragment myFragment = null;
         switch (position) {
             case 0:
-                return new Today();
+                myFragment = Today.newInstance();
+                break;
             case 1:
-                return new Upcoming();
+                myFragment = Upcoming.newInstance();
+                break;
             case 2:
-                return new Settings();
+                myFragment = Settings.newInstance();
+                break;
         }
-        return null;
+        mPageReferenceMap.put(position, myFragment);
+        return myFragment;
+    }
+
+    @Override
+    public void destroyItem (ViewGroup container, int position, Object object) {
+        super.destroyItem(container, position, object);
+        mPageReferenceMap.remove(position);
     }
 
     @Override
@@ -53,5 +69,9 @@ public class TabsAdapter extends FragmentPagerAdapter {
             title = titles.get(position);
         }
         return title;
+    }
+
+    public Fragment getFragment(int key) {
+        return mPageReferenceMap.get(key);
     }
 }

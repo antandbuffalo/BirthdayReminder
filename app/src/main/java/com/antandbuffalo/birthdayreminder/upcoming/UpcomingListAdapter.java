@@ -35,8 +35,7 @@ public class UpcomingListAdapter extends BaseAdapter {
         cal.setTime(new Date());
         cal.add(Calendar.DATE, Constants.RECENT_DURATION);
         recentDayOfYear = Integer.parseInt(Util.getStringFromDate(cal.getTime(), Constants.DAY_OF_YEAR));
-
-        dobs = getDataForListView();
+        dobs = DobDBHelper.selectAll();
     }
 
     @Override
@@ -99,8 +98,10 @@ public class UpcomingListAdapter extends BaseAdapter {
         return convertView;
     }
 
-    public List<DateOfBirth> getDataForListView() {
-        List<DateOfBirth> allDobs = DobDBHelper.selectAll();
-        return allDobs;
+    public void updateData() {
+        System.out.println("inside adapter");
+        dobs.clear();
+        dobs.addAll(DobDBHelper.selectAll());
+        this.notifyDataSetChanged();
     }
 }
