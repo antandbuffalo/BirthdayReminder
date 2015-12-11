@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import com.antandbuffalo.birthdayreminder.R;
 import com.antandbuffalo.birthdayreminder.Util;
-import com.antandbuffalo.birthdayreminder.database.DobDBHelper;
+import com.antandbuffalo.birthdayreminder.database.DateOfBirthDBHelper;
 import com.antandbuffalo.birthdayreminder.fragments.MyFragment;
 
 /**
@@ -44,7 +44,7 @@ public class Settings extends MyFragment {
         deleteAll.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-                DobDBHelper.deleteAll();
+                DateOfBirthDBHelper.deleteAll();
                 Toast.makeText(inflater.getContext(), "Delete All success. Please exit app and open", Toast.LENGTH_SHORT).show();
             }
         });

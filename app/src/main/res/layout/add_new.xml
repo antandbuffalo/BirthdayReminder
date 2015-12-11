@@ -76,18 +76,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Save"
-            android:id="@+id/button"
+            android:id="@+id/save"
             android:layout_weight="0.40"
             android:textColor="@color/white"
-            android:background="#43A047"
+            android:background="@color/save_button_default"
             android:layout_marginRight="5dp" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Cancel"
-            android:id="@+id/button2"
-            android:background="#D84315"
+            android:id="@+id/cancel"
+            android:background="@color/cancel_button_default"
             android:textColor="@color/white"
             android:layout_weight="0.40"
             android:layout_marginLeft="5dp" />

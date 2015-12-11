@@ -18,7 +18,7 @@ import com.antandbuffalo.birthdayreminder.Constants;
 import com.antandbuffalo.birthdayreminder.DateOfBirth;
 import com.antandbuffalo.birthdayreminder.R;
 import com.antandbuffalo.birthdayreminder.Util;
-import com.antandbuffalo.birthdayreminder.database.DobDBHelper;
+import com.antandbuffalo.birthdayreminder.database.DateOfBirthDBHelper;
 
 import java.net.URI;
 import java.text.SimpleDateFormat;
@@ -107,10 +107,12 @@ public class TodayListAdapter extends BaseAdapter {
 
     public List<DateOfBirth> getDataForListView()
     {
-        List<DateOfBirth> allDobs = DobDBHelper.selectTodayAndBelated();
+        List<DateOfBirth> allDobs = DateOfBirthDBHelper.selectTodayAndBelated();
         return allDobs;
     }
-    public void printingCheck() {
+    public void updateData() {
         Log.i("calling from out side", "same here too");
+        dobs = getDataForListView();
+        this.notifyDataSetChanged();
     }
 }

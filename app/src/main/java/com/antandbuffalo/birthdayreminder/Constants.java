@@ -32,4 +32,13 @@ public class Constants {
     public static final String CIRCLE_BG_DEFAULT = "#795548";
 
     public static final int RECENT_DURATION = 3;
+
+    public static final int ADD_NEW_MEMBER = 1;
+
+    public static final String NOTIFICATION_ADD_MEMBER_SUCCESS = "Successfully added";
+
+    public static final String IS_USER_ADDED = "IS_USER_ADDED";
+
+    public static final String FLAG_SUCCESS = "TRUE";
+    public static final String FLAG_FAILURE = "FALSE";
 }

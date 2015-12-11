@@ -7,7 +7,7 @@ import android.database.Cursor;
 import android.os.Environment;
 import android.util.Log;
 
-import com.antandbuffalo.birthdayreminder.database.DobDBHelper;
+import com.antandbuffalo.birthdayreminder.database.DateOfBirthDBHelper;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -56,6 +56,10 @@ public class Util {
         return cal;
     }
 
+    public static Calendar getCalendar() {
+        return Util.getCalendar(new Date());
+    }
+
     public static int getAge(Date date) {
         Calendar birthDate = getCalendar(date);
         Calendar currentDate = getCalendar(new Date());
@@ -89,7 +93,7 @@ public class Util {
                 String dateStr = lineComponents[1] + " " + lineComponents[2] + " " + lineComponents[3];
                 DateFormat dateFormat = new SimpleDateFormat(Constants.DATE_FORMAT_WITH_SPACE);
                 dob.setDobDate(dateFormat.parse(dateStr));
-                DobDBHelper.insertDOB(dob);
+                DateOfBirthDBHelper.insertDOB(dob);
             }
             //Close the input stream
             br.close();
@@ -106,7 +110,7 @@ public class Util {
             //throw error sd card not found
             return;
         }
-        List<DateOfBirth> dobs = DobDBHelper.selectAll();
+        List<DateOfBirth> dobs = DateOfBirthDBHelper.selectAll();
         long currentMillis = System.currentTimeMillis();
         File sdcard = Environment.getExternalStorageDirectory();
         String fileName = "/" + Constants.FOLDER_NAME + "/" + Constants.FILE_NAME + Constants.FILE_NAME_SUFFIX;

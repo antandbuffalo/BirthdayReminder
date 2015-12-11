@@ -13,7 +13,7 @@ import com.antandbuffalo.birthdayreminder.Constants;
 import com.antandbuffalo.birthdayreminder.DateOfBirth;
 import com.antandbuffalo.birthdayreminder.R;
 import com.antandbuffalo.birthdayreminder.Util;
-import com.antandbuffalo.birthdayreminder.database.DobDBHelper;
+import com.antandbuffalo.birthdayreminder.database.DateOfBirthDBHelper;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -35,7 +35,7 @@ public class UpcomingListAdapter extends BaseAdapter {
         cal.setTime(new Date());
         cal.add(Calendar.DATE, Constants.RECENT_DURATION);
         recentDayOfYear = Integer.parseInt(Util.getStringFromDate(cal.getTime(), Constants.DAY_OF_YEAR));
-        dobs = DobDBHelper.selectAll();
+        dobs = DateOfBirthDBHelper.selectAll();
     }
 
     @Override
@@ -99,9 +99,8 @@ public class UpcomingListAdapter extends BaseAdapter {
     }
 
     public void updateData() {
-        System.out.println("inside adapter");
         dobs.clear();
-        dobs.addAll(DobDBHelper.selectAll());
+        dobs.addAll(DateOfBirthDBHelper.selectAll());
         this.notifyDataSetChanged();
     }
 }

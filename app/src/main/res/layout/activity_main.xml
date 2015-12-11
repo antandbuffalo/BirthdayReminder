@@ -15,7 +15,6 @@
         android:id="@+id/addNew"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:background="@drawable/rounded_button"
         android:elevation="10dp"
         android:layout_marginRight="15dp"
         android:layout_marginBottom="15dp" />

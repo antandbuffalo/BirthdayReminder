@@ -10,7 +10,7 @@ import android.widget.ListView;
 
 import com.antandbuffalo.birthdayreminder.DateOfBirth;
 import com.antandbuffalo.birthdayreminder.R;
-import com.antandbuffalo.birthdayreminder.database.DobDBHelper;
+import com.antandbuffalo.birthdayreminder.database.DateOfBirthDBHelper;
 import com.antandbuffalo.birthdayreminder.fragments.MyFragment;
 import com.antandbuffalo.birthdayreminder.today.TodayListAdapter;
 
@@ -45,9 +45,8 @@ public class Upcoming extends MyFragment {
         return rootView;
     }
     public void updateData() {
-        System.out.println("in update data - upcoming");
         //upcomingListAdapter.dobs = DobDBHelper.selectAll();
-        upcomingListAdapter.notifyDataSetChanged();
-        System.out.println(upcomingListAdapter.dobs.size());
+        //upcomingListAdapter.notifyDataSetChanged();
+        upcomingListAdapter.updateData();
     }
 }

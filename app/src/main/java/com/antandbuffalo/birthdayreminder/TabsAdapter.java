@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.view.ViewGroup;
 
-import com.antandbuffalo.birthdayreminder.database.DobDBHelper;
+import com.antandbuffalo.birthdayreminder.database.DateOfBirthDBHelper;
 import com.antandbuffalo.birthdayreminder.fragments.MyFragment;
 import com.antandbuffalo.birthdayreminder.settings.Settings;
 import com.antandbuffalo.birthdayreminder.today.Today;
@@ -63,7 +63,7 @@ public class TabsAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         String title = "";
         if(position == 0) {
-            title = titles.get(position) + " (" + DobDBHelper.getCountTodayAndBelated() + ")";
+            title = titles.get(position) + " (" + DateOfBirthDBHelper.getCountTodayAndBelated() + ")";
         }
         else {
             title = titles.get(position);

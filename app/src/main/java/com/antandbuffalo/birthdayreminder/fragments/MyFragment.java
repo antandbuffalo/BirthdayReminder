@@ -7,6 +7,6 @@ import android.support.v4.app.Fragment;
  */
 public class MyFragment extends Fragment {
     public void updateData() {
-
+        System.out.println("MyFragment ------- Parent");
     }
 }

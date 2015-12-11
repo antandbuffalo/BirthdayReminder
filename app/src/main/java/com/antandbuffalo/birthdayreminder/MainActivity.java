@@ -3,6 +3,7 @@ package com.antandbuffalo.birthdayreminder;
 import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.provider.ContactsContract;
 import android.support.v4.app.FragmentActivity;
 import android.app.FragmentTransaction;
 import android.app.ActionBar;
@@ -17,7 +18,8 @@ import android.widget.Button;
 
 import com.antandbuffalo.birthdayreminder.addnew.AddNew;
 import com.antandbuffalo.birthdayreminder.database.DBHelper;
-import com.antandbuffalo.birthdayreminder.database.DobDBHelper;
+import com.antandbuffalo.birthdayreminder.database.DateOfBirthDBHelper;
+import com.antandbuffalo.birthdayreminder.fragments.MyFragment;
 import com.antandbuffalo.birthdayreminder.today.Today;
 import com.antandbuffalo.birthdayreminder.upcoming.Upcoming;
 
@@ -53,7 +55,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         animFadeOut = AnimationUtils.loadAnimation(getApplicationContext(), android.R.anim.fade_out);
         animFadeIn = AnimationUtils.loadAnimation(getApplicationContext(), android.R.anim.fade_in);
         addNew.setAnimation(animFadeOut);
-
+        addNew.setBackgroundResource(R.drawable.rounded_button);
         mTabsAdapter = new TabsAdapter(getSupportFragmentManager());
 
         // Set up the action bar.
@@ -91,10 +93,26 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
                 // TODO Auto-generated method stub
                 Intent intent = new Intent(v.getContext(), AddNew.class);
-                startActivity(intent);
+                startActivityForResult(intent, Constants.ADD_NEW_MEMBER);
                 //finish();
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        System.out.println(data.getStringExtra(Constants.IS_USER_ADDED));
+        System.out.println(Constants.FLAG_SUCCESS);
+        if (requestCode == Constants.ADD_NEW_MEMBER) {
+            if(resultCode == RESULT_OK){
+                if(data.getStringExtra(Constants.IS_USER_ADDED).equalsIgnoreCase(Constants.FLAG_SUCCESS)) {
+                    int index = mViewPager.getCurrentItem();
+                    TabsAdapter adapter = (TabsAdapter)mViewPager.getAdapter();
+                    MyFragment fragment = (MyFragment)adapter.getFragment(index);
+                    fragment.updateData();
+                }
+            }
+        }
     }
 
     @Override

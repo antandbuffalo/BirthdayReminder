@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * Created by i677567 on 12/10/15.
  */
-public class DobDBHelper {
+public class DateOfBirthDBHelper {
 
     public static void addDOB() {
         DBHelper dbHelper = DBHelper.getInstace();
@@ -43,6 +43,10 @@ public class DobDBHelper {
             Log.i("inserted ", insertDOB(dob) + "");
         }
         db.close(); // Closing database connection
+    }
+
+    public static long addMember(DateOfBirth dob) {
+        return insertDOB(dob);
     }
 
     public static long insertDOB(DateOfBirth dateOfBirth) {
