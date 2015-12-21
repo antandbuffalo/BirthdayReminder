@@ -20,8 +20,6 @@ public class Today extends MyFragment {
         return fragment;
     }
 
-    public Today() {
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,8 +35,7 @@ public class Today extends MyFragment {
     }
 
     @Override
-    public void updateData() {
-        System.out.println("MyFragment =============== Child");
-        todayListAdapter.updateData();
+    public void refreshData() {
+        todayListAdapter.refreshData();
     }
 }

@@ -20,6 +20,7 @@ public class Constants {
 
 
     public static final String DATE_FORMAT = "yyyy-MM-dd";
+    public static final String ADD_NEW_DATE_FORMAT = "MMM dd, yyyy";
     public static final String DATE_FORMAT_WITH_SPACE = "dd MM yyyy";
     public static final String DAY_OF_YEAR = "MMdd";
 

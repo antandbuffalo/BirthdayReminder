@@ -26,9 +26,6 @@ public class Upcoming extends MyFragment {
         return fragment;
     }
 
-    public Upcoming() {
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -40,13 +37,10 @@ public class Upcoming extends MyFragment {
         //http://stackoverflow.com/questions/6495898/findviewbyid-in-fragment
         ListView upcomingListView = (ListView)rootView.findViewById(R.id.upcomingListView);
         upcomingListView.setAdapter(upcomingListAdapter);
-
-        Log.i("upcoming", "inside on create view");
         return rootView;
     }
-    public void updateData() {
-        //upcomingListAdapter.dobs = DobDBHelper.selectAll();
-        //upcomingListAdapter.notifyDataSetChanged();
-        upcomingListAdapter.updateData();
+    @Override
+    public void refreshData() {
+        upcomingListAdapter.refreshData();
     }
 }

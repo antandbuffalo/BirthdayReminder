@@ -1,5 +1,7 @@
 package com.antandbuffalo.birthdayreminder;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
@@ -15,6 +17,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 
 import com.antandbuffalo.birthdayreminder.addnew.AddNew;
 import com.antandbuffalo.birthdayreminder.database.DBHelper;
@@ -22,6 +25,10 @@ import com.antandbuffalo.birthdayreminder.database.DateOfBirthDBHelper;
 import com.antandbuffalo.birthdayreminder.fragments.MyFragment;
 import com.antandbuffalo.birthdayreminder.today.Today;
 import com.antandbuffalo.birthdayreminder.upcoming.Upcoming;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
@@ -33,6 +40,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     ViewPager mViewPager;
     Button addNew;
     Animation animFadeOut, animFadeIn;
+    List<Boolean> refreshTracker;
+    RelativeLayout mainContainer;
 
 /*    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -51,6 +60,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         //Util.writeToFile();
         //Util.readFromFile();
 
+        mainContainer = (RelativeLayout)findViewById(R.id.mainContainer);
+
+        refreshTracker = initRefreshTracker();
         addNew = (Button)findViewById(R.id.addNew);
         animFadeOut = AnimationUtils.loadAnimation(getApplicationContext(), android.R.anim.fade_out);
         animFadeIn = AnimationUtils.loadAnimation(getApplicationContext(), android.R.anim.fade_in);
@@ -101,15 +113,18 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        System.out.println(data.getStringExtra(Constants.IS_USER_ADDED));
-        System.out.println(Constants.FLAG_SUCCESS);
         if (requestCode == Constants.ADD_NEW_MEMBER) {
             if(resultCode == RESULT_OK){
                 if(data.getStringExtra(Constants.IS_USER_ADDED).equalsIgnoreCase(Constants.FLAG_SUCCESS)) {
                     int index = mViewPager.getCurrentItem();
                     TabsAdapter adapter = (TabsAdapter)mViewPager.getAdapter();
                     MyFragment fragment = (MyFragment)adapter.getFragment(index);
-                    fragment.updateData();
+                    fragment.refreshData();
+                    for(int i = 0; i < refreshTracker.size(); i++) {
+                        if(i != index) {
+                            refreshTracker.set(i, true);
+                        }
+                    }
                 }
             }
         }
@@ -123,17 +138,45 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         //http://stackoverflow.com/questions/18609261/getting-the-current-fragment-instance-in-the-viewpager
         mViewPager.setCurrentItem(tab.getPosition());
         if(tab.getPosition() == 0) {
-            addNew.setVisibility(View.VISIBLE);
+            if(addNew.getVisibility() == View.GONE) {
+                addNew.setVisibility(View.VISIBLE);
+                addNew.animate().translationXBy(-107).setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        //adding one listener everywhere. otherwise it is automatically executing the third listener, which hides the button after the animation
+                    }
+                });
+            }
         }
         else if(tab.getPosition() == 1) {
-            addNew.setVisibility(View.VISIBLE);
-            //Upcoming upcoming = (Upcoming)mTabsAdapter.getFragment(tab.getPosition());
-            //upcoming.updateData();
+            if(addNew.getVisibility() == View.GONE) {
+                addNew.setVisibility(View.VISIBLE);
+                addNew.animate().translationXBy(-107).setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        //adding one listener everywhere. otherwise it is automatically executing the third listener, which hides the button after the animation
+                    }
+                });
+            }
         }
         else if(tab.getPosition() == 2) {
-            addNew.setVisibility(View.GONE);
+            if(addNew.getVisibility() == View.VISIBLE) {
+                addNew.animate().translationXBy(107).setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        addNew.setVisibility(View.GONE);
+                    }
+                });
+            }
         }
-
+        if(refreshTracker.get(tab.getPosition())) {
+            MyFragment fragment = (MyFragment)mTabsAdapter.getFragment((tab.getPosition()));
+            fragment.refreshData();
+            refreshTracker.set(tab.getPosition(), false);
+        }
     }
 
     @Override
@@ -144,5 +187,13 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     @Override
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
 
+    }
+
+    public List<Boolean> initRefreshTracker() {
+        List<Boolean> tracker = new ArrayList();
+        tracker.add(false); //for today
+        tracker.add(false); //for upcoming
+        tracker.add(false); //for settings
+        return tracker;
     }
 }

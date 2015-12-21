@@ -34,11 +34,13 @@ public class TodayListAdapter extends BaseAdapter {
     int currentDayOfYear, dayOfYear;
     Calendar cal;
     List<DateOfBirth> dobs;
+    SimpleDateFormat dateFormatter;
 
     TodayListAdapter() {
         dobs = getDataForListView();
         currentDayOfYear = Integer.parseInt(Util.getStringFromDate(new Date(), Constants.DAY_OF_YEAR));
         cal = Calendar.getInstance();
+        dateFormatter = new SimpleDateFormat("MMM");
     }
 
     @Override
@@ -76,10 +78,10 @@ public class TodayListAdapter extends BaseAdapter {
         desc.setText(dob.getDescription());
         Date date = dob.getDobDate();
         cal.setTime(date);
-        SimpleDateFormat formatter = new SimpleDateFormat("MMM");
+
 
         dateField.setText(cal.get(Calendar.DATE) + "");
-        monthField.setText(formatter.format(cal.getTime()));
+        monthField.setText(dateFormatter.format(cal.getTime()));
         yearField.setText(cal.get(Calendar.YEAR) + "");
 
         LinearLayout circle = (LinearLayout)convertView.findViewById(R.id.circlebg);
@@ -91,27 +93,15 @@ public class TodayListAdapter extends BaseAdapter {
             circle.setBackgroundResource(R.drawable.cirlce_missed);
         }
 
-
-        /*LinearLayout cirlce = (LinearLayout)convertView.findViewById(R.id.circlebg);
-        StateListDrawable bgDrawable = (StateListDrawable)cirlce.getBackground();
-        GradientDrawable g = (GradientDrawable)bgDrawable.getCurrent();
-        if(cal.get(Calendar.DAY_OF_YEAR) == currentDayOfYear) {
-            g.setColor(Color.parseColor(Constants.CIRCLE_BG_TODAY));
-        }
-        else {
-            g.setColor(Color.parseColor(Constants.CIRCLE_BG_DEFAULT));
-        }*/
-
         return convertView;
     }
 
-    public List<DateOfBirth> getDataForListView()
-    {
+    public List<DateOfBirth> getDataForListView() {
         List<DateOfBirth> allDobs = DateOfBirthDBHelper.selectTodayAndBelated();
         return allDobs;
     }
-    public void updateData() {
-        Log.i("calling from out side", "same here too");
+    public void refreshData() {
+        currentDayOfYear = Integer.parseInt(Util.getStringFromDate(new Date(), Constants.DAY_OF_YEAR));
         dobs = getDataForListView();
         this.notifyDataSetChanged();
     }

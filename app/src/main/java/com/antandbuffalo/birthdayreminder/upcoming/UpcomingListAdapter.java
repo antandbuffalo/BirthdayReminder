@@ -28,10 +28,11 @@ public class UpcomingListAdapter extends BaseAdapter {
     int currentDayOfYear, dayOfYear, recentDayOfYear;
     Calendar cal;
     List<DateOfBirth> dobs;
+    SimpleDateFormat dateFormatter;
     UpcomingListAdapter() {
-        cal = Calendar.getInstance();
+        dateFormatter = new SimpleDateFormat("MMM");
         currentDayOfYear = Integer.parseInt(Util.getStringFromDate(new Date(), Constants.DAY_OF_YEAR));
-
+        cal = Calendar.getInstance();
         cal.setTime(new Date());
         cal.add(Calendar.DATE, Constants.RECENT_DURATION);
         recentDayOfYear = Integer.parseInt(Util.getStringFromDate(cal.getTime(), Constants.DAY_OF_YEAR));
@@ -72,11 +73,9 @@ public class UpcomingListAdapter extends BaseAdapter {
         name.setText(dob.getName());
         desc.setText(dob.getDescription());
         Date date = dob.getDobDate();
-        Calendar cal = Calendar.getInstance();
         cal.setTime(date);
-        SimpleDateFormat formatter = new SimpleDateFormat("MMM");
         dateField.setText(cal.get(Calendar.DATE) + "");
-        monthField.setText(formatter.format(cal.getTime()));
+        monthField.setText(dateFormatter.format(cal.getTime()));
         yearField.setText(cal.get(Calendar.YEAR) + "");
 
         LinearLayout circle = (LinearLayout)convertView.findViewById(R.id.circlebg);
@@ -91,16 +90,15 @@ public class UpcomingListAdapter extends BaseAdapter {
             circle.setBackgroundResource(R.drawable.cirlce_normal);
         }
 
-//        dateField.setText("27");
-//        monthField.setText("Sep");
-//        yearField.setText("2018");
-
         return convertView;
     }
 
-    public void updateData() {
-        dobs.clear();
-        dobs.addAll(DateOfBirthDBHelper.selectAll());
+    public void refreshData() {
+        currentDayOfYear = Integer.parseInt(Util.getStringFromDate(new Date(), Constants.DAY_OF_YEAR));
+        cal.setTime(new Date());
+        cal.add(Calendar.DATE, Constants.RECENT_DURATION);
+        recentDayOfYear = Integer.parseInt(Util.getStringFromDate(cal.getTime(), Constants.DAY_OF_YEAR));
+        dobs = DateOfBirthDBHelper.selectAll();
         this.notifyDataSetChanged();
     }
 }

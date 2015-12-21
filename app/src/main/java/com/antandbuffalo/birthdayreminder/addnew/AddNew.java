@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CalendarView;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.antandbuffalo.birthdayreminder.Constants;
@@ -23,14 +25,24 @@ public class AddNew extends Activity {
     EditText name;
     DatePicker datePicker;
     Intent intent = null;
+    TextView selectedDate;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_new);
 
+        selectedDate = (TextView)findViewById(R.id.selectedDate);
+        selectedDate.setText(Util.getStringFromDate(new Date(), Constants.ADD_NEW_DATE_FORMAT));
         name = (EditText)findViewById(R.id.personName);
         datePicker = (DatePicker)findViewById(R.id.perosnDateOfBirth);
         datePicker.setMaxDate(new Date().getTime());
+
+        datePicker.getCalendarView().setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+            @Override
+            public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
+                selectedDate.setText(Util.getStringFromDate(Util.getDateFromString(year + "-" + (month + 1) + "-" + dayOfMonth), Constants.ADD_NEW_DATE_FORMAT));
+            }
+        });
 
         intent = new Intent();
         intent.putExtra(Constants.IS_USER_ADDED, Constants.FLAG_FAILURE.toString());
