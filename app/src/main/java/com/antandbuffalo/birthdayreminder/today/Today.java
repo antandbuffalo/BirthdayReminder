@@ -29,8 +29,8 @@ public class Today extends MyFragment {
         //ArrayAdapter<String> codeLearnArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, codeLearnChapters);
         todayListAdapter = new TodayListAdapter();
         //http://stackoverflow.com/questions/6495898/findviewbyid-in-fragment
-        ListView codeLearnLessons = (ListView)rootView.findViewById(R.id.listView1);
-        codeLearnLessons.setAdapter(todayListAdapter);
+        ListView todayList = (ListView)rootView.findViewById(R.id.listView1);
+        todayList.setAdapter(todayListAdapter);
         return rootView;
     }
 

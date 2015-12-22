@@ -40,7 +40,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     ViewPager mViewPager;
     Button addNew;
     Animation animFadeOut, animFadeIn;
-    List<Boolean> refreshTracker;
     RelativeLayout mainContainer;
 
 /*    @Override
@@ -56,14 +55,12 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         DBHelper.createInstance(this);
         //DobDBHelper.deleteAll();
         //DobDBHelper.addDOB();
-        //DobDBHelper.selectAll();
+        //DobDBHelper.selectAll(); 
         //Util.writeToFile();
         //Util.readFromFile();
 
-        mainContainer = (RelativeLayout)findViewById(R.id.mainContainer);
-
-        refreshTracker = initRefreshTracker();
-        addNew = (Button)findViewById(R.id.addNew);
+        mainContainer = (RelativeLayout) findViewById(R.id.mainContainer);
+        addNew = (Button) findViewById(R.id.addNew);
         animFadeOut = AnimationUtils.loadAnimation(getApplicationContext(), android.R.anim.fade_out);
         animFadeIn = AnimationUtils.loadAnimation(getApplicationContext(), android.R.anim.fade_in);
         addNew.setAnimation(animFadeOut);
@@ -114,15 +111,15 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == Constants.ADD_NEW_MEMBER) {
-            if(resultCode == RESULT_OK){
-                if(data.getStringExtra(Constants.IS_USER_ADDED).equalsIgnoreCase(Constants.FLAG_SUCCESS)) {
+            if (resultCode == RESULT_OK) {
+                if (data.getStringExtra(Constants.IS_USER_ADDED).equalsIgnoreCase(Constants.FLAG_SUCCESS)) {
                     int index = mViewPager.getCurrentItem();
-                    TabsAdapter adapter = (TabsAdapter)mViewPager.getAdapter();
-                    MyFragment fragment = (MyFragment)adapter.getFragment(index);
+                    TabsAdapter adapter = (TabsAdapter) mViewPager.getAdapter();
+                    MyFragment fragment = (MyFragment) adapter.getFragment(index);
                     fragment.refreshData();
-                    for(int i = 0; i < refreshTracker.size(); i++) {
-                        if(i != index) {
-                            refreshTracker.set(i, true);
+                    for (int i = 0; i < DataHolder.getInstance().refreshTracker.size(); i++) {
+                        if (i != index) {
+                            DataHolder.getInstance().refreshTracker.set(i, true);
                         }
                     }
                 }
@@ -137,8 +134,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         //getting the fragment reference
         //http://stackoverflow.com/questions/18609261/getting-the-current-fragment-instance-in-the-viewpager
         mViewPager.setCurrentItem(tab.getPosition());
-        if(tab.getPosition() == 0) {
-            if(addNew.getVisibility() == View.GONE) {
+        if (tab.getPosition() == 0) {
+            if (addNew.getVisibility() == View.GONE) {
                 addNew.setVisibility(View.VISIBLE);
                 addNew.animate().translationXBy(-107).setListener(new AnimatorListenerAdapter() {
                     @Override
@@ -148,9 +145,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                     }
                 });
             }
-        }
-        else if(tab.getPosition() == 1) {
-            if(addNew.getVisibility() == View.GONE) {
+        } else if (tab.getPosition() == 1) {
+            if (addNew.getVisibility() == View.GONE) {
                 addNew.setVisibility(View.VISIBLE);
                 addNew.animate().translationXBy(-107).setListener(new AnimatorListenerAdapter() {
                     @Override
@@ -160,9 +156,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                     }
                 });
             }
-        }
-        else if(tab.getPosition() == 2) {
-            if(addNew.getVisibility() == View.VISIBLE) {
+        } else if (tab.getPosition() == 2) {
+            if (addNew.getVisibility() == View.VISIBLE) {
                 addNew.animate().translationXBy(107).setListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
@@ -172,10 +167,13 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 });
             }
         }
-        if(refreshTracker.get(tab.getPosition())) {
-            MyFragment fragment = (MyFragment)mTabsAdapter.getFragment((tab.getPosition()));
+        System.out.print(DataHolder.getInstance().refreshTracker);
+        System.out.print(DataHolder.getInstance().refreshTracker.size());
+        System.out.print(tab.getPosition());
+        if (DataHolder.getInstance().refreshTracker.get(tab.getPosition())) {
+            MyFragment fragment = (MyFragment) mTabsAdapter.getFragment((tab.getPosition()));
             fragment.refreshData();
-            refreshTracker.set(tab.getPosition(), false);
+            DataHolder.getInstance().refreshTracker.set(tab.getPosition(), false);
         }
     }
 
@@ -187,13 +185,5 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     @Override
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
 
-    }
-
-    public List<Boolean> initRefreshTracker() {
-        List<Boolean> tracker = new ArrayList();
-        tracker.add(false); //for today
-        tracker.add(false); //for upcoming
-        tracker.add(false); //for settings
-        return tracker;
     }
 }

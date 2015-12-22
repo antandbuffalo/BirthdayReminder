@@ -44,6 +44,13 @@ public class TabsAdapter extends FragmentPagerAdapter {
                 myFragment = Settings.newInstance();
                 break;
         }
+        return myFragment;
+    }
+
+    @Override
+    public Object instantiateItem(ViewGroup container, int position) {
+        MyFragment myFragment = null;
+        myFragment = (MyFragment)super.instantiateItem(container, position);
         mPageReferenceMap.put(position, myFragment);
         return myFragment;
     }
@@ -67,7 +74,7 @@ public class TabsAdapter extends FragmentPagerAdapter {
         }
         else {
             title = titles.get(position);
-        }
+                                                    }
         return title;
     }
 

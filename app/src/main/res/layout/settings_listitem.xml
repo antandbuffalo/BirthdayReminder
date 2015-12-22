@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="58dp"
+    >
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="8dp"
+        android:layout_toRightOf="@+id/circlebg"
+        android:text="CodeLearn Chapter 1"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/subTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Description"
+        android:textSize="11sp"
+        android:alpha="0.7"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/nameField"
+        android:layout_marginTop="30dp" />
+
+</RelativeLayout>

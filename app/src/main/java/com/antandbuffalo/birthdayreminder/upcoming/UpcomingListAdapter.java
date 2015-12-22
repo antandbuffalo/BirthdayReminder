@@ -41,6 +41,9 @@ public class UpcomingListAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
+        if(dobs == null) {
+            return 0;
+        }
         return dobs.size();
     }
 
