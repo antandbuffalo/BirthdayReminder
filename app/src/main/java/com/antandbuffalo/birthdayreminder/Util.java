@@ -3,6 +3,7 @@ package com.antandbuffalo.birthdayreminder;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.os.Environment;
 import android.util.Log;
@@ -30,6 +31,13 @@ import java.util.Locale;
  * Created by i677567 on 5/10/15.
  */
 public class Util {
+
+    public static int convertDPtoPixel(float density, Resources resources) {
+        // Get the screen's density scale
+        final float scale = resources.getDisplayMetrics().density;
+    // Convert the dps to pixels, based on density scale
+        return (int) (density * scale + 0.5f);
+    }
 
     public static Date getDateFromString(String input) {
         DateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT, Locale.getDefault());

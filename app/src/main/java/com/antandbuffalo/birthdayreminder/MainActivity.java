@@ -14,6 +14,7 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -131,13 +132,15 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
         // When the given tab is selected, switch to the corresponding page in the ViewPager.
 
+        int pixelsToMove = Util.convertDPtoPixel(65, getResources());
+
         //getting the fragment reference
         //http://stackoverflow.com/questions/18609261/getting-the-current-fragment-instance-in-the-viewpager
         mViewPager.setCurrentItem(tab.getPosition());
         if (tab.getPosition() == 0) {
             if (addNew.getVisibility() == View.GONE) {
                 addNew.setVisibility(View.VISIBLE);
-                addNew.animate().translationXBy(-107).setListener(new AnimatorListenerAdapter() {
+                addNew.animate().translationXBy(-pixelsToMove).setListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
                         super.onAnimationEnd(animation);
@@ -148,7 +151,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         } else if (tab.getPosition() == 1) {
             if (addNew.getVisibility() == View.GONE) {
                 addNew.setVisibility(View.VISIBLE);
-                addNew.animate().translationXBy(-107).setListener(new AnimatorListenerAdapter() {
+                addNew.animate().translationXBy(-pixelsToMove).setListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
                         super.onAnimationEnd(animation);
@@ -158,7 +161,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             }
         } else if (tab.getPosition() == 2) {
             if (addNew.getVisibility() == View.VISIBLE) {
-                addNew.animate().translationXBy(107).setListener(new AnimatorListenerAdapter() {
+                addNew.animate().translationXBy(pixelsToMove).setListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
                         super.onAnimationEnd(animation);
@@ -167,9 +170,13 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 });
             }
         }
-        System.out.print(DataHolder.getInstance().refreshTracker);
-        System.out.print(DataHolder.getInstance().refreshTracker.size());
-        System.out.print(tab.getPosition());
+
+//        System.out.println("width -- " + addNew.getWidth());
+//        System.out.println(Util.convertDPtoPixel(50, getResources()));
+//        ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams)addNew.getLayoutParams();
+//        System.out.println(lp.rightMargin);
+//        System.out.println(Util.convertDPtoPixel(15, getResources()));
+
         if (DataHolder.getInstance().refreshTracker.get(tab.getPosition())) {
             MyFragment fragment = (MyFragment) mTabsAdapter.getFragment((tab.getPosition()));
             fragment.refreshData();
