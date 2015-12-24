@@ -7,6 +7,7 @@ import android.content.res.Resources;
 import android.database.Cursor;
 import android.os.Environment;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.antandbuffalo.birthdayreminder.database.DateOfBirthDBHelper;
 
@@ -79,17 +80,21 @@ public class Util {
         return age;
     }
 
-    public static void readFromFile() {
-
+    public static String readFromFile() {
+        String returnValue = "";
         if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             // sdcard not found. read from bundle
             //SD Card not found.
-            return;
+            return Constants.ERROR_READ_WRITE_1001;
         }
         try {
             File sdcard = Environment.getExternalStorageDirectory();
             // Get the text file
             File file = new File(sdcard, Constants.FOLDER_NAME + "/" + Constants.FILE_NAME + Constants.FILE_NAME_SUFFIX);
+            if(!file.exists()) {
+                Toast.makeText(DataHolder.getInstance().getAppContext(), Constants.ERROR_READ_WRITE_1002, Toast.LENGTH_SHORT).show();
+                return Constants.ERROR_READ_WRITE_1002;
+            }
             BufferedReader br = new BufferedReader(new BufferedReader(new FileReader(file)));
             String strLine;
             //Read File Line By Line
@@ -106,20 +111,28 @@ public class Util {
             }
             //Close the input stream
             br.close();
-
+            returnValue = Constants.NOTIFICATION_READ_WRITE_1002;
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+            returnValue = Constants.ERROR_READ_WRITE_1003;
         }
         System.out.println("Read successful");
+        return returnValue;
     }
 
-    public static void writeToFile() {
+    public static String writeToFile() {
+        String returnValue = "";
         if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             //throw error sd card not found
-            return;
+            //Toast.makeText(DataHolder.getInstance().getAppContext(), Constants.ERROR_READ_WRITE_1004, Toast.LENGTH_LONG).show();
+            return Constants.ERROR_READ_WRITE_1004;
         }
         List<DateOfBirth> dobs = DateOfBirthDBHelper.selectAll();
+        if(dobs == null || dobs.size() == 0) {
+            //Toast.makeText(DataHolder.getInstance().getAppContext(), Constants.ERROR_READ_WRITE_1005, Toast.LENGTH_LONG).show();
+            return Constants.ERROR_READ_WRITE_1005;
+        }
         long currentMillis = System.currentTimeMillis();
         File sdcard = Environment.getExternalStorageDirectory();
         String fileName = "/" + Constants.FOLDER_NAME + "/" + Constants.FILE_NAME + Constants.FILE_NAME_SUFFIX;
@@ -151,10 +164,14 @@ public class Util {
             myOutWriter.close();
             fOut.close();
             System.out.println("Write successful");
+            returnValue = Constants.NOTIFICATION_READ_WRITE_1001;
 
         } catch (IOException e) {
             // TODO Auto-generated catch block
+            //Toast.makeText(DataHolder.getInstance().getAppContext(), Constants.ERROR_READ_WRITE_1003, Toast.LENGTH_SHORT).show();
             e.printStackTrace();
+            returnValue = Constants.ERROR_READ_WRITE_1003;
         }
+        return returnValue;
     }
 }

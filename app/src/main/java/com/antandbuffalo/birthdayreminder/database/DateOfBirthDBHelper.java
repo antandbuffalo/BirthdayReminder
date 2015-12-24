@@ -156,7 +156,7 @@ public class DateOfBirthDBHelper {
         return getDateOfBirthsromCursor(cursor, "Completing");
     }
 
-    public static int deleteAll() {
+    public static String deleteAll() {
         SQLiteDatabase db = DBHelper.getInstace().getWritableDatabase();
 
 //		String selectionQuery;
@@ -166,7 +166,7 @@ public class DateOfBirthDBHelper {
         int returnValue = db.delete(Constants.TABLE_DATE_OF_BIRTH, null, null);
         db.close();
         Log.i("delete all", returnValue + "");
-        return returnValue;
+        return Constants.NOTIFICATION_DELETE_1001;
     }
 
     public Boolean deleteRecordForTheId(int givenId) {

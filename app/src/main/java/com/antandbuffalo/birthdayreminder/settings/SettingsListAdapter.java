@@ -8,6 +8,8 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.antandbuffalo.birthdayreminder.R;
+import com.antandbuffalo.birthdayreminder.database.OptionsDBHelper;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +20,7 @@ public class SettingsListAdapter extends BaseAdapter {
     List<SettingsModel> listData;
 
     SettingsListAdapter() {
-        listData = getDataForListView();
+        listData = OptionsDBHelper.selectAll();
     }
 
     @Override
@@ -53,28 +55,8 @@ public class SettingsListAdapter extends BaseAdapter {
         return convertView;
     }
 
-    public List<SettingsModel> getDataForListView() {
-        List data = new ArrayList();
-        SettingsModel datum;
-        datum = SettingsModel.newInstance();
-        datum.setKey("backup");
-        datum.setTitle("Take a Backup");
-        data.add(datum);
-
-        datum = SettingsModel.newInstance();
-        datum.setKey("load");
-        datum.setTitle("Load from latest Backup File");
-        data.add(datum);
-
-        datum = SettingsModel.newInstance();
-        datum.setKey("deleteall");
-        datum.setTitle("Delete All Data");
-        data.add(datum);
-
-        return data;
-    }
     public void refreshData() {
-        listData = getDataForListView();
+        listData = OptionsDBHelper.selectAll();
         this.notifyDataSetChanged();
     }
 }

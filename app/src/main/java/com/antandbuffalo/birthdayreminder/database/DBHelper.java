@@ -38,7 +38,19 @@ public final class DBHelper extends SQLiteOpenHelper {
                 + " INTEGER PRIMARY KEY autoincrement," + Constants.COLUMN_DOB_NAME + " TEXT NOT NULL,"
                 + Constants.COLUMN_DOB_DATE + " DATE NOT NULL" +")";
         System.out.println("create query -- " + CREATE_DOB_TABLE);
+
+        String CREATE_OPTION_TABLE = "CREATE TABLE " + Constants.TABLE_OPTIONS + "( "
+                + Constants.COLUMN_OPTION_CODE + " TEXT NOT NULL, "
+                + Constants.COLUMN_OPTION_TITLE + " TEXT, "
+                + Constants.COLUMN_OPTION_SUBTITLE + " TEXT"
+                +")";
+        System.out.println("create option table query -- " + CREATE_OPTION_TABLE);
+
         db.execSQL(CREATE_DOB_TABLE);
+        db.execSQL(CREATE_OPTION_TABLE);
+
+        //inserting default values
+        OptionsDBHelper.insertDefaultValues(db);
     }
 
     @Override
@@ -46,6 +58,7 @@ public final class DBHelper extends SQLiteOpenHelper {
         // TODO Auto-generated method stub
         // Drop older table if existed
         db.execSQL("DROP TABLE IF EXISTS " + Constants.TABLE_DATE_OF_BIRTH);
+        db.execSQL("DROP TABLE IF EXISTS " + Constants.TABLE_OPTIONS);
 
         // Create tables again
         onCreate(db);

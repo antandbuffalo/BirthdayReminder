@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
+import com.antandbuffalo.birthdayreminder.Constants;
 import com.antandbuffalo.birthdayreminder.DataHolder;
 import com.antandbuffalo.birthdayreminder.R;
 import com.antandbuffalo.birthdayreminder.Util;
@@ -46,46 +47,24 @@ public class Settings extends MyFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 SettingsModel settingsModel = settingsListAdapter.listData.get(position);
-                if(settingsModel.getKey().equalsIgnoreCase("backup")) {
-
+                if (settingsModel.getKey().equalsIgnoreCase(Constants.SETTINGS_WRITE_FILE)) {
+                    Toast.makeText(inflater.getContext(), Util.writeToFile(), Toast.LENGTH_SHORT).show();
                 }
-                else if(settingsModel.getKey().equalsIgnoreCase("deleteall")) {
-                    DateOfBirthDBHelper.deleteAll();
-                    Toast.makeText(inflater.getContext(), "Delete All success. Please exit app and open", Toast.LENGTH_SHORT).show();
+                else if (settingsModel.getKey().equalsIgnoreCase(Constants.SETTINGS_READ_FILE)) {
+                    Toast.makeText(inflater.getContext(), Util.readFromFile(), Toast.LENGTH_SHORT).show();
                     for (int i = 0; i < DataHolder.getInstance().refreshTracker.size(); i++) {
                         DataHolder.getInstance().refreshTracker.set(i, true);
                     }
                 }
-                else if(settingsModel.getKey().equalsIgnoreCase("load")) {
-                    Util.readFromFile();
-                    Toast.makeText(inflater.getContext(), "Read file success. Please exit app and open", Toast.LENGTH_SHORT).show();
+                else if (settingsModel.getKey().equalsIgnoreCase(Constants.SETTINGS_DELETE_ALL)) {
+                    Toast.makeText(inflater.getContext(), DateOfBirthDBHelper.deleteAll(), Toast.LENGTH_SHORT).show();
                     for (int i = 0; i < DataHolder.getInstance().refreshTracker.size(); i++) {
                         DataHolder.getInstance().refreshTracker.set(i, true);
                     }
                 }
+
             }
         });
-
-
-/*        Button addNew = (Button)rootView.findViewById(R.id.readFile);
-        addNew.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View v) {
-                Util.readFromFile();
-                Toast.makeText(inflater.getContext(), "Read file success. Please exit app and open", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        Button deleteAll = (Button)rootView.findViewById(R.id.deleteAll);
-        deleteAll.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View v) {
-                DateOfBirthDBHelper.deleteAll();
-                Toast.makeText(inflater.getContext(), "Delete All success. Please exit app and open", Toast.LENGTH_SHORT).show();
-            }
-        });*/
-
-
 
         return rootView;
     }

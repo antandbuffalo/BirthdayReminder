@@ -7,10 +7,11 @@ public class Constants {
 
     // Database Name
     public static final String DATABASE_NAME = "BirthdayReminder";
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 7;
 
     // Contacts table name
     public static final String TABLE_DATE_OF_BIRTH = "DATE_OF_BIRTH";
+    public static final String TABLE_OPTIONS = "OPTIONS";
 
     // Contacts Table Columns names
     public static final String COLUMN_DOB_ID = "DOB_ID";
@@ -18,6 +19,9 @@ public class Constants {
     public static final String COLUMN_DOB_DATE = "DOB_DATE";
     public static final String KEY_DOB_EXTRA1 = "EXTRA1";
 
+    public static final String COLUMN_OPTION_CODE = "OPTION_CODE";
+    public static final String COLUMN_OPTION_TITLE = "TITLE";
+    public static final String COLUMN_OPTION_SUBTITLE = "SUBTITLE";
 
     public static final String DATE_FORMAT = "yyyy-MM-dd";
     public static final String ADD_NEW_DATE_FORMAT = "MMM dd, yyyy";
@@ -42,4 +46,26 @@ public class Constants {
 
     public static final String FLAG_SUCCESS = "TRUE";
     public static final String FLAG_FAILURE = "FALSE";
+
+    public static final String SETTINGS_WRITE_FILE = "WRITE_FILE";
+    public static final String SETTINGS_READ_FILE = "READ_FILE";
+    public static final String SETTINGS_DELETE_ALL = "DELETE_ALL";
+
+    public static final String SETTINGS_WRITE_FILE_TITLE = "Take a backup";
+    public static final String SETTINGS_READ_FILE_TITLE = "Load from latest backup";
+    public static final String SETTINGS_DELETE_ALL_TITLE = "Delete All";
+
+    public static final String SETTINGS_WRITE_FILE_SUB_TITLE = "No backup till now";
+    public static final String SETTINGS_READ_FILE_SUB_TITLE = "Not loaded from backup till now";
+
+    public static final String ERROR_READ_WRITE_1001 = "Not able to read the backup file. SD Card not found";
+    public static final String ERROR_READ_WRITE_1002 = "Backup file is not found";
+    public static final String ERROR_READ_WRITE_1003 = "Unkown error occured";
+    public static final String ERROR_READ_WRITE_1004 = "Not able to create file. SD Card not found";
+    public static final String ERROR_READ_WRITE_1005 = "Nothing to backup. Data is empty";
+
+    public static final String NOTIFICATION_READ_WRITE_1001 = "Data backup successful";
+    public static final String NOTIFICATION_READ_WRITE_1002 = "Data loaded successfully";
+
+    public static final String NOTIFICATION_DELETE_1001 = "All Datas deleted";
 }
