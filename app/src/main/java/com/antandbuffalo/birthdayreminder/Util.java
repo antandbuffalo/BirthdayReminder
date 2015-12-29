@@ -33,6 +33,22 @@ import java.util.Locale;
  */
 public class Util {
 
+    public static long getDaysBetweenDates(Date date1, Date date2) {
+        //http://stackoverflow.com/questions/3838527/android-java-date-difference-in-days
+        Calendar calDate1 = Calendar.getInstance();
+        calDate1.setTime(date1);
+        Calendar calDate2 = Calendar.getInstance();
+        calDate2.setTime(date2);
+
+        long diff = calDate2.getTimeInMillis() - calDate1.getTimeInMillis();
+        long days = diff / (24 * 60 * 60 * 1000);
+        return days;
+    }
+
+    public static long getDaysBetweenDates(Date date1) {
+        return getDaysBetweenDates(date1, new Date());
+    }
+
     public static int convertDPtoPixel(float density, Resources resources) {
         // Get the screen's density scale
         final float scale = resources.getDisplayMetrics().density;
@@ -41,6 +57,9 @@ public class Util {
     }
 
     public static Date getDateFromString(String input) {
+        if(input == null) {
+            return null;
+        }
         DateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT, Locale.getDefault());
         Date date = null;
         try {
@@ -56,6 +75,9 @@ public class Util {
     }
 
     public static String getStringFromDate(Date date, String dateFormat) {
+        if(date == null || dateFormat == null) {
+            return null;
+        }
         SimpleDateFormat dateFormater = new SimpleDateFormat(dateFormat, Locale.getDefault());
         return dateFormater.format(date);
     }

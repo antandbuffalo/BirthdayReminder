@@ -1,5 +1,8 @@
 package com.antandbuffalo.birthdayreminder;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Created by i677567 on 14/10/15.
  */
@@ -7,7 +10,7 @@ public class Constants {
 
     // Database Name
     public static final String DATABASE_NAME = "BirthdayReminder";
-    public static final int DATABASE_VERSION = 7;
+    public static final int DATABASE_VERSION = 1;
 
     // Contacts table name
     public static final String TABLE_DATE_OF_BIRTH = "DATE_OF_BIRTH";
@@ -22,6 +25,7 @@ public class Constants {
     public static final String COLUMN_OPTION_CODE = "OPTION_CODE";
     public static final String COLUMN_OPTION_TITLE = "TITLE";
     public static final String COLUMN_OPTION_SUBTITLE = "SUBTITLE";
+    public static final String COLUMN_OPTION_UPDATED_ON = "UPDATED_ON";
 
     public static final String DATE_FORMAT = "yyyy-MM-dd";
     public static final String ADD_NEW_DATE_FORMAT = "MMM dd, yyyy";
@@ -37,6 +41,8 @@ public class Constants {
     public static final String CIRCLE_BG_DEFAULT = "#795548";
 
     public static final int RECENT_DURATION = 3;
+    public static final int HEALTHY_BACKUP_DURATION = 30;
+    public static final int AVERAGE_BACKUP_DURATION = 365;
 
     public static final int ADD_NEW_MEMBER = 1;
 
@@ -50,13 +56,26 @@ public class Constants {
     public static final String SETTINGS_WRITE_FILE = "WRITE_FILE";
     public static final String SETTINGS_READ_FILE = "READ_FILE";
     public static final String SETTINGS_DELETE_ALL = "DELETE_ALL";
+    public static final int SETTINGS_CELL_TYPE_0 = 0;
+    public static final int SETTINGS_CELL_TYPE_1 = 1;
+    public static final int SETTINGS_CELL_TYPE_2 = 2;
+    public static final int SETTINGS_CELL_TYPES_COUNT = 3;
+
+    public static final Set<String> SETTINGS_CELL_TYPE_0_VALUES = new HashSet<String>() {{
+        add(SETTINGS_READ_FILE);
+        add(SETTINGS_WRITE_FILE);
+    }};
+
+    public static final Set<String> SETTINGS_CELL_TYPE_1_VALUES = new HashSet<String>() {{
+        add(SETTINGS_DELETE_ALL);
+    }};
 
     public static final String SETTINGS_WRITE_FILE_TITLE = "Take a backup";
     public static final String SETTINGS_READ_FILE_TITLE = "Load from latest backup";
     public static final String SETTINGS_DELETE_ALL_TITLE = "Delete All";
 
-    public static final String SETTINGS_WRITE_FILE_SUB_TITLE = "No backup till now";
-    public static final String SETTINGS_READ_FILE_SUB_TITLE = "Not loaded from backup till now";
+    public static final String SETTINGS_WRITE_FILE_SUB_TITLE = "Till now no backup files created";
+    public static final String SETTINGS_READ_FILE_SUB_TITLE = "Till now not loaded from any backup file";
 
     public static final String ERROR_READ_WRITE_1001 = "Not able to read the backup file. SD Card not found";
     public static final String ERROR_READ_WRITE_1002 = "Backup file is not found";

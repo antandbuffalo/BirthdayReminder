@@ -1,5 +1,7 @@
 package com.antandbuffalo.birthdayreminder.settings;
 
+import java.util.Date;
+
 /**
  * Created by i677567 on 21/12/15.
  */
@@ -7,6 +9,7 @@ public class SettingsModel {
     private String key;
     private String title;
     private String subTitle;
+    private Date updatedOn;
 
     public String getKey() {
         return key;
@@ -34,5 +37,13 @@ public class SettingsModel {
 
     public static SettingsModel newInstance() {
         return new SettingsModel();
+    }
+
+    public Date getUpdatedOn() {
+        return updatedOn;
+    }
+
+    public void setUpdatedOn(Date updatedOn) {
+        this.updatedOn = updatedOn;
     }
 }

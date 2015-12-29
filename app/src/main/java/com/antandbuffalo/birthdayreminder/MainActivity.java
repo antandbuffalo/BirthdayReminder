@@ -121,6 +121,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                     TabsAdapter adapter = (TabsAdapter) mViewPager.getAdapter();
                     MyFragment fragment = (MyFragment) adapter.getFragment(index);
                     fragment.refreshData();
+                    //mTabsAdapter.notifyDataSetChanged();
                     for (int i = 0; i < DataHolder.getInstance().refreshTracker.size(); i++) {
                         if (i != index) {
                             DataHolder.getInstance().refreshTracker.set(i, true);

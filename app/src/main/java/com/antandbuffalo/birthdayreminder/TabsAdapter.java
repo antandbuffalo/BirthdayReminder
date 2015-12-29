@@ -70,11 +70,11 @@ public class TabsAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         String title = "";
         if(position == 0) {
-            title = titles.get(position) + " (" + DateOfBirthDBHelper.getCountTodayAndBelated() + ")";
+            title = titles.get(position);   // + " (" + DateOfBirthDBHelper.getCountTodayAndBelated() + ")";
         }
         else {
             title = titles.get(position);
-                                                    }
+        }
         return title;
     }
 

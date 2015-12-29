@@ -17,8 +17,10 @@ import com.antandbuffalo.birthdayreminder.DataHolder;
 import com.antandbuffalo.birthdayreminder.R;
 import com.antandbuffalo.birthdayreminder.Util;
 import com.antandbuffalo.birthdayreminder.database.DateOfBirthDBHelper;
+import com.antandbuffalo.birthdayreminder.database.OptionsDBHelper;
 import com.antandbuffalo.birthdayreminder.fragments.MyFragment;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -46,17 +48,25 @@ public class Settings extends MyFragment {
         settingsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                SettingsModel settingsModel = settingsListAdapter.listData.get(position);
-                if (settingsModel.getKey().equalsIgnoreCase(Constants.SETTINGS_WRITE_FILE)) {
+                SettingsModel option = settingsListAdapter.listData.get(position);
+                if (option.getKey().equalsIgnoreCase(Constants.SETTINGS_WRITE_FILE)) {
                     Toast.makeText(inflater.getContext(), Util.writeToFile(), Toast.LENGTH_SHORT).show();
+                    option.setSubTitle("Last backup was");
+                    option.setUpdatedOn(new Date());
+                    OptionsDBHelper.updateOption(option);
+                    settingsListAdapter.refreshData();
                 }
-                else if (settingsModel.getKey().equalsIgnoreCase(Constants.SETTINGS_READ_FILE)) {
+                else if (option.getKey().equalsIgnoreCase(Constants.SETTINGS_READ_FILE)) {
                     Toast.makeText(inflater.getContext(), Util.readFromFile(), Toast.LENGTH_SHORT).show();
+                    option.setSubTitle("Data was loaded");
+                    option.setUpdatedOn(new Date());
+                    OptionsDBHelper.updateOption(option);
+                    settingsListAdapter.refreshData();
                     for (int i = 0; i < DataHolder.getInstance().refreshTracker.size(); i++) {
                         DataHolder.getInstance().refreshTracker.set(i, true);
                     }
                 }
-                else if (settingsModel.getKey().equalsIgnoreCase(Constants.SETTINGS_DELETE_ALL)) {
+                else if (option.getKey().equalsIgnoreCase(Constants.SETTINGS_DELETE_ALL)) {
                     Toast.makeText(inflater.getContext(), DateOfBirthDBHelper.deleteAll(), Toast.LENGTH_SHORT).show();
                     for (int i = 0; i < DataHolder.getInstance().refreshTracker.size(); i++) {
                         DataHolder.getInstance().refreshTracker.set(i, true);
