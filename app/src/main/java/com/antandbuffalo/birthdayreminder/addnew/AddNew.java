@@ -57,7 +57,6 @@ public class AddNew extends Activity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("inside on click");
                 String plainName = name.getText().toString().trim();
                 Calendar cal = Util.getCalendar();
                 cal.set(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth());
@@ -65,6 +64,7 @@ public class AddNew extends Activity {
 
                 if(plainName.equalsIgnoreCase("")) {
                     //show error
+                    Toast.makeText(getApplicationContext(), Constants.ERROR_1001, Toast.LENGTH_LONG).show();
                 }
                 else {
                     DateOfBirth dob = new DateOfBirth();

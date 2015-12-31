@@ -31,6 +31,7 @@ public class Constants {
     public static final String ADD_NEW_DATE_FORMAT = "MMM dd, yyyy";
     public static final String DATE_FORMAT_WITH_SPACE = "dd MM yyyy";
     public static final String DAY_OF_YEAR = "MMdd";
+    public static final String FULL_DAY_OF_YEAR = "yyyyMMdd";
 
     public static final String SPACE_REPLACER = "_";
     public static final String FOLDER_NAME = "BirthdayReminder";
@@ -87,4 +88,6 @@ public class Constants {
     public static final String NOTIFICATION_READ_WRITE_1002 = "Data loaded successfully";
 
     public static final String NOTIFICATION_DELETE_1001 = "All Datas deleted";
+
+    public static final String ERROR_1001 = "Please enter Name";
 }

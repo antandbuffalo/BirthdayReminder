@@ -79,6 +79,7 @@ public class TabsAdapter extends FragmentPagerAdapter {
     }
 
     public Fragment getFragment(int key) {
-        return mPageReferenceMap.get(key);
+        MyFragment fragment = mPageReferenceMap.get(key);
+        return fragment;
     }
 }

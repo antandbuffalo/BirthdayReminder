@@ -183,7 +183,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
         if (DataHolder.getInstance().refreshTracker.get(tab.getPosition())) {
             MyFragment fragment = (MyFragment) mTabsAdapter.getFragment((tab.getPosition()));
-            fragment.refreshData();
+            if(fragment != null) {
+                fragment.refreshData();
+            }
             DataHolder.getInstance().refreshTracker.set(tab.getPosition(), false);
         }
     }

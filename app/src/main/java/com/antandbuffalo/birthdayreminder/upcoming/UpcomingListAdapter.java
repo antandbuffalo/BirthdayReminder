@@ -31,12 +31,8 @@ public class UpcomingListAdapter extends BaseAdapter {
     SimpleDateFormat dateFormatter;
     UpcomingListAdapter() {
         dateFormatter = new SimpleDateFormat("MMM");
-        currentDayOfYear = Integer.parseInt(Util.getStringFromDate(new Date(), Constants.DAY_OF_YEAR));
         cal = Calendar.getInstance();
-        cal.setTime(new Date());
-        cal.add(Calendar.DATE, Constants.RECENT_DURATION);
-        recentDayOfYear = Integer.parseInt(Util.getStringFromDate(cal.getTime(), Constants.DAY_OF_YEAR));
-        dobs = DateOfBirthDBHelper.selectAll();
+        setDefaultValues();
     }
 
     @Override
@@ -86,6 +82,14 @@ public class UpcomingListAdapter extends BaseAdapter {
         if(dayOfYear == currentDayOfYear) {
             circle.setBackgroundResource(R.drawable.cirlce_today);
         }
+        else if(recentDayOfYear < currentDayOfYear) {   //year end case
+            if(dayOfYear > currentDayOfYear || dayOfYear < recentDayOfYear) {
+                circle.setBackgroundResource(R.drawable.cirlce_recent);
+            }
+            else {
+                circle.setBackgroundResource(R.drawable.cirlce_normal);
+            }
+        }
         else if(dayOfYear <= recentDayOfYear && dayOfYear > currentDayOfYear ){
             circle.setBackgroundResource(R.drawable.cirlce_recent);
         }
@@ -97,11 +101,15 @@ public class UpcomingListAdapter extends BaseAdapter {
     }
 
     public void refreshData() {
+        setDefaultValues();
+        this.notifyDataSetChanged();
+    }
+
+    public void setDefaultValues() {
         currentDayOfYear = Integer.parseInt(Util.getStringFromDate(new Date(), Constants.DAY_OF_YEAR));
         cal.setTime(new Date());
         cal.add(Calendar.DATE, Constants.RECENT_DURATION);
         recentDayOfYear = Integer.parseInt(Util.getStringFromDate(cal.getTime(), Constants.DAY_OF_YEAR));
         dobs = DateOfBirthDBHelper.selectAll();
-        this.notifyDataSetChanged();
     }
 }
