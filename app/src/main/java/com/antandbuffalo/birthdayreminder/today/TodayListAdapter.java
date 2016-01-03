@@ -71,6 +71,7 @@ public class TodayListAdapter extends BaseAdapter {
 
         TextView name = (TextView)convertView.findViewById(R.id.nameField);
         TextView desc = (TextView)convertView.findViewById(R.id.ageField);
+        TextView noBirthday = (TextView)convertView.findViewById(R.id.noBirthday);
 
         TextView dateField = (TextView)convertView.findViewById(R.id.dateField);
         TextView monthField = (TextView)convertView.findViewById(R.id.monthField);
@@ -79,6 +80,17 @@ public class TodayListAdapter extends BaseAdapter {
         DateOfBirth dob = dobs.get(position);
         name.setText(dob.getName());
         desc.setText(dob.getDescription());
+        noBirthday.setText(dob.getName());
+        if(dob.getDobId() == -1) {
+            name.setVisibility(View.INVISIBLE);
+            desc.setVisibility(View.INVISIBLE);
+            noBirthday.setVisibility(View.VISIBLE);
+        }
+        else {
+            name.setVisibility(View.VISIBLE);
+            desc.setVisibility(View.VISIBLE);
+            noBirthday.setVisibility(View.INVISIBLE);
+        }
         Date date = dob.getDobDate();
         cal.setTime(date);
 
@@ -101,6 +113,18 @@ public class TodayListAdapter extends BaseAdapter {
 
     public List<DateOfBirth> getDataForListView() {
         List<DateOfBirth> allDobs = DateOfBirthDBHelper.selectTodayAndBelated();
+        DateOfBirth today = DateOfBirth.getInstance();
+        today.setDobDate(new Date());
+        today.setName("No Birthdays Today");
+        today.setDobId(-1);
+        if(allDobs != null && allDobs.size() > 0) {
+            if(Util.compareDateAndMonth(allDobs.get(0).getDobDate(), new Date()) != 0) {
+                allDobs.add(0, today);
+            }
+        }
+        else {
+            allDobs.add(today);
+        }
         return allDobs;
     }
     public void refreshData() {

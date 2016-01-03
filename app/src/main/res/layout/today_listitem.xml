@@ -66,4 +66,13 @@
         android:layout_alignParentEnd="true"
         android:layout_marginRight="10dp" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No Birthdays Today"
+        android:id="@+id/noBirthday"
+        android:layout_alignTop="@+id/yearField"
+        android:layout_alignStart="@+id/nameField"
+        android:textSize="18sp" />
+
 </RelativeLayout>

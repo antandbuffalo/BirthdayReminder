@@ -55,4 +55,7 @@ public class DateOfBirth {
         this.age = age;
     }
 
+    public static DateOfBirth getInstance() {
+        return new DateOfBirth();
+    }
 }

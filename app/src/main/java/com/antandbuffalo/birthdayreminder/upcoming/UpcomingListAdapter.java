@@ -63,6 +63,8 @@ public class UpcomingListAdapter extends BaseAdapter {
 
         TextView name = (TextView)convertView.findViewById(R.id.nameField);
         TextView desc = (TextView)convertView.findViewById(R.id.ageField);
+        TextView noBirthday = (TextView)convertView.findViewById(R.id.noBirthday);
+        noBirthday.setVisibility(View.INVISIBLE);
 
         TextView dateField = (TextView)convertView.findViewById(R.id.dateField);
         TextView monthField = (TextView)convertView.findViewById(R.id.monthField);

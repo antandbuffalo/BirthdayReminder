@@ -33,6 +33,17 @@ import java.util.Locale;
  */
 public class Util {
 
+    public static int compareDateAndMonth(Date date1, Date date2) {
+        Calendar calendar1 = Util.getCalendar(date1);
+        Calendar calendar2 = Util.getCalendar(date2);
+        if(calendar1.get(Calendar.MONTH) == calendar2.get(Calendar.MONTH) && calendar1.get(Calendar.DATE) == calendar2.get(Calendar.DATE)) {
+            return 0;
+        }
+        else {
+            return 1;
+        }
+    }
+
     public static long getDaysBetweenDates(Date date1, Date date2) {
         //http://stackoverflow.com/questions/3838527/android-java-date-difference-in-days
         Calendar calDate1 = Calendar.getInstance();

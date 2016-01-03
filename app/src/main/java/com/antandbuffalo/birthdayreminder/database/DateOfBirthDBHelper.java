@@ -94,13 +94,40 @@ public class DateOfBirthDBHelper {
 
     public static List selectTodayAndBelated() {
         String selectionQuery;
-        selectionQuery = "select " + Constants.COLUMN_DOB_ID + ", "
-                + Constants.COLUMN_DOB_NAME + ", "
-                + Constants.COLUMN_DOB_DATE + ", "
-                + "cast(strftime('%m%d', "
-                + Constants.COLUMN_DOB_DATE + ") as int) as day from "
-                + Constants.TABLE_DATE_OF_BIRTH + " where day >= (cast(strftime('%m%d', 'now') as int) - "
-                + Constants.RECENT_DURATION + ") AND day <= cast(strftime('%m%d', 'now') as int) order by day desc";
+        Calendar cal = Calendar.getInstance();
+        int currentDayOfYear = Integer.parseInt(Util.getStringFromDate(new Date(), Constants.DAY_OF_YEAR));
+        cal.setTime(new Date());
+        cal.add(Calendar.DATE, -Constants.RECENT_DURATION);
+        int belatedDate = Integer.parseInt(Util.getStringFromDate(cal.getTime(), Constants.DAY_OF_YEAR));
+        if(belatedDate > currentDayOfYear) {
+            selectionQuery = "select " + Constants.COLUMN_DOB_ID + ", "
+                    + Constants.COLUMN_DOB_NAME + ", "
+                    + Constants.COLUMN_DOB_DATE + ", "
+                    + "0 as TYPE, "
+                    + "cast(strftime('%m%d', "
+                    + Constants.COLUMN_DOB_DATE + ") as int) as day from "
+                    + Constants.TABLE_DATE_OF_BIRTH + " where "
+                    + "day <= cast(strftime('%m%d', 'now') as int) "
+                    + "UNION "
+                    + "select " + Constants.COLUMN_DOB_ID + ", "
+                    + Constants.COLUMN_DOB_NAME + ", "
+                    + Constants.COLUMN_DOB_DATE + ", "
+                    + "1 as TYPE, "
+                    + "cast(strftime('%m%d', "
+                    + Constants.COLUMN_DOB_DATE + ") as int) as day from "
+                    + Constants.TABLE_DATE_OF_BIRTH + " where day >= cast(strftime('%m%d', date('now', '"
+                    + (-Constants.RECENT_DURATION)
+                    +" day')) as int) order by TYPE, day desc";
+        }
+        else {
+            selectionQuery = "select " + Constants.COLUMN_DOB_ID + ", "
+                    + Constants.COLUMN_DOB_NAME + ", "
+                    + Constants.COLUMN_DOB_DATE + ", "
+                    + "cast(strftime('%m%d', "
+                    + Constants.COLUMN_DOB_DATE + ") as int) as day from "
+                    + Constants.TABLE_DATE_OF_BIRTH + " where day >= (cast(strftime('%m%d', 'now') as int) - "
+                    + Constants.RECENT_DURATION + ") AND day <= cast(strftime('%m%d', 'now') as int) order by day desc";
+        }
 
         System.out.println("query today and belated --" + selectionQuery);
         SQLiteDatabase db = DBHelper.getInstace().getReadableDatabase();
