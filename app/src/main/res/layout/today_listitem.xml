@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="58dp"
-    >
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:id="@+id/circlebg"
         android:orientation="vertical"
-        android:layout_width="44dp"
-        android:layout_height="44dp"
-        android:layout_alignParentTop="true"
+        android:layout_width="46sp"
+        android:layout_height="46sp"
         android:layout_margin="6dp">
 
         <TextView
@@ -17,10 +15,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="12"
-            android:layout_marginTop="2dp"
             android:textColor="@color/white"
             android:layout_gravity="center_horizontal"
             android:textSize="16sp"
+            android:layout_marginTop="3dp"
             android:textStyle="bold"
              />
         <TextView
@@ -30,8 +28,8 @@
             android:text="Dec"
             android:textColor="@color/white"
             android:layout_gravity="center_horizontal"
-            android:textSize="14sp"
-            android:layout_marginTop="-5dp" />
+            android:layout_marginTop="-4dp"
+            android:textSize="14sp" />
     </LinearLayout>
 
     <TextView
@@ -39,8 +37,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="5dp"
         android:layout_toRightOf="@+id/circlebg"
+        android:layout_toLeftOf="@+id/yearField"
         android:text="CodeLearn Chapter 1"
         android:textSize="18sp" />
 
@@ -48,12 +47,12 @@
         android:id="@+id/ageField"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
         android:text="Description"
         android:textSize="11sp"
         android:alpha="0.7"
-        android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/nameField"
-        android:layout_marginTop="30dp" />
+        android:layout_below="@+id/nameField"
+        android:layout_alignStart="@+id/nameField" />
 
     <TextView
         android:id="@+id/yearField"
@@ -71,8 +70,8 @@
         android:layout_height="wrap_content"
         android:text="No Birthdays Today"
         android:id="@+id/noBirthday"
-        android:layout_alignTop="@+id/yearField"
         android:layout_alignStart="@+id/nameField"
+        android:layout_centerVertical="true"
         android:textSize="18sp" />
 
 </RelativeLayout>

@@ -8,8 +8,8 @@
     android:layout_height="match_parent" />
 
     <Button
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="50sp"
+        android:layout_height="50sp"
         android:text="+"
         android:textSize="26sp"
         android:textColor="@color/addnew_font"

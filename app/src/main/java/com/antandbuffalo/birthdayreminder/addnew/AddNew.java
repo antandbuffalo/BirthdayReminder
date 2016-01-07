@@ -4,11 +4,15 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,7 +29,7 @@ public class AddNew extends Activity {
     EditText name;
     DatePicker datePicker;
     Intent intent = null;
-    TextView selectedDate;
+    TextView selectedDate, dateView, monthView, yearView, nameView, descView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,10 +41,30 @@ public class AddNew extends Activity {
         datePicker = (DatePicker)findViewById(R.id.perosnDateOfBirth);
         datePicker.setMaxDate(new Date().getTime());
 
+        initViews();
+
         datePicker.getCalendarView().setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
+                Date selectedDateObject = Util.getDateFromString(year + "-" + (month + 1) + "-" + dayOfMonth);
                 selectedDate.setText(Util.getStringFromDate(Util.getDateFromString(year + "-" + (month + 1) + "-" + dayOfMonth), Constants.ADD_NEW_DATE_FORMAT));
+
+//                dateView.setText(String.valueOf(dayOfMonth));
+//                monthView.setText(Util.getStringFromDate(selectedDateObject, "MMM"));
+//                yearView.setText(String.valueOf(year));
+            }
+        });
+
+        name.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                nameView.setText(name.getText());
             }
         });
 
@@ -62,11 +86,10 @@ public class AddNew extends Activity {
                 cal.set(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth());
                 Date plainDate = cal.getTime();
 
-                if(plainName.equalsIgnoreCase("")) {
+                if (plainName.equalsIgnoreCase("")) {
                     //show error
                     Toast.makeText(getApplicationContext(), Constants.ERROR_1001, Toast.LENGTH_LONG).show();
-                }
-                else {
+                } else {
                     DateOfBirth dob = new DateOfBirth();
                     dob.setName(plainName);
                     dob.setDobDate(plainDate);
@@ -89,6 +112,25 @@ public class AddNew extends Activity {
                 finish();
             }
         });
+    }
+
+    public void initViews() {
+        dateView = (TextView)findViewById(R.id.dateField);
+        monthView = (TextView)findViewById(R.id.monthField);
+        yearView = (TextView)findViewById(R.id.yearField);
+        nameView = (TextView)findViewById(R.id.nameField);
+        descView = (TextView)findViewById(R.id.ageField);
+
+        dateView.setText("");
+        monthView.setText("");
+        yearView.setText("");
+        nameView.setText("");
+        descView.setText("");
+
+        LinearLayout circle = (LinearLayout)findViewById(R.id.circlebg);
+        circle.setBackgroundResource(R.drawable.cirlce_today);
+        RelativeLayout summary = (RelativeLayout)findViewById(R.id.summaryLayout);
+        summary.setVisibility(View.INVISIBLE);
     }
 
     public void clearInputs() {
