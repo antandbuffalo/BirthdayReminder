@@ -1,7 +1,6 @@
 package com.antandbuffalo.birthdayreminder.upcoming;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,7 +57,7 @@ public class UpcomingListAdapter extends BaseAdapter {
 
         if(convertView == null) {
             LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.today_listitem, parent, false);
+            convertView = inflater.inflate(R.layout.list_item_default, parent, false);
         }
 
         TextView name = (TextView)convertView.findViewById(R.id.nameField);
