@@ -2,19 +2,17 @@ package com.antandbuffalo.birthdayreminder;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.app.Fragment;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
-import android.provider.ContactsContract;
 import android.support.v4.app.FragmentActivity;
 import android.app.FragmentTransaction;
 import android.app.ActionBar;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
-import android.view.Menu;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -22,15 +20,10 @@ import android.widget.RelativeLayout;
 
 import com.antandbuffalo.birthdayreminder.addnew.AddNew;
 import com.antandbuffalo.birthdayreminder.database.DBHelper;
-import com.antandbuffalo.birthdayreminder.database.DateOfBirthDBHelper;
-import com.antandbuffalo.birthdayreminder.database.OptionsDBHelper;
 import com.antandbuffalo.birthdayreminder.fragments.MyFragment;
-import com.antandbuffalo.birthdayreminder.today.Today;
-import com.antandbuffalo.birthdayreminder.upcoming.Upcoming;
+import com.antandbuffalo.birthdayreminder.notification.AlarmReceiver;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.Calendar;
 
 
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
@@ -43,6 +36,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     Button addNew;
     Animation animFadeOut, animFadeIn;
     RelativeLayout mainContainer;
+    AlarmManager alarmManager;
 
 /*    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -110,6 +104,28 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 //finish();
             }
         });
+
+        alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        //setRepeatingAlarm();
+    }
+
+    public void setRepeatingAlarm() {
+        System.out.println("Setting alarm");
+        Intent intent = new Intent(this, AlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0,
+                intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        Calendar calendar = Calendar.getInstance();
+        // 9 AM
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+
+//        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+//                AlarmManager.INTERVAL_HALF_DAY, pendingIntent);
+         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), (5 * 1000), pendingIntent);
+
+
+        //alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(), (5 * 1000), pendingIntent);
     }
 
     @Override
