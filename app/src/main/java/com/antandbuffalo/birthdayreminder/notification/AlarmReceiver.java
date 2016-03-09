@@ -29,7 +29,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         PendingIntent contentIntent = PendingIntent.getActivity(context, 0, resultingIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context).setSmallIcon(R.drawable.abc_ic_menu_copy_mtrl_am_alpha).setContentTitle("Birthday").setContentText("Jeyabalaji has birthday today");
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context).setSmallIcon(R.mipmap.ic_notification).setContentTitle("Birthday").setContentText("Jeyabalaji has birthday today");
         mBuilder.setContentIntent(contentIntent);
         int notificationId = 101;
         notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);

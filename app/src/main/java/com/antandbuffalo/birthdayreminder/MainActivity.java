@@ -106,13 +106,13 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         });
 
         alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        //setRepeatingAlarm();
+        setRepeatingAlarm();
     }
 
     public void setRepeatingAlarm() {
         System.out.println("Setting alarm");
         Intent intent = new Intent(this, AlarmReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0,
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 123,
                 intent, PendingIntent.FLAG_CANCEL_CURRENT);
         Calendar calendar = Calendar.getInstance();
         // 9 AM
@@ -120,10 +120,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
 
-//        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-//                AlarmManager.INTERVAL_HALF_DAY, pendingIntent);
-         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), (5 * 1000), pendingIntent);
-
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                AlarmManager.INTERVAL_HALF_DAY, pendingIntent);
+//        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), (30 * 1000), pendingIntent);
 
         //alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(), (5 * 1000), pendingIntent);
     }
