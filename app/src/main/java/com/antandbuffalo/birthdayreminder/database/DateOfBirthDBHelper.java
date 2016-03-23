@@ -86,7 +86,7 @@ public class DateOfBirthDBHelper {
         System.out.println("query--select all --- " + selectionQuery);
         SQLiteDatabase db = DBHelper.getInstace().getReadableDatabase();
         Cursor cursor = db.rawQuery(selectionQuery, null);
-        List<DateOfBirth> dobList = getDateOfBirthsromCursor(cursor);
+        List<DateOfBirth> dobList = getDateOfBirthsFromCursor(cursor);
         cursor.close();
         db.close();
         return dobList;
@@ -132,7 +132,27 @@ public class DateOfBirthDBHelper {
         System.out.println("query today and belated --" + selectionQuery);
         SQLiteDatabase db = DBHelper.getInstace().getReadableDatabase();
         Cursor cursor = db.rawQuery(selectionQuery, null);
-        List<DateOfBirth> dobList = getDateOfBirthsromCursor(cursor, "Completed");
+        List<DateOfBirth> dobList = getDateOfBirthsFromCursor(cursor, "Completed");
+        cursor.close();
+        db.close();
+        return dobList;
+    }
+
+    public static List selectToday() {
+        String selectionQuery;
+        selectionQuery = "select " + Constants.COLUMN_DOB_ID + ", "
+                + Constants.COLUMN_DOB_NAME + ", "
+                + Constants.COLUMN_DOB_DATE + ", "
+                + "cast(strftime('%m%d', "
+                + Constants.COLUMN_DOB_DATE + ") as int) as day from "
+                + Constants.TABLE_DATE_OF_BIRTH + " where day = (cast(strftime('%m%d', 'now') as int) "
+                + ") order by day desc";
+
+
+        System.out.println("query today -- " + selectionQuery);
+        SQLiteDatabase db = DBHelper.getInstace().getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectionQuery, null);
+        List<DateOfBirth> dobList = getDateOfBirthsFromCursor(cursor, "Completed");
         cursor.close();
         db.close();
         return dobList;
@@ -157,7 +177,7 @@ public class DateOfBirthDBHelper {
         return count;
     }
 
-    public static List<DateOfBirth> getDateOfBirthsromCursor(Cursor cursor, String description) {
+    public static List<DateOfBirth> getDateOfBirthsFromCursor(Cursor cursor, String description) {
         List<DateOfBirth> dobList = new ArrayList<DateOfBirth>();
         if (cursor.moveToFirst()) {
             do {
@@ -179,8 +199,8 @@ public class DateOfBirthDBHelper {
         return dobList;
     }
 
-    public static List<DateOfBirth> getDateOfBirthsromCursor(Cursor cursor) {
-        return getDateOfBirthsromCursor(cursor, "Completing");
+    public static List<DateOfBirth> getDateOfBirthsFromCursor(Cursor cursor) {
+        return getDateOfBirthsFromCursor(cursor, "Completing");
     }
 
     public static String deleteAll() {

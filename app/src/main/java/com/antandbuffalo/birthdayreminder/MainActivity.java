@@ -20,6 +20,7 @@ import android.widget.RelativeLayout;
 
 import com.antandbuffalo.birthdayreminder.addnew.AddNew;
 import com.antandbuffalo.birthdayreminder.database.DBHelper;
+import com.antandbuffalo.birthdayreminder.database.DateOfBirthDBHelper;
 import com.antandbuffalo.birthdayreminder.fragments.MyFragment;
 import com.antandbuffalo.birthdayreminder.notification.AlarmReceiver;
 
@@ -55,6 +56,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         //Util.writeToFile();
         //Util.readFromFile();
         //OptionsDBHelper.insertDefaultValues();
+        //System.out.println(DateOfBirthDBHelper.selectToday());
         DataHolder.getInstance().setAppContext(getApplicationContext());
 
         mainContainer = (RelativeLayout) findViewById(R.id.mainContainer);
