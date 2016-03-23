@@ -28,7 +28,7 @@ public class Constants {
     public static final String COLUMN_OPTION_UPDATED_ON = "UPDATED_ON";
 
     public static final String DATE_FORMAT = "yyyy-MM-dd";
-    public static final String ADD_NEW_DATE_FORMAT = "MMM dd, yyyy";
+    public static final String ADD_NEW_DATE_FORMAT = "dd/MM/yyyy";
     public static final String DATE_FORMAT_WITH_SPACE = "dd MM yyyy";
     public static final String DAY_OF_YEAR = "MMdd";
     public static final String FULL_DAY_OF_YEAR = "yyyyMMdd";
@@ -89,5 +89,5 @@ public class Constants {
 
     public static final String NOTIFICATION_DELETE_1001 = "All Datas deleted";
 
-    public static final String ERROR_1001 = "Please enter Name";
+    public static final String NAME_EMPTY = "Please enter Name";
 }

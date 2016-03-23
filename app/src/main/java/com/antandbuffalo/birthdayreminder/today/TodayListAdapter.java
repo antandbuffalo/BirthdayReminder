@@ -105,7 +105,7 @@ public class TodayListAdapter extends BaseAdapter {
 
     public List<DateOfBirth> getDataForListView() {
         List<DateOfBirth> allDobs = DateOfBirthDBHelper.selectTodayAndBelated();
-        DateOfBirth today = DateOfBirth.getInstance();
+        /*DateOfBirth today = DateOfBirth.getInstance();
         today.setDobDate(new Date());
         today.setName("No Birthdays Today");
         today.setDobId(-1);
@@ -116,7 +116,7 @@ public class TodayListAdapter extends BaseAdapter {
         }
         else {
             allDobs.add(today);
-        }
+        }*/
         return allDobs;
     }
     public void refreshData() {

@@ -41,32 +41,33 @@ public class AddNew extends Activity {
         datePicker = (DatePicker)findViewById(R.id.perosnDateOfBirth);
         datePicker.setMaxDate(new Date().getTime());
 
-        initViews();
-
         datePicker.getCalendarView().setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
-                Date selectedDateObject = Util.getDateFromString(year + "-" + (month + 1) + "-" + dayOfMonth);
-                selectedDate.setText(Util.getStringFromDate(Util.getDateFromString(year + "-" + (month + 1) + "-" + dayOfMonth), Constants.ADD_NEW_DATE_FORMAT));
-
+                //Date selectedDateObject = Util.getDateFromString(year + "-" + (month + 1) + "-" + dayOfMonth);
+                //selectedDate.setText(Util.getStringFromDate(Util.getDateFromString(year + "-" + (month + 1) + "-" + dayOfMonth), Constants.ADD_NEW_DATE_FORMAT));
+                String strMonth = month >= 9? (month + 1) + "" : "0" + (month + 1);
+                selectedDate.setText(dayOfMonth + "/" + strMonth + "/" + year);
 //                dateView.setText(String.valueOf(dayOfMonth));
 //                monthView.setText(Util.getStringFromDate(selectedDateObject, "MMM"));
 //                yearView.setText(String.valueOf(year));
             }
         });
 
-        name.addTextChangedListener(new TextWatcher() {
+        /*name.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
 
             @Override
             public void afterTextChanged(Editable s) {
                 nameView.setText(name.getText());
             }
-        });
+        });*/
 
         intent = new Intent();
         intent.putExtra(Constants.IS_USER_ADDED, Constants.FLAG_FAILURE.toString());
@@ -88,7 +89,7 @@ public class AddNew extends Activity {
 
                 if (plainName.equalsIgnoreCase("")) {
                     //show error
-                    Toast.makeText(getApplicationContext(), Constants.ERROR_1001, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), Constants.NAME_EMPTY, Toast.LENGTH_SHORT).show();
                 } else {
                     DateOfBirth dob = new DateOfBirth();
                     dob.setName(plainName);
@@ -112,25 +113,6 @@ public class AddNew extends Activity {
                 finish();
             }
         });
-    }
-
-    public void initViews() {
-        dateView = (TextView)findViewById(R.id.dateField);
-        monthView = (TextView)findViewById(R.id.monthField);
-        yearView = (TextView)findViewById(R.id.yearField);
-        nameView = (TextView)findViewById(R.id.nameField);
-        descView = (TextView)findViewById(R.id.ageField);
-
-        dateView.setText("");
-        monthView.setText("");
-        yearView.setText("");
-        nameView.setText("");
-        descView.setText("");
-
-        LinearLayout circle = (LinearLayout)findViewById(R.id.circlebg);
-        circle.setBackgroundResource(R.drawable.cirlce_today);
-        RelativeLayout summary = (RelativeLayout)findViewById(R.id.summaryLayout);
-        summary.setVisibility(View.INVISIBLE);
     }
 
     public void clearInputs() {
