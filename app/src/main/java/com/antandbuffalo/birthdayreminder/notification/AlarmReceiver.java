@@ -36,7 +36,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         for (DateOfBirth dateOfBirth : todayList) {
             message = message + sep + dateOfBirth.getName();
-            sep = " ,";
+            sep = ", ";
         }
 
         //notification opening intent

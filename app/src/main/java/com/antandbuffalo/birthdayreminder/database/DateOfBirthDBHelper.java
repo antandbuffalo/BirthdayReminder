@@ -49,6 +49,30 @@ public class DateOfBirthDBHelper {
         return insertDOB(dob);
     }
 
+    public static boolean isUniqueDateOfBirth(DateOfBirth dob) {
+        java.sql.Date sampleDate = new java.sql.Date(dob.getDobDate().getTime());
+        String selectionQuery = "";
+        selectionQuery = "select " + Constants.COLUMN_DOB_ID + ", "
+                + Constants.COLUMN_DOB_NAME + ", "
+                + Constants.COLUMN_DOB_DATE + " from "
+                + Constants.TABLE_DATE_OF_BIRTH + " where "
+                + Constants.COLUMN_DOB_NAME + " = '"
+                + dob.getName() + "' COLLATE NOCASE AND "
+                + Constants.COLUMN_DOB_DATE + " = '"
+                + sampleDate + "'";
+
+        System.out.println("query -- is unique --- " + selectionQuery);
+        SQLiteDatabase db = DBHelper.getInstace().getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectionQuery, null);
+        List<DateOfBirth> dobList = getDateOfBirthsFromCursor(cursor);
+        cursor.close();
+        db.close();
+        if(dobList != null && dobList.size() > 0) {
+            return true;
+        }
+        return false;
+    }
+
     public static long insertDOB(DateOfBirth dateOfBirth) {
         DBHelper dbHelper = DBHelper.getInstace();
         SQLiteDatabase db = dbHelper.getWritableDatabase();

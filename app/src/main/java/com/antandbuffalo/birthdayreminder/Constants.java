@@ -90,4 +90,7 @@ public class Constants {
     public static final String NOTIFICATION_DELETE_1001 = "All Datas deleted";
 
     public static final String NAME_EMPTY = "Please enter Name";
+    public static final String ERROR = "Error";
+    public static final String USER_EXIST = "Same Date of Birth already available";
+    public static final String OK = "OK";
 }

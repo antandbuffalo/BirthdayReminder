@@ -80,7 +80,7 @@
             android:id="@+id/cancel"
             android:background="@color/cancel_button_default"
             android:textColor="@color/white"
-            android:layout_weight="0.35"
+            android:layout_weight="0.20"
             android:layout_marginRight="10dp" />
 
         <Button
@@ -88,7 +88,7 @@
             android:layout_height="wrap_content"
             android:text="Save"
             android:id="@+id/save"
-            android:layout_weight="0.35"
+            android:layout_weight="0.20"
             android:textColor="@color/white"
             android:background="@color/save_button_default"
             android:layout_marginLeft="10dp" />
