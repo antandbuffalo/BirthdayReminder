@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.antandbuffalo.birthdayreminder.Constants;
 
@@ -21,13 +22,17 @@ public final class DBHelper extends SQLiteOpenHelper {
         super(context, Constants.DATABASE_NAME, null, Constants.DATABASE_VERSION);
     }
 
-    public static void createInstance(Context context) {
+    public static DBHelper createInstance(Context context) {
         if(dbHelperInstance == null) {
             dbHelperInstance = new DBHelper(context);
         }
+        return dbHelperInstance;
     }
 
     public static DBHelper getInstace() {
+        if(dbHelperInstance == null) {
+            Log.e("DBHeloper", "Instance not created");
+        }
         return dbHelperInstance;
     }
 

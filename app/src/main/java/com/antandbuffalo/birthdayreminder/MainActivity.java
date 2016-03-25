@@ -49,7 +49,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        DBHelper.createInstance(this);
+        initValues();
         //DobDBHelper.deleteAll();
         //DobDBHelper.addDOB();
         //DobDBHelper.selectAll(); 
@@ -57,7 +57,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         //Util.readFromFile();
         //OptionsDBHelper.insertDefaultValues();
         //System.out.println(DateOfBirthDBHelper.selectToday());
-        DataHolder.getInstance().setAppContext(getApplicationContext());
 
         mainContainer = (RelativeLayout) findViewById(R.id.mainContainer);
         addNew = (Button) findViewById(R.id.addNew);
@@ -124,7 +123,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                 AlarmManager.INTERVAL_HALF_DAY, pendingIntent);
-//        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), (30 * 1000), pendingIntent);
+//        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), (5 * 1000), pendingIntent);
 
         //alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(), (5 * 1000), pendingIntent);
     }
@@ -215,5 +214,10 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     @Override
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
 
+    }
+
+    public void initValues() {
+        DBHelper.createInstance(this);
+        DataHolder.getInstance().setAppContext(getApplicationContext());
     }
 }

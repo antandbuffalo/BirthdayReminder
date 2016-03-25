@@ -162,7 +162,7 @@ public class DateOfBirthDBHelper {
         return dobList;
     }
 
-    public static List selectToday() {
+    public static List selectToday(Context context) {
         String selectionQuery;
         selectionQuery = "select " + Constants.COLUMN_DOB_ID + ", "
                 + Constants.COLUMN_DOB_NAME + ", "
@@ -174,7 +174,7 @@ public class DateOfBirthDBHelper {
 
 
         System.out.println("query today -- " + selectionQuery);
-        SQLiteDatabase db = DBHelper.getInstace().getReadableDatabase();
+        SQLiteDatabase db = DBHelper.createInstance(context).getReadableDatabase();
         Cursor cursor = db.rawQuery(selectionQuery, null);
         List<DateOfBirth> dobList = getDateOfBirthsFromCursor(cursor, "Completed");
         cursor.close();
