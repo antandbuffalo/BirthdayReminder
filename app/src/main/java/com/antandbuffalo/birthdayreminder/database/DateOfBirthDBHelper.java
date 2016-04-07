@@ -87,6 +87,7 @@ public class DateOfBirthDBHelper {
     public static List selectAll() {
         // Select All Query
         String selectionQuery;
+        java.sql.Date today = new java.sql.Date(new Date().getTime());
 
         selectionQuery = "select " + Constants.COLUMN_DOB_ID + ", "
                 + Constants.COLUMN_DOB_NAME + ", "
@@ -97,7 +98,9 @@ public class DateOfBirthDBHelper {
         selectionQuery = "select " + Constants.COLUMN_DOB_ID + ", "
                 + Constants.COLUMN_DOB_NAME + ", "
                 + Constants.COLUMN_DOB_DATE + ", "
-                + "case when day < cast(strftime('%m%d', 'now') as int) then priority + 1 else priority end cp from"
+                + "case when day < cast(strftime('%m%d','"
+                + today
+                + "') as int) then priority + 1 else priority end cp from"
                 + " (select "
                 + Constants.COLUMN_DOB_ID + ", "
                 + Constants.COLUMN_DOB_NAME + ", "
@@ -118,6 +121,7 @@ public class DateOfBirthDBHelper {
 
     public static List selectTodayAndBelated() {
         String selectionQuery;
+        java.sql.Date today = new java.sql.Date(new Date().getTime());
         Calendar cal = Calendar.getInstance();
         int currentDayOfYear = Integer.parseInt(Util.getStringFromDate(new Date(), Constants.DAY_OF_YEAR));
         cal.setTime(new Date());
@@ -131,7 +135,9 @@ public class DateOfBirthDBHelper {
                     + "cast(strftime('%m%d', "
                     + Constants.COLUMN_DOB_DATE + ") as int) as day from "
                     + Constants.TABLE_DATE_OF_BIRTH + " where "
-                    + "day <= cast(strftime('%m%d', 'now') as int) "
+                    + "day <= cast(strftime('%m%d', '"
+                    + today
+                    + "') as int) "
                     + "UNION "
                     + "select " + Constants.COLUMN_DOB_ID + ", "
                     + Constants.COLUMN_DOB_NAME + ", "
@@ -139,7 +145,9 @@ public class DateOfBirthDBHelper {
                     + "1 as TYPE, "
                     + "cast(strftime('%m%d', "
                     + Constants.COLUMN_DOB_DATE + ") as int) as day from "
-                    + Constants.TABLE_DATE_OF_BIRTH + " where day >= cast(strftime('%m%d', date('now', '"
+                    + Constants.TABLE_DATE_OF_BIRTH + " where day >= cast(strftime('%m%d', date('"
+                    + today
+                    + "', '"
                     + (-Constants.RECENT_DURATION)
                     +" day')) as int) order by TYPE, day desc";
         }
@@ -149,8 +157,12 @@ public class DateOfBirthDBHelper {
                     + Constants.COLUMN_DOB_DATE + ", "
                     + "cast(strftime('%m%d', "
                     + Constants.COLUMN_DOB_DATE + ") as int) as day from "
-                    + Constants.TABLE_DATE_OF_BIRTH + " where day >= (cast(strftime('%m%d', 'now') as int) - "
-                    + Constants.RECENT_DURATION + ") AND day <= cast(strftime('%m%d', 'now') as int) order by day desc";
+                    + Constants.TABLE_DATE_OF_BIRTH + " where day >= (cast(strftime('%m%d', '"
+                    + today
+                    + "') as int) - "
+                    + Constants.RECENT_DURATION + ") AND day <= cast(strftime('%m%d', '"
+                    + today
+                    + "') as int) order by day desc";
         }
 
         System.out.println("query today and belated --" + selectionQuery);
@@ -164,12 +176,15 @@ public class DateOfBirthDBHelper {
 
     public static List selectToday(Context context) {
         String selectionQuery;
+        java.sql.Date today = new java.sql.Date(new Date().getTime());
         selectionQuery = "select " + Constants.COLUMN_DOB_ID + ", "
                 + Constants.COLUMN_DOB_NAME + ", "
                 + Constants.COLUMN_DOB_DATE + ", "
                 + "cast(strftime('%m%d', "
                 + Constants.COLUMN_DOB_DATE + ") as int) as day from "
-                + Constants.TABLE_DATE_OF_BIRTH + " where day = (cast(strftime('%m%d', 'now') as int) "
+                + Constants.TABLE_DATE_OF_BIRTH + " where day = (cast(strftime('%m%d', '"
+                + today
+                + "') as int) "
                 + ") order by day desc";
 
 
@@ -184,10 +199,13 @@ public class DateOfBirthDBHelper {
 
     public static int getCountTodayAndBelated() {
         String selectionQuery;
+        java.sql.Date today = new java.sql.Date(new Date().getTime());
         selectionQuery = "select count(" + Constants.COLUMN_DOB_ID + "), "
                 + "cast(strftime('%m%d', "
                 + Constants.COLUMN_DOB_DATE + ") as int) as day from "
-                + Constants.TABLE_DATE_OF_BIRTH + " where day = cast(strftime('%m%d', 'now') as int)";
+                + Constants.TABLE_DATE_OF_BIRTH + " where day = cast(strftime('%m%d', '"
+                + today
+                + "') as int)";
 
         System.out.println("query today and belated --" + selectionQuery);
         SQLiteDatabase db = DBHelper.getInstace().getReadableDatabase();
