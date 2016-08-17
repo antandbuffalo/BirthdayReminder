@@ -22,12 +22,20 @@
         </activity>
         <activity
             android:name=".addnew.AddNew"
-            android:label="@string/title_activity_add_new"></activity>
+            android:label="@string/title_activity_add_new" />
 
         <receiver
             android:name=".notification.AlarmReceiver"
             android:enabled="true"
-            android:exported="true"></receiver>
+            android:exported="true" />
+        <receiver
+            android:name=".notification.BootComplete"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
