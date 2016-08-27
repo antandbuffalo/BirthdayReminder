@@ -1,5 +1,6 @@
 package com.antandbuffalo.birthdayreminder;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -8,7 +9,7 @@ import java.util.Locale;
 /**
  * Created by i677567 on 23/9/15.
  */
-public class DateOfBirth {
+public class DateOfBirth implements Serializable {
     private long dobId;
     private String name;
     private Date dobDate;

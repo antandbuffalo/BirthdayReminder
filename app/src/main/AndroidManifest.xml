@@ -36,6 +36,10 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+
+        <activity
+            android:name=".update.Update"
+            android:label="@string/title_activity_update"></activity>
     </application>
 
 </manifest>

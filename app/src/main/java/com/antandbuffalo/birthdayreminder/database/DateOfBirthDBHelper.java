@@ -258,7 +258,7 @@ public class DateOfBirthDBHelper {
         return Constants.NOTIFICATION_DELETE_1001;
     }
 
-    public Boolean deleteRecordForTheId(int givenId) {
+    public static Boolean deleteRecordForTheId(long givenId) {
         SQLiteDatabase db = DBHelper.getInstace().getWritableDatabase();
         return db.delete(Constants.TABLE_DATE_OF_BIRTH, Constants.COLUMN_DOB_ID + "=" + givenId, null) > 0;
     }

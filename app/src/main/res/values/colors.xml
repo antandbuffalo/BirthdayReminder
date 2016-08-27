@@ -17,8 +17,12 @@
     <color name="addnew_button_pressed">#BF360C</color>
     <color name="addnew_font">#FFFFFF</color>
 
-    <color name="cancel_button_default">#E64A19</color>
-    <color name="cancel_button_pressed">#BF360C</color>
+    <color name="delete_button_default">#E64A19</color>
+    <color name="delete_button_pressed">#BF360C</color>
+
+    <color name="cancel_button_default">#EF6C00</color>
+    <color name="cancel_button_pressed">#E65100</color>
+
     <color name="save_button_default">#388E3C</color>
     <color name="save_button_pressed">#1B5E20</color>
 

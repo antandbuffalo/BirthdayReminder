@@ -46,8 +46,7 @@ public class Constants {
     public static final int AVERAGE_BACKUP_DURATION = 365;
 
     public static final int ADD_NEW_MEMBER = 1;
-
-    public static final String NOTIFICATION_ADD_MEMBER_SUCCESS = "Successfully added";
+    public static final int DELETE_MEMBER = 2;
 
     public static final String IS_USER_ADDED = "IS_USER_ADDED";
 
@@ -88,6 +87,8 @@ public class Constants {
     public static final String NOTIFICATION_READ_WRITE_1002 = "Data loaded successfully";
 
     public static final String NOTIFICATION_DELETE_1001 = "All Datas deleted";
+    public static final String NOTIFICATION_ADD_MEMBER_SUCCESS = "Successfully added";
+    public static final String NOTIFICATION_DELETE_MEMBER_SUCCESS = "Successfully Deleted";
 
     public static final String NAME_EMPTY = "Please enter Name";
     public static final String ERROR = "Error";

@@ -98,11 +98,10 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         addNew.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-
-                // TODO Auto-generated method stub
-                Intent intent = new Intent(v.getContext(), AddNew.class);
-                startActivityForResult(intent, Constants.ADD_NEW_MEMBER);
-                //finish();
+            // TODO Auto-generated method stub
+            Intent intent = new Intent(v.getContext(), AddNew.class);
+            startActivityForResult(intent, Constants.ADD_NEW_MEMBER);
+            //finish();
             }
         });
 
@@ -130,6 +129,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        System.out.println("In main activity");
         if (requestCode == Constants.ADD_NEW_MEMBER) {
             if (resultCode == RESULT_OK) {
                 if (data.getStringExtra(Constants.IS_USER_ADDED).equalsIgnoreCase(Constants.FLAG_SUCCESS)) {
@@ -142,6 +142,21 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                         if (i != index) {
                             DataHolder.getInstance().refreshTracker.set(i, true);
                         }
+                    }
+                }
+            }
+        }
+        else if(requestCode == Constants.DELETE_MEMBER) {
+            System.out.println("after delete activity");
+            if(resultCode == RESULT_OK) {
+                int index = mViewPager.getCurrentItem();
+                TabsAdapter adapter = (TabsAdapter) mViewPager.getAdapter();
+                MyFragment fragment = (MyFragment) adapter.getFragment(index);
+                fragment.refreshData();
+                //mTabsAdapter.notifyDataSetChanged();
+                for (int i = 0; i < DataHolder.getInstance().refreshTracker.size(); i++) {
+                    if (i != index) {
+                        DataHolder.getInstance().refreshTracker.set(i, true);
                     }
                 }
             }

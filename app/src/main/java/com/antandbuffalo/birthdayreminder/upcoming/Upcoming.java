@@ -12,12 +12,15 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.antandbuffalo.birthdayreminder.Constants;
+import com.antandbuffalo.birthdayreminder.DataHolder;
 import com.antandbuffalo.birthdayreminder.DateOfBirth;
 import com.antandbuffalo.birthdayreminder.R;
+import com.antandbuffalo.birthdayreminder.TabsAdapter;
 import com.antandbuffalo.birthdayreminder.addnew.AddNew;
 import com.antandbuffalo.birthdayreminder.database.DateOfBirthDBHelper;
 import com.antandbuffalo.birthdayreminder.fragments.MyFragment;
 import com.antandbuffalo.birthdayreminder.today.TodayListAdapter;
+import com.antandbuffalo.birthdayreminder.update.Update;
 
 import java.util.Date;
 import java.util.List;
@@ -47,16 +50,36 @@ public class Upcoming extends MyFragment {
         upcomingListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                DateOfBirth dateOfBirth = upcomingListAdapter.getItem(position);
-                System.out.println(dateOfBirth.getName());
+            DateOfBirth dateOfBirth = upcomingListAdapter.getItem(position);
 
-                Intent intent = new Intent(view.getContext(), AddNew.class);
-                startActivityForResult(intent, Constants.ADD_NEW_MEMBER);
+            Intent intent = new Intent(view.getContext(), Update.class);
+                intent.putExtra("currentDOB", dateOfBirth);
+                startActivityForResult(intent, Constants.DELETE_MEMBER);
             }
         });
 
         return rootView;
     }
+
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        if (requestCode == Constants.ADD_NEW_MEMBER) {
+//            if (resultCode == RESULT_OK) {
+//                if (data.getStringExtra(Constants.IS_USER_ADDED).equalsIgnoreCase(Constants.FLAG_SUCCESS)) {
+//                    int index = mViewPager.getCurrentItem();
+//                    TabsAdapter adapter = (TabsAdapter) mViewPager.getAdapter();
+//                    MyFragment fragment = (MyFragment) adapter.getFragment(index);
+//                    fragment.refreshData();
+//                    //mTabsAdapter.notifyDataSetChanged();
+//                    for (int i = 0; i < DataHolder.getInstance().refreshTracker.size(); i++) {
+//                        if (i != index) {
+//                            DataHolder.getInstance().refreshTracker.set(i, true);
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
     @Override
     public void refreshData() {
         upcomingListAdapter.refreshData();
