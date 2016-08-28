@@ -1,8 +1,11 @@
 package com.antandbuffalo.birthdayreminder.update;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -54,31 +57,77 @@ public class Update extends Activity {
         Button cancel = (Button)findViewById(R.id.cancel);
         cancel.setBackgroundResource(R.drawable.cancel_button);
 
-        Button save = (Button)findViewById(R.id.save);
-        save.setBackgroundResource(R.drawable.save_button);
+        Button update = (Button)findViewById(R.id.save);
+        update.setBackgroundResource(R.drawable.save_button);
 
         intent = new Intent();
 
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DateOfBirthDBHelper.deleteRecordForTheId(currentDOB.getDobId());
-                currentDOB = null;
-                System.out.println("deleted");
-                Toast toast = Toast.makeText(getApplicationContext(), Constants.NOTIFICATION_DELETE_MEMBER_SUCCESS, Toast.LENGTH_SHORT);
-                toast.show();
 
-                setResult(RESULT_OK, intent);
-                clearInputs();
-
-                finish();
+            new AlertDialog.Builder(Update.this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("Confirmation")
+                .setMessage("Are you sure you want to delete " + currentDOB.getName() + "?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        DateOfBirthDBHelper.deleteRecordForTheId(currentDOB.getDobId());
+                        currentDOB = null;
+                        Toast toast = Toast.makeText(getApplicationContext(), Constants.NOTIFICATION_DELETE_MEMBER_SUCCESS, Toast.LENGTH_SHORT);
+                        toast.show();
+                        setResult(RESULT_OK, intent);
+                        clearInputs();
+                        finish();
+                    }
+                })
+                .setNegativeButton("No", null)
+                .show();
             }
         });
 
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                setResult(RESULT_CANCELED, intent);
                 finish();
+            }
+        });
+
+        update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String plainName = name.getText().toString().trim();
+                Calendar cal = Util.getCalendar();
+                cal.set(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth());
+                Date plainDate = cal.getTime();
+
+                if (plainName.equalsIgnoreCase("")) {
+                    //show error
+                    Toast.makeText(getApplicationContext(), Constants.NAME_EMPTY, Toast.LENGTH_SHORT).show();
+                } else {
+                    currentDOB.setName(plainName);
+                    currentDOB.setDobDate(plainDate);
+
+                    if (DateOfBirthDBHelper.isUniqueDateOfBirth(currentDOB)) {
+                        //put confirmation here
+                        new AlertDialog.Builder(Update.this)
+                                .setIcon(android.R.drawable.ic_dialog_info)
+                                .setTitle(Constants.ERROR)
+                                .setMessage(Constants.USER_EXIST)
+                                .setPositiveButton(Constants.OK, null)
+                                .show();
+                    } else {
+                        Log.i("after update", currentDOB.getName());
+                        DateOfBirthDBHelper.updateDOB(currentDOB);
+                        Toast toast = Toast.makeText(getApplicationContext(), Constants.NOTIFICATION_UPDATE_MEMBER_SUCCESS, Toast.LENGTH_SHORT);
+                        toast.show();
+                        setResult(RESULT_OK, intent);
+                        finish();
+                    }
+                }
             }
         });
     }

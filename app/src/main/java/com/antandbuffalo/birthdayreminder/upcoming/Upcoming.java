@@ -54,7 +54,7 @@ public class Upcoming extends MyFragment {
 
             Intent intent = new Intent(view.getContext(), Update.class);
                 intent.putExtra("currentDOB", dateOfBirth);
-                startActivityForResult(intent, Constants.DELETE_MEMBER);
+                getActivity().startActivityForResult(intent, Constants.DELETE_MEMBER);
             }
         });
 

@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
  * Created by i677567 on 12/10/15.
@@ -80,6 +81,30 @@ public class DateOfBirthDBHelper {
         values.put(Constants.COLUMN_DOB_NAME, dateOfBirth.getName()); // Contact Name
         values.put(Constants.COLUMN_DOB_DATE, Util.getStringFromDate(dateOfBirth.getDobDate())); // date of birth - 2000
         long returnValue = db.insert(Constants.TABLE_DATE_OF_BIRTH, null, values); // Inserting Row
+        db.close();
+        return returnValue;
+    }
+
+    public static long updateDOB(DateOfBirth dateOfBirth) {
+        DBHelper dbHelper = DBHelper.getInstace();
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        String updateQuery = "UPDATE " + Constants.TABLE_DATE_OF_BIRTH + " SET "
+                + Constants.COLUMN_DOB_NAME + " = " + dateOfBirth.getName() + ", "
+                + Constants.COLUMN_DOB_DATE + " = " + Util.getStringFromDate(dateOfBirth.getDobDate())
+                + " WHERE "
+                + Constants.COLUMN_DOB_ID + " = " + dateOfBirth.getDobId();
+
+        System.out.println("query -- update dob --- " + updateQuery);
+        //Cursor cursor = db.rawQuery(updateQuery, null);
+
+        ContentValues values = new ContentValues();
+        values.put(Constants.COLUMN_DOB_NAME, dateOfBirth.getName()); // Contact Name
+        values.put(Constants.COLUMN_DOB_DATE, Util.getStringFromDate(dateOfBirth.getDobDate())); // date of birth - 2000
+        // update Row
+        String dobId = Constants.COLUMN_DOB_ID + "=" + dateOfBirth.getDobId();
+        long returnValue = db.update(Constants.TABLE_DATE_OF_BIRTH, values, dobId, null);
+        Log.i("after update",returnValue + "");
         db.close();
         return returnValue;
     }
