@@ -1,6 +1,7 @@
 package com.antandbuffalo.birthdayreminder.addnew;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
@@ -90,7 +91,7 @@ public class AddNew extends Activity {
                     DateOfBirth dob = new DateOfBirth();
                     dob.setName(plainName);
                     dob.setDobDate(plainDate);
-                    if(DateOfBirthDBHelper.isUniqueDateOfBirth(dob)) {
+                    if(!DateOfBirthDBHelper.isUniqueDateOfBirthIgnoreCase(dob)) {
                         //put confirmation here
                         new AlertDialog.Builder(AddNew.this)
                             .setIcon(android.R.drawable.ic_dialog_info)
@@ -100,13 +101,25 @@ public class AddNew extends Activity {
                             .show();
                     }
                     else {
-                        DateOfBirthDBHelper.insertDOB(dob);
-                        System.out.println("Inserted successfully");
+                        if(plainName.equalsIgnoreCase("csea")) {
+                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(AddNew.this);
+                            alertDialogBuilder.setTitle("Confirmation");
+                            alertDialogBuilder.setMessage("Are you sure want to delete current data and load default datas of " + plainName + "?");
+                            alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    Util.readFromAssetFile("csea");
+                                }
+                            });
+                        }
+                        else {
+                            DateOfBirthDBHelper.insertDOB(dob);
+                            System.out.println("Inserted successfully");
 
-                        Toast toast = Toast.makeText(getApplicationContext(), Constants.NOTIFICATION_ADD_MEMBER_SUCCESS, Toast.LENGTH_SHORT);
-                        toast.show();
-                        intent.putExtra(Constants.IS_USER_ADDED, Constants.FLAG_SUCCESS.toString());
-                        setResult(RESULT_OK, intent);
+                            Toast toast = Toast.makeText(getApplicationContext(), Constants.NOTIFICATION_ADD_MEMBER_SUCCESS, Toast.LENGTH_SHORT);
+                            toast.show();
+                            intent.putExtra(Constants.IS_USER_ADDED, Constants.FLAG_SUCCESS.toString());
+                            setResult(RESULT_OK, intent);
+                        }
                         clearInputs();
                     }
                 }

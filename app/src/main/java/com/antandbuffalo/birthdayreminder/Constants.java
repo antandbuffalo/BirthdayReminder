@@ -77,14 +77,14 @@ public class Constants {
     public static final String SETTINGS_WRITE_FILE_SUB_TITLE = "Till now no backup files created";
     public static final String SETTINGS_READ_FILE_SUB_TITLE = "Till now not loaded from any backup file";
 
-    public static final String ERROR_READ_WRITE_1001 = "Not able to read the backup file. SD Card not found";
-    public static final String ERROR_READ_WRITE_1002 = "Backup file is not found";
-    public static final String ERROR_READ_WRITE_1003 = "Unkown error occured";
+    public static final String ERROR_NO_SD_CARD = "Not able to read the backup file. SD Card not found";
+    public static final String ERROR_NO_BACKUP_FILE = "Backup file is not found";
+    public static final String ERROR_UNKNOWN = "Unkown error occured";
     public static final String ERROR_READ_WRITE_1004 = "Not able to create file. SD Card not found";
     public static final String ERROR_READ_WRITE_1005 = "Nothing to backup. Data is empty";
 
     public static final String NOTIFICATION_READ_WRITE_1001 = "Data backup successful";
-    public static final String NOTIFICATION_READ_WRITE_1002 = "Data loaded successfully";
+    public static final String NOTIFICATION_SUCCESS_DATA_LOAD = "Data loaded successfully";
 
     public static final String NOTIFICATION_DELETE_1001 = "All Datas deleted";
     public static final String NOTIFICATION_ADD_MEMBER_SUCCESS = "Successfully added";

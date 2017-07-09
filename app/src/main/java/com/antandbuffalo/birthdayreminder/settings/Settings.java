@@ -60,7 +60,7 @@ public class Settings extends MyFragment {
                     settingsListAdapter.refreshData();
                 }
                 else if (option.getKey().equalsIgnoreCase(Constants.SETTINGS_READ_FILE)) {
-                    Toast.makeText(inflater.getContext(), Util.readFromFile(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(inflater.getContext(), Util.readFromFile(Constants.FILE_NAME), Toast.LENGTH_SHORT).show();
                     option.setSubTitle("Data was loaded");
                     option.setUpdatedOn(new Date());
                     OptionsDBHelper.updateOption(option);
@@ -79,10 +79,10 @@ public class Settings extends MyFragment {
                             {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    Toast.makeText(inflater.getContext(), DateOfBirthDBHelper.deleteAll(), Toast.LENGTH_SHORT).show();
-                                    for (int i = 0; i < DataHolder.getInstance().refreshTracker.size(); i++) {
-                                        DataHolder.getInstance().refreshTracker.set(i, true);
-                                    }
+                                Toast.makeText(inflater.getContext(), DateOfBirthDBHelper.deleteAll(), Toast.LENGTH_SHORT).show();
+                                for (int i = 0; i < DataHolder.getInstance().refreshTracker.size(); i++) {
+                                    DataHolder.getInstance().refreshTracker.set(i, true);
+                                }
                                 }
                             })
                             .setNegativeButton("No", null)

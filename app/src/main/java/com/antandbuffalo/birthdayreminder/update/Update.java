@@ -111,7 +111,7 @@ public class Update extends Activity {
                     currentDOB.setName(plainName);
                     currentDOB.setDobDate(plainDate);
 
-                    if (DateOfBirthDBHelper.isUniqueDateOfBirth(currentDOB)) {
+                    if (!DateOfBirthDBHelper.isUniqueDateOfBirth(currentDOB)) {
                         //put confirmation here
                         new AlertDialog.Builder(Update.this)
                                 .setIcon(android.R.drawable.ic_dialog_info)

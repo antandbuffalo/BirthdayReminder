@@ -9,14 +9,17 @@ import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.antandbuffalo.birthdayreminder.database.DBHelper;
 import com.antandbuffalo.birthdayreminder.database.DateOfBirthDBHelper;
 
 import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.text.DateFormat;
@@ -113,20 +116,20 @@ public class Util {
         return age;
     }
 
-    public static String readFromFile() {
+    public static String readFromFile(String fileName) {
         String returnValue = "";
         if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             // sdcard not found. read from bundle
             //SD Card not found.
-            return Constants.ERROR_READ_WRITE_1001;
+            return Constants.ERROR_NO_SD_CARD;
         }
         try {
             File sdcard = Environment.getExternalStorageDirectory();
             // Get the text file
-            File file = new File(sdcard, Constants.FOLDER_NAME + "/" + Constants.FILE_NAME + Constants.FILE_NAME_SUFFIX);
+            File file = new File(sdcard, Constants.FOLDER_NAME + "/" + fileName + Constants.FILE_NAME_SUFFIX);
             if(!file.exists()) {
-                Toast.makeText(DataHolder.getInstance().getAppContext(), Constants.ERROR_READ_WRITE_1002, Toast.LENGTH_SHORT).show();
-                return Constants.ERROR_READ_WRITE_1002;
+                Toast.makeText(DataHolder.getInstance().getAppContext(), Constants.ERROR_NO_BACKUP_FILE, Toast.LENGTH_SHORT).show();
+                return Constants.ERROR_NO_BACKUP_FILE;
             }
             BufferedReader br = new BufferedReader(new BufferedReader(new FileReader(file)));
             String strLine;
@@ -140,15 +143,17 @@ public class Util {
                 String dateStr = lineComponents[1] + " " + lineComponents[2] + " " + lineComponents[3];
                 DateFormat dateFormat = new SimpleDateFormat(Constants.DATE_FORMAT_WITH_SPACE);
                 dob.setDobDate(dateFormat.parse(dateStr));
-                DateOfBirthDBHelper.insertDOB(dob);
+                if(DateOfBirthDBHelper.isUniqueDateOfBirthIgnoreCase(dob)) {
+                    DateOfBirthDBHelper.insertDOB(dob);
+                }
             }
             //Close the input stream
             br.close();
-            returnValue = Constants.NOTIFICATION_READ_WRITE_1002;
+            returnValue = Constants.NOTIFICATION_SUCCESS_DATA_LOAD;
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-            returnValue = Constants.ERROR_READ_WRITE_1003;
+            returnValue = Constants.ERROR_UNKNOWN;
         }
         System.out.println("Read successful");
         return returnValue;
@@ -203,8 +208,69 @@ public class Util {
             // TODO Auto-generated catch block
             //Toast.makeText(DataHolder.getInstance().getAppContext(), Constants.ERROR_READ_WRITE_1003, Toast.LENGTH_SHORT).show();
             e.printStackTrace();
-            returnValue = Constants.ERROR_READ_WRITE_1003;
+            returnValue = Constants.ERROR_UNKNOWN;
         }
         return returnValue;
+    }
+    public static String readFromAssetFile(String defaultFileName) {
+        try {
+            DateOfBirthDBHelper.deleteAll();
+
+            BufferedReader br;
+            DataInputStream in = null;
+
+            if (!Environment.getExternalStorageState().equals(
+                    Environment.MEDIA_MOUNTED)) {
+                // sdcard not found. read from bundle
+                AssetManager am = DataHolder.getInstance().getAppContext().getAssets();
+                InputStream fstream = am.open(defaultFileName);
+                // Get the object of DataInputStream
+                in = new DataInputStream(fstream);
+
+                br = new BufferedReader(new InputStreamReader(in));
+            } else {
+                File sdcard = Environment.getExternalStorageDirectory();
+                // Get the text file
+                File file = new File(sdcard, defaultFileName);
+                if (file.exists()) // check for existence
+                {
+                    br = new BufferedReader(new FileReader(file));
+                } else // read from bundle if not exist
+                {
+                    AssetManager am = DataHolder.getInstance().getAppContext().getAssets();
+                    InputStream fstream = am.open(defaultFileName);
+                    // Get the object of DataInputStream
+                    in = new DataInputStream(fstream);
+                    br = new BufferedReader(new InputStreamReader(in));
+                }
+            }
+
+            String strLine, n1;
+            int d1, m1, y1, yOriginal;
+            DateOfBirth dateOfBirth = new DateOfBirth();
+            // Read File Line By Line
+            while ((strLine = br.readLine()) != null) {
+                // Print the content on the console afdf
+                System.out.println("in main ac -- " + strLine);
+
+                String[] lineComponents = strLine.split(" ");
+                n1 = lineComponents[0];
+                n1 = n1.replace("_", " ");
+                d1 = Integer.parseInt(lineComponents[1]);
+                m1 = Integer.parseInt(lineComponents[2]);
+                y1 = Integer.parseInt(lineComponents[3]);
+
+                dateOfBirth.setName(n1);
+                dateOfBirth.setDobDate(Util.getDateFromString(d1 + " " + m1 + " " + y1));
+                DateOfBirthDBHelper.insertDOB(dateOfBirth);
+            }
+            // Close the input stream
+            //progressDialog.dismiss();
+            in.close();
+        }
+        catch (Exception e) {// Catch exception if any
+            System.err.println("Error: " + e.getMessage());
+        }
+        return "TRUE";
     }
 }
