@@ -3,17 +3,21 @@ package com.antandbuffalo.birthdayreminder.upcoming;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.antandbuffalo.birthdayreminder.Constants;
 import com.antandbuffalo.birthdayreminder.DataHolder;
 import com.antandbuffalo.birthdayreminder.DateOfBirth;
+import com.antandbuffalo.birthdayreminder.MainActivity;
 import com.antandbuffalo.birthdayreminder.R;
 import com.antandbuffalo.birthdayreminder.TabsAdapter;
 import com.antandbuffalo.birthdayreminder.addnew.AddNew;
@@ -50,12 +54,27 @@ public class Upcoming extends MyFragment {
         upcomingListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            DateOfBirth dateOfBirth = upcomingListAdapter.getItem(position);
+                DateOfBirth dateOfBirth = upcomingListAdapter.getItem(position);
 
-            Intent intent = new Intent(view.getContext(), Update.class);
+                Intent intent = new Intent(view.getContext(), Update.class);
                 intent.putExtra("currentDOB", dateOfBirth);
                 getActivity().startActivityForResult(intent, Constants.DELETE_MEMBER);
             }
+        });
+
+        EditText filter = (EditText)rootView.findViewById(R.id.filter1);
+        filter.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
+                // When user changed the Text
+                upcomingListAdapter.getFilter().filter(cs);
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) { }
+
+            @Override
+            public void afterTextChanged(Editable arg0) {}
         });
 
         return rootView;

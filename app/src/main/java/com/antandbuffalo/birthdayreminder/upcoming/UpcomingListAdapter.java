@@ -1,12 +1,15 @@
 package com.antandbuffalo.birthdayreminder.upcoming;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Filterable;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Filter;
 
 import com.antandbuffalo.birthdayreminder.Constants;
 import com.antandbuffalo.birthdayreminder.DateOfBirth;
@@ -15,18 +18,21 @@ import com.antandbuffalo.birthdayreminder.Util;
 import com.antandbuffalo.birthdayreminder.database.DateOfBirthDBHelper;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+
 /**
  * Created by i677567 on 23/9/15.
  */
-public class UpcomingListAdapter extends BaseAdapter {
+public class UpcomingListAdapter extends BaseAdapter implements Filterable {
 
     int currentDayOfYear, dayOfYear, recentDayOfYear;
     Calendar cal;
     List<DateOfBirth> dobs;
+    List<DateOfBirth> allDobs;
     SimpleDateFormat dateFormatter;
     UpcomingListAdapter() {
         dateFormatter = new SimpleDateFormat("MMM");
@@ -111,6 +117,41 @@ public class UpcomingListAdapter extends BaseAdapter {
         cal.setTime(new Date());
         cal.add(Calendar.DATE, Constants.RECENT_DURATION);
         recentDayOfYear = Integer.parseInt(Util.getStringFromDate(cal.getTime(), Constants.DAY_OF_YEAR));
+        allDobs = DateOfBirthDBHelper.selectAll();
         dobs = DateOfBirthDBHelper.selectAll();
+    }
+
+    @Override
+    public Filter getFilter() {
+        Filter filter = new Filter() {
+            @SuppressWarnings("unchecked")
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                dobs = (List<DateOfBirth>) results.values;
+                notifyDataSetChanged();
+            }
+
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                FilterResults results = new FilterResults();
+                List<DateOfBirth> filteredDobs = null;
+                // perform your search here using the searchConstraint String.
+                filteredDobs = new ArrayList<DateOfBirth>();
+                constraint = constraint.toString().toLowerCase();
+                for (int i = 0; i < allDobs.size(); i++) {
+                    DateOfBirth dob = allDobs.get(i);
+                    if (dob.getName().toLowerCase().startsWith(constraint.toString()))  {
+                        filteredDobs.add(dob);
+                    }
+                }
+
+                results.count = filteredDobs.size();
+                results.values = filteredDobs;
+                Log.e("VALUES", results.count + "");
+                return results;
+            }
+        };
+
+        return filter;
     }
 }
