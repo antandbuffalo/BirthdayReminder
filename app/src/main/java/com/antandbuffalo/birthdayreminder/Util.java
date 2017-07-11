@@ -219,49 +219,29 @@ public class Util {
             BufferedReader br;
             DataInputStream in = null;
 
-            if (!Environment.getExternalStorageState().equals(
-                    Environment.MEDIA_MOUNTED)) {
-                // sdcard not found. read from bundle
-                AssetManager am = DataHolder.getInstance().getAppContext().getAssets();
-                InputStream fstream = am.open(defaultFileName);
-                // Get the object of DataInputStream
-                in = new DataInputStream(fstream);
+            AssetManager am = DataHolder.getInstance().getAppContext().getAssets();
+            InputStream fstream = am.open(defaultFileName);
+            // Get the object of DataInputStream
+            in = new DataInputStream(fstream);
 
-                br = new BufferedReader(new InputStreamReader(in));
-            } else {
-                File sdcard = Environment.getExternalStorageDirectory();
-                // Get the text file
-                File file = new File(sdcard, defaultFileName);
-                if (file.exists()) // check for existence
-                {
-                    br = new BufferedReader(new FileReader(file));
-                } else // read from bundle if not exist
-                {
-                    AssetManager am = DataHolder.getInstance().getAppContext().getAssets();
-                    InputStream fstream = am.open(defaultFileName);
-                    // Get the object of DataInputStream
-                    in = new DataInputStream(fstream);
-                    br = new BufferedReader(new InputStreamReader(in));
-                }
-            }
+            br = new BufferedReader(new InputStreamReader(in));
 
-            String strLine, n1;
-            int d1, m1, y1, yOriginal;
+            String strLine, n1, d1, m1, y1;
             DateOfBirth dateOfBirth = new DateOfBirth();
             // Read File Line By Line
             while ((strLine = br.readLine()) != null) {
                 // Print the content on the console afdf
-                System.out.println("in main ac -- " + strLine);
+                //System.out.println("in main ac -- " + strLine);
 
                 String[] lineComponents = strLine.split(" ");
                 n1 = lineComponents[0];
                 n1 = n1.replace("_", " ");
-                d1 = Integer.parseInt(lineComponents[1]);
-                m1 = Integer.parseInt(lineComponents[2]);
-                y1 = Integer.parseInt(lineComponents[3]);
+                d1 = lineComponents[1];
+                m1 = lineComponents[2];
+                y1 = lineComponents[3];
 
                 dateOfBirth.setName(n1);
-                dateOfBirth.setDobDate(Util.getDateFromString(d1 + " " + m1 + " " + y1));
+                dateOfBirth.setDobDate(Util.getDateFromString(y1 + "-" + m1 + "-" + d1));
                 DateOfBirthDBHelper.insertDOB(dateOfBirth);
             }
             // Close the input stream

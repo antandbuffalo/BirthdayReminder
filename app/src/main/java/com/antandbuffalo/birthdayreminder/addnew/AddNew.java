@@ -104,23 +104,31 @@ public class AddNew extends Activity {
                         if(plainName.equalsIgnoreCase("csea")) {
                             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(AddNew.this);
                             alertDialogBuilder.setTitle("Confirmation");
-                            alertDialogBuilder.setMessage("Are you sure want to delete current data and load default datas of " + plainName + "?");
+                            alertDialogBuilder.setMessage("Are you sure want to delete current data and load default data of " + plainName + "?");
                             alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
-                                    Util.readFromAssetFile("csea");
+                                    Util.readFromAssetFile("csea.txt");
+                                    Toast toast = Toast.makeText(getApplicationContext(), Constants.NOTIFICATION_SUCCESS_DATA_LOAD, Toast.LENGTH_SHORT);
+                                    toast.show();
+                                    intent.putExtra(Constants.IS_USER_ADDED, Constants.FLAG_SUCCESS.toString());
+                                    setResult(RESULT_OK, intent);
+                                    finish();
                                 }
                             });
+                            alertDialogBuilder.setNegativeButton("No", null);
+                            alertDialogBuilder.show();
                         }
                         else {
                             DateOfBirthDBHelper.insertDOB(dob);
                             System.out.println("Inserted successfully");
+                            clearInputs();
 
                             Toast toast = Toast.makeText(getApplicationContext(), Constants.NOTIFICATION_ADD_MEMBER_SUCCESS, Toast.LENGTH_SHORT);
                             toast.show();
                             intent.putExtra(Constants.IS_USER_ADDED, Constants.FLAG_SUCCESS.toString());
                             setResult(RESULT_OK, intent);
                         }
-                        clearInputs();
+
                     }
                 }
             }
