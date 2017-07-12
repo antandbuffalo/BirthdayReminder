@@ -214,7 +214,7 @@ public class Util {
     }
     public static String readFromAssetFile(String defaultFileName) {
         try {
-            DateOfBirthDBHelper.deleteAll();
+            //DateOfBirthDBHelper.deleteAll();
 
             BufferedReader br;
             DataInputStream in = null;
@@ -242,7 +242,12 @@ public class Util {
 
                 dateOfBirth.setName(n1);
                 dateOfBirth.setDobDate(Util.getDateFromString(y1 + "-" + m1 + "-" + d1));
-                DateOfBirthDBHelper.insertDOB(dateOfBirth);
+                if(DateOfBirthDBHelper.isUniqueDateOfBirth(dateOfBirth)) {
+                    DateOfBirthDBHelper.insertDOB(dateOfBirth);
+                }
+                else {
+                    Log.i("Entry already available", dateOfBirth.getName());
+                }
             }
             // Close the input stream
             //progressDialog.dismiss();

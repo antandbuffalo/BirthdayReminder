@@ -104,7 +104,7 @@ public class AddNew extends Activity {
                         if(plainName.equalsIgnoreCase("csea")) {
                             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(AddNew.this);
                             alertDialogBuilder.setTitle("Confirmation");
-                            alertDialogBuilder.setMessage("Are you sure want to delete current data and load default data of " + plainName + "?");
+                            alertDialogBuilder.setMessage("Are you sure want to merge current data with CSE A data?");
                             alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     Util.readFromAssetFile("csea.txt");

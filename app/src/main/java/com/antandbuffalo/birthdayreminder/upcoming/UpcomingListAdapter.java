@@ -34,6 +34,7 @@ public class UpcomingListAdapter extends BaseAdapter implements Filterable {
     List<DateOfBirth> dobs;
     List<DateOfBirth> allDobs;
     SimpleDateFormat dateFormatter;
+    List<DateOfBirth> filteredDobs = new ArrayList<DateOfBirth>();
     UpcomingListAdapter() {
         dateFormatter = new SimpleDateFormat("MMM");
         cal = Calendar.getInstance();
@@ -123,7 +124,8 @@ public class UpcomingListAdapter extends BaseAdapter implements Filterable {
 
     @Override
     public Filter getFilter() {
-        Filter filter = new Filter() {
+        final Filter filter = new Filter() {
+
             @SuppressWarnings("unchecked")
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
@@ -134,13 +136,15 @@ public class UpcomingListAdapter extends BaseAdapter implements Filterable {
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
                 FilterResults results = new FilterResults();
-                List<DateOfBirth> filteredDobs = null;
+                filteredDobs.clear();
                 // perform your search here using the searchConstraint String.
-                filteredDobs = new ArrayList<DateOfBirth>();
                 constraint = constraint.toString().toLowerCase();
+                DateOfBirth dob;
+                String dateString;
                 for (int i = 0; i < allDobs.size(); i++) {
-                    DateOfBirth dob = allDobs.get(i);
-                    if (dob.getName().toLowerCase().startsWith(constraint.toString()))  {
+                    dob = allDobs.get(i);
+                    dateString = Util.getStringFromDate(dob.getDobDate());
+                    if (dob.getName().toLowerCase().contains(constraint.toString()) || dateString.contains(constraint.toString()))  {
                         filteredDobs.add(dob);
                     }
                 }
@@ -148,6 +152,7 @@ public class UpcomingListAdapter extends BaseAdapter implements Filterable {
                 results.count = filteredDobs.size();
                 results.values = filteredDobs;
                 Log.e("VALUES", results.count + "");
+                //filteredDobs = null;
                 return results;
             }
         };

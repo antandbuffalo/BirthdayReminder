@@ -50,6 +50,8 @@ public class DateOfBirthDBHelper {
         return insertDOB(dob);
     }
 
+    //returns true is the given values is not available in DB
+    //returns false if the entry is available already
     public static boolean isUniqueDateOfBirth(DateOfBirth dob) {
         java.sql.Date sampleDate = new java.sql.Date(dob.getDobDate().getTime());
         String selectionQuery = "";
@@ -62,7 +64,7 @@ public class DateOfBirthDBHelper {
                 + Constants.COLUMN_DOB_DATE + " = '"
                 + sampleDate + "'";
 
-        System.out.println("query -- is unique --- " + selectionQuery);
+        //System.out.println("query -- is unique --- " + selectionQuery);
         SQLiteDatabase db = DBHelper.getInstace().getReadableDatabase();
         Cursor cursor = db.rawQuery(selectionQuery, null);
         List<DateOfBirth> dobList = getDateOfBirthsFromCursor(cursor);
