@@ -127,14 +127,14 @@ public class Util {
             File sdcard = Environment.getExternalStorageDirectory();
             // Get the text file
             File file = new File(sdcard, Constants.FOLDER_NAME + "/" + fileName + Constants.FILE_NAME_SUFFIX);
-            if(!file.exists()) {
+            if (!file.exists()) {
                 Toast.makeText(DataHolder.getInstance().getAppContext(), Constants.ERROR_NO_BACKUP_FILE, Toast.LENGTH_SHORT).show();
                 return Constants.ERROR_NO_BACKUP_FILE;
             }
             BufferedReader br = new BufferedReader(new BufferedReader(new FileReader(file)));
             String strLine;
             //Read File Line By Line
-            while ((strLine = br.readLine()) != null)   {
+            while ((strLine = br.readLine()) != null) {
                 // Print the content on the console
                 DateOfBirth dob = new DateOfBirth();
                 String[] lineComponents = strLine.split(" ");
@@ -143,7 +143,7 @@ public class Util {
                 String dateStr = lineComponents[1] + " " + lineComponents[2] + " " + lineComponents[3];
                 DateFormat dateFormat = new SimpleDateFormat(Constants.DATE_FORMAT_WITH_SPACE);
                 dob.setDobDate(dateFormat.parse(dateStr));
-                if(DateOfBirthDBHelper.isUniqueDateOfBirthIgnoreCase(dob)) {
+                if (DateOfBirthDBHelper.isUniqueDateOfBirthIgnoreCase(dob)) {
                     DateOfBirthDBHelper.insertDOB(dob);
                 }
             }
@@ -161,25 +161,20 @@ public class Util {
 
     public static String writeToFile() {
         String returnValue = "";
-        if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-            //throw error sd card not found
-            //Toast.makeText(DataHolder.getInstance().getAppContext(), Constants.ERROR_READ_WRITE_1004, Toast.LENGTH_LONG).show();
-            return Constants.ERROR_READ_WRITE_1004;
+        String createFolderReturn = Util.createEmptyFolder();
+        if(!createFolderReturn.equalsIgnoreCase(Constants.FLAG_SUCCESS)) {
+            return createFolderReturn;
         }
+        File sdcard = Environment.getExternalStorageDirectory();
         List<DateOfBirth> dobs = DateOfBirthDBHelper.selectAll();
         if(dobs == null || dobs.size() == 0) {
             //Toast.makeText(DataHolder.getInstance().getAppContext(), Constants.ERROR_READ_WRITE_1005, Toast.LENGTH_LONG).show();
-            return Constants.ERROR_READ_WRITE_1005;
+            return Constants.MSG_NOTHING_TO_BACKUP_DATA_EMPTY;
         }
         long currentMillis = System.currentTimeMillis();
-        File sdcard = Environment.getExternalStorageDirectory();
         String fileName = "/" + Constants.FOLDER_NAME + "/" + Constants.FILE_NAME + Constants.FILE_NAME_SUFFIX;
         String fileNameBackup = "/" + Constants.FOLDER_NAME + "/" + Constants.FILE_NAME + "_" + currentMillis + Constants.FILE_NAME_SUFFIX;
 
-        File folder = new File(sdcard + File.separator + Constants.FOLDER_NAME);
-        if(!folder.exists()) {
-            folder.mkdir();
-        }
         File myFile = new File(sdcard, fileName);
         File myFileBackup = new File(sdcard, fileNameBackup);
         myFile.renameTo(myFileBackup);
@@ -257,5 +252,18 @@ public class Util {
             System.err.println("Error: " + e.getMessage());
         }
         return "TRUE";
+    }
+    public static String createEmptyFolder() {
+        if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            //throw error sd card not found
+            //Toast.makeText(DataHolder.getInstance().getAppContext(), Constants.ERROR_READ_WRITE_1004, Toast.LENGTH_LONG).show();
+            return Constants.ERR_SD_CARD_NOT_FOUND;
+        }
+        File sdcard = Environment.getExternalStorageDirectory();
+        File folder = new File(sdcard + File.separator + Constants.FOLDER_NAME);
+        if(!folder.exists()) {
+            folder.mkdir();
+        }
+        return Constants.FLAG_SUCCESS;
     }
 }

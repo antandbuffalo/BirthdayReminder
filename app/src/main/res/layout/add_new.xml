@@ -11,6 +11,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="3sp"
         android:text="Name"
         android:id="@+id/nameLabel"
         android:layout_alignParentTop="true"
@@ -18,13 +19,18 @@
 
     <EditText
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="35sp"
         android:inputType="textPersonName"
         android:ems="10"
+        android:background="@drawable/addnew_edittext"
+        android:elevation="3dp"
+        android:paddingLeft="3dp"
         android:id="@+id/personName"
         android:layout_below="@+id/nameLabel"
         android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:layout_marginLeft="3sp"
+        android:layout_marginRight="3sp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -32,7 +38,8 @@
         android:text="Date Of Birth: "
         android:id="@+id/label2"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="3sp"
         android:layout_below="@+id/personName" />
     <TextView
         android:layout_width="wrap_content"
@@ -40,7 +47,7 @@
         android:text="12/12/1988"
         android:id="@+id/selectedDate"
         android:layout_below="@+id/personName"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:layout_toRightOf="@id/label2"
         />
 
@@ -51,9 +58,8 @@
         android:layout_below="@+id/label2"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:gravity="center"
         android:id="@+id/linearLayout"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="0dp">
 
         <DatePicker
             android:layout_width="wrap_content"
