@@ -51,43 +51,43 @@ public class Settings extends MyFragment {
         settingsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                SettingsModel option = settingsListAdapter.listData.get(position);
-                if (option.getKey().equalsIgnoreCase(Constants.SETTINGS_WRITE_FILE)) {
-                    Toast.makeText(inflater.getContext(), Util.writeToFile(), Toast.LENGTH_SHORT).show();
-                    option.setSubTitle("Last backup was");
-                    option.setUpdatedOn(new Date());
-                    OptionsDBHelper.updateOption(option);
-                    settingsListAdapter.refreshData();
+            SettingsModel option = settingsListAdapter.listData.get(position);
+            if (option.getKey().equalsIgnoreCase(Constants.SETTINGS_WRITE_FILE)) {
+                Toast.makeText(inflater.getContext(), Util.writeToFile(), Toast.LENGTH_SHORT).show();
+                option.setSubTitle("Last backup was");
+                option.setUpdatedOn(new Date());
+                OptionsDBHelper.updateOption(option);
+                settingsListAdapter.refreshData();
+            }
+            else if (option.getKey().equalsIgnoreCase(Constants.SETTINGS_READ_FILE)) {
+                Toast.makeText(inflater.getContext(), Util.readFromFile(Constants.FILE_NAME), Toast.LENGTH_SHORT).show();
+                option.setSubTitle("Data was loaded");
+                option.setUpdatedOn(new Date());
+                OptionsDBHelper.updateOption(option);
+                settingsListAdapter.refreshData();
+                for (int i = 0; i < DataHolder.getInstance().refreshTracker.size(); i++) {
+                    DataHolder.getInstance().refreshTracker.set(i, true);
                 }
-                else if (option.getKey().equalsIgnoreCase(Constants.SETTINGS_READ_FILE)) {
-                    Toast.makeText(inflater.getContext(), Util.readFromFile(Constants.FILE_NAME), Toast.LENGTH_SHORT).show();
-                    option.setSubTitle("Data was loaded");
-                    option.setUpdatedOn(new Date());
-                    OptionsDBHelper.updateOption(option);
-                    settingsListAdapter.refreshData();
+            }
+            else if (option.getKey().equalsIgnoreCase(Constants.SETTINGS_DELETE_ALL)) {
+                //put confirmation here
+                new AlertDialog.Builder(getActivity())
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("Confirmation")
+                .setMessage("Are you sure you want to delete all?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    Toast.makeText(inflater.getContext(), DateOfBirthDBHelper.deleteAll(), Toast.LENGTH_SHORT).show();
                     for (int i = 0; i < DataHolder.getInstance().refreshTracker.size(); i++) {
                         DataHolder.getInstance().refreshTracker.set(i, true);
                     }
-                }
-                else if (option.getKey().equalsIgnoreCase(Constants.SETTINGS_DELETE_ALL)) {
-                    //put confirmation here
-                    new AlertDialog.Builder(getActivity())
-                            .setIcon(android.R.drawable.ic_dialog_alert)
-                            .setTitle("Confirmation")
-                            .setMessage("Are you sure you want to delete all?")
-                            .setPositiveButton("Yes", new DialogInterface.OnClickListener()
-                            {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                Toast.makeText(inflater.getContext(), DateOfBirthDBHelper.deleteAll(), Toast.LENGTH_SHORT).show();
-                                for (int i = 0; i < DataHolder.getInstance().refreshTracker.size(); i++) {
-                                    DataHolder.getInstance().refreshTracker.set(i, true);
-                                }
-                                }
-                            })
-                            .setNegativeButton("No", null)
-                            .show();
-                }
+                    }
+                })
+                .setNegativeButton("No", null)
+                .show();
+            }
 
             }
         });

@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -70,7 +71,7 @@ public class AddNew extends Activity {
         intent.putExtra(Constants.IS_USER_ADDED, Constants.FLAG_FAILURE.toString());
         setResult(RESULT_OK, intent);
 
-        Button save = (Button)findViewById(R.id.save);
+        ImageButton save = (ImageButton) findViewById(R.id.save);
         save.setBackgroundResource(R.drawable.save_button);
 
         Button cancel = (Button)findViewById(R.id.cancel);
