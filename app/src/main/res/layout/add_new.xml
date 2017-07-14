@@ -19,18 +19,18 @@
 
     <EditText
         android:layout_width="wrap_content"
-        android:layout_height="35sp"
+        android:layout_height="30sp"
         android:inputType="textPersonName"
         android:ems="10"
         android:background="@drawable/addnew_edittext"
-        android:elevation="3dp"
-        android:paddingLeft="3dp"
+        android:elevation="2dp"
+        android:paddingLeft="2dp"
         android:id="@+id/personName"
         android:layout_below="@+id/nameLabel"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginLeft="3sp"
-        android:layout_marginRight="3sp" />
+        android:layout_marginLeft="2sp"
+        android:layout_marginRight="2sp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -79,26 +79,35 @@
         android:weightSum="1"
         android:id="@+id/buttonsLayout">
 
-        <Button
+        <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Cancel"
             android:id="@+id/cancel"
             android:background="@color/cancel_button_default"
             android:textColor="@color/white"
-            android:layout_weight="0.20"
-            android:layout_marginRight="10dp" />
+            android:src="@drawable/ic_cancel_white"
+            android:elevation="2dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            android:layout_marginLeft="2dp"
+            android:padding="12dp" />
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Save"
             android:id="@+id/save"
-            android:layout_weight="0.20"
             android:textColor="@color/white"
             android:src="@drawable/ic_done_white"
             android:background="@color/save_button_default"
-            android:layout_marginLeft="10dp" />
+            android:elevation="2dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            android:layout_marginRight="2dp"
+            android:padding="12dp" />
 
 
     </LinearLayout>

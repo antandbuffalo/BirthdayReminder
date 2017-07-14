@@ -9,7 +9,22 @@
                 android:topLeftRadius="25sp"/>
         </shape>
     </item>
-    <item android:state_focused="true"
-        android:drawable="@color/save_button_pressed" /> <!-- focused test for git-->
-    <item android:drawable="@color/save_button_default" />
+    <item android:state_focused="true"> <!-- focused test for git-->
+        <shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+            <solid android:color="@color/save_button_pressed" />
+            <corners android:bottomRightRadius="25sp"
+                android:bottomLeftRadius="25sp"
+                android:topRightRadius="25sp"
+                android:topLeftRadius="25sp"/>
+        </shape>
+    </item>
+    <item>
+        <shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+            <solid android:color="@color/save_button_default" />
+            <corners android:bottomRightRadius="25sp"
+                android:bottomLeftRadius="25sp"
+                android:topRightRadius="25sp"
+                android:topLeftRadius="25sp"/>
+        </shape>
+    </item>
 </selector>

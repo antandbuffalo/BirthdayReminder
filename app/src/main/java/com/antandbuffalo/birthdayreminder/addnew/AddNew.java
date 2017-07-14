@@ -74,7 +74,7 @@ public class AddNew extends Activity {
         ImageButton save = (ImageButton) findViewById(R.id.save);
         save.setBackgroundResource(R.drawable.save_button);
 
-        Button cancel = (Button)findViewById(R.id.cancel);
+        ImageButton cancel = (ImageButton)findViewById(R.id.cancel);
         cancel.setBackgroundResource(R.drawable.cancel_button);
 
         save.setOnClickListener(new View.OnClickListener() {
