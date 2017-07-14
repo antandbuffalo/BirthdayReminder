@@ -73,36 +73,50 @@
         android:weightSum="1"
         android:id="@+id/buttonsLayout">
 
-        <Button
+        <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Delete"
             android:id="@+id/delete"
             android:background="@color/delete_button_default"
             android:textColor="@color/white"
-            android:layout_weight="0.20"
-            android:layout_marginRight="10dp" />
+            android:src="@drawable/ic_delete_white"
+            android:elevation="2dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="15dp"
+            android:padding="12dp" />
 
-        <Button
+        <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Cancel"
             android:id="@+id/cancel"
             android:background="@color/cancel_button_default"
             android:textColor="@color/white"
-            android:layout_weight="0.20"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp" />
+            android:elevation="2dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:src="@drawable/ic_cancel_white"
+            android:padding="12dp" />
 
-        <Button
+        <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Update"
             android:id="@+id/save"
-            android:layout_weight="0.20"
             android:textColor="@color/white"
             android:background="@color/save_button_default"
-            android:layout_marginLeft="10dp" />
+            android:src="@drawable/ic_done_white"
+            android:elevation="2dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginLeft="15dp"
+            android:padding="12dp" />
 
 
     </LinearLayout>

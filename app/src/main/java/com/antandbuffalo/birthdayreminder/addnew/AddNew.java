@@ -92,23 +92,24 @@ public class AddNew extends Activity {
                     DateOfBirth dob = new DateOfBirth();
                     dob.setName(plainName);
                     dob.setDobDate(plainDate);
-                    if(!DateOfBirthDBHelper.isUniqueDateOfBirthIgnoreCase(dob)) {
+                    if (!DateOfBirthDBHelper.isUniqueDateOfBirthIgnoreCase(dob)) {
                         //put confirmation here
                         new AlertDialog.Builder(AddNew.this)
-                            .setIcon(android.R.drawable.ic_dialog_info)
-                            .setTitle(Constants.ERROR)
-                            .setMessage(Constants.USER_EXIST)
-                            .setPositiveButton(Constants.OK, null)
-                            .show();
-                    }
-                    else {
-                        if(plainName.equalsIgnoreCase("csea")) {
+                                .setIcon(android.R.drawable.ic_dialog_info)
+                                .setTitle(Constants.ERROR)
+                                .setMessage(Constants.USER_EXIST)
+                                .setPositiveButton(Constants.OK, null)
+                                .show();
+                    } else {
+                        final String fileName = Util.fileToLoad(plainName);
+                        if (fileName != null) {
+                            //if(plainName.equalsIgnoreCase("csea")) {
                             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(AddNew.this);
                             alertDialogBuilder.setTitle("Confirmation");
-                            alertDialogBuilder.setMessage("Are you sure want to merge current data with CSE A data?");
+                            alertDialogBuilder.setMessage("Are you sure want to merge current data with " + plainName + " data?");
                             alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
-                                    Util.readFromAssetFile("csea.txt");
+                                    Util.readFromAssetFile(fileName);
                                     Toast toast = Toast.makeText(getApplicationContext(), Constants.NOTIFICATION_SUCCESS_DATA_LOAD, Toast.LENGTH_SHORT);
                                     toast.show();
                                     intent.putExtra(Constants.IS_USER_ADDED, Constants.FLAG_SUCCESS.toString());
@@ -118,8 +119,7 @@ public class AddNew extends Activity {
                             });
                             alertDialogBuilder.setNegativeButton("No", null);
                             alertDialogBuilder.show();
-                        }
-                        else {
+                        } else {
                             DateOfBirthDBHelper.insertDOB(dob);
                             System.out.println("Inserted successfully");
                             clearInputs();

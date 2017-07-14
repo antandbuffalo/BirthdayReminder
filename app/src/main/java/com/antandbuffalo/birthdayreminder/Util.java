@@ -28,8 +28,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * Created by i677567 on 5/10/15.
@@ -240,9 +243,9 @@ public class Util {
                 if(DateOfBirthDBHelper.isUniqueDateOfBirth(dateOfBirth)) {
                     DateOfBirthDBHelper.insertDOB(dateOfBirth);
                 }
-                else {
-                    Log.i("Entry already available", dateOfBirth.getName());
-                }
+//                else {
+//                    Log.i("Entry already available", dateOfBirth.getName());
+//                }
             }
             // Close the input stream
             //progressDialog.dismiss();
@@ -265,5 +268,15 @@ public class Util {
             folder.mkdir();
         }
         return Constants.FLAG_SUCCESS;
+    }
+    public static String fileToLoad(String key) {
+        HashMap <String, String> fileNames = new HashMap<String, String>();
+        fileNames.put("csea", "csea.txt");
+        fileNames.put("cse", "cse.txt");
+        fileNames.put("myfamily", "myfamily.txt");
+        if(fileNames.get(key) != null) {
+            return fileNames.get(key);
+        }
+        return null;
     }
 }

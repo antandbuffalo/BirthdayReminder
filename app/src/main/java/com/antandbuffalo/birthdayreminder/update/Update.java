@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,13 +52,13 @@ public class Update extends Activity {
         cal.setTime(currentDOB.getDobDate());
         datePicker.updateDate(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DATE));
 
-        Button delete = (Button)findViewById(R.id.delete);
+        ImageButton delete = (ImageButton)findViewById(R.id.delete);
         delete.setBackgroundResource(R.drawable.delete_button);
 
-        Button cancel = (Button)findViewById(R.id.cancel);
+        ImageButton cancel = (ImageButton)findViewById(R.id.cancel);
         cancel.setBackgroundResource(R.drawable.cancel_button);
 
-        Button update = (Button)findViewById(R.id.save);
+        ImageButton update = (ImageButton)findViewById(R.id.save);
         update.setBackgroundResource(R.drawable.save_button);
 
         intent = new Intent();
