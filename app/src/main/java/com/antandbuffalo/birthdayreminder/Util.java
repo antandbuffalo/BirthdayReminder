@@ -279,4 +279,14 @@ public class Util {
         }
         return null;
     }
+    public static Boolean isBackupFileFound() {
+        if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            //throw error sd card not found
+            return false;
+        }
+        File sdcard = Environment.getExternalStorageDirectory();
+        // Get the text file
+        File file = new File(sdcard, Constants.FOLDER_NAME + "/" + Constants.FILE_NAME + Constants.FILE_NAME_SUFFIX);
+        return file.exists();
+    }
 }

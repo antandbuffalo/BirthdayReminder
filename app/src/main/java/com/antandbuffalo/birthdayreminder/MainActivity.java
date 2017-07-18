@@ -3,9 +3,12 @@ package com.antandbuffalo.birthdayreminder;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v4.app.FragmentActivity;
 import android.app.FragmentTransaction;
@@ -17,6 +20,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.antandbuffalo.birthdayreminder.addnew.AddNew;
 import com.antandbuffalo.birthdayreminder.database.DBHelper;
@@ -107,8 +111,48 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
         alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         setRepeatingAlarm();
+
+        SharedPreferences settings = getSharedPreferences(Constants.PREFERENCE_NAME, 0);
+        Boolean isSecondTime = settings.getBoolean("isSecondTime", false);
+        if(!isSecondTime) {
+            if(Util.isBackupFileFound()) {
+                loadBackupFile();
+            }
+        }
         Util.createEmptyFolder();
-        
+    }
+
+    public void loadBackupFile() {
+        SharedPreferences settings = getSharedPreferences(Constants.PREFERENCE_NAME, 0);
+        final SharedPreferences.Editor editor = settings.edit();
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle("Confirmation");
+        alertDialogBuilder.setMessage("Backup file found. Do you want to load data from backup file?");
+        alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                Util.readFromFile(Constants.FILE_NAME);
+                for (int i = 0; i < DataHolder.getInstance().refreshTracker.size(); i++) {
+                    DataHolder.getInstance().refreshTracker.set(i, true);
+                }
+                Toast toast = Toast.makeText(getApplicationContext(), Constants.NOTIFICATION_SUCCESS_DATA_LOAD, Toast.LENGTH_SHORT);
+                toast.show();
+                editor.putBoolean("isSecondTime", true);
+                editor.commit();
+
+                MyFragment fragment = (MyFragment) mTabsAdapter.getFragment(0);
+                if(fragment != null) {
+                    fragment.refreshData();
+                }
+            }
+        });
+        alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                editor.putBoolean("isSecondTime", true);
+                editor.commit();
+            }
+        });
+        alertDialogBuilder.show();
     }
 
     public void setRepeatingAlarm() {
