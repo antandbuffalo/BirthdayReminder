@@ -95,4 +95,6 @@ public class Constants {
     public static final String ERROR = "Error";
     public static final String USER_EXIST = "Same Date of Birth already available";
     public static final String OK = "OK";
+
+    public static final String PREFERENCE_NAME = "BirthdayReminder";
 }

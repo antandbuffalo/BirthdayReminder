@@ -108,6 +108,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         setRepeatingAlarm();
         Util.createEmptyFolder();
+        
     }
 
     public void setRepeatingAlarm() {
