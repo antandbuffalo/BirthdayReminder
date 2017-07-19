@@ -27,6 +27,7 @@ import com.antandbuffalo.birthdayreminder.database.DBHelper;
 import com.antandbuffalo.birthdayreminder.database.DateOfBirthDBHelper;
 import com.antandbuffalo.birthdayreminder.fragments.MyFragment;
 import com.antandbuffalo.birthdayreminder.notification.AlarmReceiver;
+import com.antandbuffalo.birthdayreminder.restore.RestoreBackup;
 
 import java.util.Calendar;
 
@@ -116,7 +117,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         Boolean isSecondTime = settings.getBoolean("isSecondTime", false);
         if(!isSecondTime) {
             if(Util.isBackupFileFound()) {
-                loadBackupFile();
+                Intent intent = new Intent(getApplicationContext(), RestoreBackup.class);
+                startActivity(intent);
+                //loadBackupFile();
             }
         }
         Util.createEmptyFolder();

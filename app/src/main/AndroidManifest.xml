@@ -24,6 +24,10 @@
             android:name=".addnew.AddNew"
             android:label="@string/title_activity_add_new" />
 
+        <activity
+            android:name=".restore.RestoreBackup"
+            android:label="@string/title_activity_restore_backup" />
+
         <receiver
             android:name=".notification.AlarmReceiver"
             android:enabled="true"
