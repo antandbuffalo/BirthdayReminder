@@ -26,4 +26,6 @@
     <color name="save_button_default">#388E3C</color>
     <color name="save_button_pressed">#1B5E20</color>
 
+    <color name="light_green">#689F38</color>
+
 </resources>

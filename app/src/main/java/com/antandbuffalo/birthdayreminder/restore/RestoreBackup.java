@@ -29,7 +29,7 @@ public class RestoreBackup extends Activity {
         setContentView(R.layout.restore_backup);
 
         ImageButton save = (ImageButton) findViewById(R.id.save);
-        save.setBackgroundResource(R.drawable.save_button);
+        save.setBackgroundResource(R.drawable.restore_ok_button);
 
         ImageButton cancel = (ImageButton)findViewById(R.id.cancel);
         cancel.setBackgroundResource(R.drawable.cancel_button);
