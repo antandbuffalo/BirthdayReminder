@@ -54,7 +54,7 @@
                 android:text="Save"
                 android:id="@+id/save"
                 android:textColor="@color/white"
-                android:src="@drawable/ic_right_white"
+                android:src="@drawable/ic_done_white"
                 android:background="@color/save_button_default"
                 android:elevation="2dp"
                 android:layout_marginLeft="15dp"

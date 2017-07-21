@@ -74,9 +74,9 @@ public class DateOfBirthDBHelper {
         String having = null;
         String orderBy = null;
         String limit = null;
-        Cursor cursor1 = db.query(Constants.TABLE_DATE_OF_BIRTH, columns, selection, selectionArgs, groupBy, having, orderBy, limit);
+        Cursor cursor = db.query(Constants.TABLE_DATE_OF_BIRTH, columns, selection, selectionArgs, groupBy, having, orderBy, limit);
 
-        Cursor cursor = db.rawQuery(selectionQuery, null);
+        //Cursor cursor = db.rawQuery(selectionQuery, null);
         List<DateOfBirth> dobList = getDateOfBirthsFromCursor(cursor);
         cursor.close();
         db.close();
@@ -100,7 +100,17 @@ public class DateOfBirthDBHelper {
 
         System.out.println("query -- is unique --- " + selectionQuery);
         SQLiteDatabase db = DBHelper.getInstace().getReadableDatabase();
-        Cursor cursor = db.rawQuery(selectionQuery, null);
+
+        String[] columns = {Constants.COLUMN_DOB_ID, Constants.COLUMN_DOB_NAME, Constants.COLUMN_DOB_DATE};
+        String selection = Constants.COLUMN_DOB_NAME + " =? COLLATE NOCASE AND " + Constants.COLUMN_DOB_DATE + " =?";
+        String[] selectionArgs = {dob.getName(), Util.getStringFromDate(dob.getDobDate())};
+        String groupBy = null;
+        String having = null;
+        String orderBy = null;
+        String limit = null;
+        Cursor cursor = db.query(Constants.TABLE_DATE_OF_BIRTH, columns, selection, selectionArgs, groupBy, having, orderBy, limit);
+
+        //Cursor cursor = db.rawQuery(selectionQuery, null);
         List<DateOfBirth> dobList = getDateOfBirthsFromCursor(cursor);
         cursor.close();
         db.close();
