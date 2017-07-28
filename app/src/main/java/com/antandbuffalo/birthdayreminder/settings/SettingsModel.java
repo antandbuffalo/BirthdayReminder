@@ -10,6 +10,7 @@ public class SettingsModel {
     private String title;
     private String subTitle;
     private Date updatedOn;
+    private String type;
 
     public String getKey() {
         return key;
@@ -45,5 +46,13 @@ public class SettingsModel {
 
     public void setUpdatedOn(Date updatedOn) {
         this.updatedOn = updatedOn;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

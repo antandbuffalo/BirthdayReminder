@@ -97,4 +97,5 @@ public class Constants {
     public static final String OK = "OK";
 
     public static final String PREFERENCE_NAME = "BirthdayReminder";
+    public static final String TYPE_ADD_NEW = "AddNew";
 }

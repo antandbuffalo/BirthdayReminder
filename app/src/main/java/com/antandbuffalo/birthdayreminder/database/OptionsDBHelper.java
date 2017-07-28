@@ -24,6 +24,13 @@ public class OptionsDBHelper {
     public static void insertDefaultValues(SQLiteDatabase db) {
         List<SettingsModel> data = new ArrayList();
         SettingsModel datum;
+
+//        datum = SettingsModel.newInstance();
+//        datum.setKey(Constants.TYPE_ADD_NEW);
+//        datum.setType("NORMAL");
+//        datum.setTitle("Add New");
+//        data.add(datum);
+
         datum = SettingsModel.newInstance();
         datum.setKey(Constants.SETTINGS_WRITE_FILE);
         datum.setTitle(Constants.SETTINGS_WRITE_FILE_TITLE);
