@@ -25,6 +25,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class RestoreBackup extends Activity {
+    Intent intent = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,29 +37,46 @@ public class RestoreBackup extends Activity {
         ImageButton restoreCancel = (ImageButton)findViewById(R.id.cancel);
         restoreCancel.setBackgroundResource(R.drawable.cancel_button);
 
+        intent = new Intent();
+        intent.putExtra(Constants.IS_USER_ADDED, Constants.FLAG_FAILURE.toString());
+        setResult(RESULT_OK, intent);
+
         restoreOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Util.readFromFile(Constants.FILE_NAME);
-                SharedPreferences settings = getSharedPreferences(Constants.PREFERENCE_NAME, 0);
-                SharedPreferences.Editor editor = settings.edit();
-                for (int i = 0; i < DataHolder.getInstance().refreshTracker.size(); i++) {
-                    DataHolder.getInstance().refreshTracker.set(i, true);
-                }
+//                for (int i = 0; i < DataHolder.getInstance().refreshTracker.size(); i++) {
+//                    DataHolder.getInstance().refreshTracker.set(i, true);
+//                }
+                intent.putExtra(Constants.IS_USER_ADDED, Constants.FLAG_FAILURE.toString());
+                setResult(RESULT_OK, intent);
+                loadedFirstTime();
                 Toast toast = Toast.makeText(getApplicationContext(), Constants.NOTIFICATION_SUCCESS_DATA_LOAD, Toast.LENGTH_SHORT);
                 toast.show();
-                editor.putBoolean("isSecondTime", true);
-                editor.commit();
-                finish();
             }
         });
 
         restoreCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                intent.putExtra(Constants.IS_USER_ADDED, Constants.FLAG_FAILURE.toString());
+                setResult(RESULT_OK, intent);
+                loadedFirstTime();
                 finish();
             }
         });
-
+    }
+    @Override
+    public void onBackPressed() {
+        intent.putExtra(Constants.IS_USER_ADDED, Constants.FLAG_FAILURE.toString());
+        setResult(RESULT_OK, intent);
+        loadedFirstTime();
+    }
+    public void loadedFirstTime() {
+        SharedPreferences settings = getSharedPreferences(Constants.PREFERENCE_NAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putBoolean("isSecondTime", true);
+        editor.commit();
+        finish();
     }
 }

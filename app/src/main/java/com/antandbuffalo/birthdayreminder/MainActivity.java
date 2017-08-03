@@ -118,44 +118,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         if(!isSecondTime) {
             if(Util.isBackupFileFound()) {
                 Intent intent = new Intent(getApplicationContext(), RestoreBackup.class);
-                startActivity(intent);
+                startActivityForResult(intent, Constants.ADD_NEW_MEMBER);
                 //loadBackupFile();
             }
         }
         Util.createEmptyFolder();
-    }
-
-    public void loadBackupFile() {
-        SharedPreferences settings = getSharedPreferences(Constants.PREFERENCE_NAME, 0);
-        final SharedPreferences.Editor editor = settings.edit();
-
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setTitle("Confirmation");
-        alertDialogBuilder.setMessage("Backup file found. Do you want to load data from backup file?");
-        alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                Util.readFromFile(Constants.FILE_NAME);
-                for (int i = 0; i < DataHolder.getInstance().refreshTracker.size(); i++) {
-                    DataHolder.getInstance().refreshTracker.set(i, true);
-                }
-                Toast toast = Toast.makeText(getApplicationContext(), Constants.NOTIFICATION_SUCCESS_DATA_LOAD, Toast.LENGTH_SHORT);
-                toast.show();
-                editor.putBoolean("isSecondTime", true);
-                editor.commit();
-
-                MyFragment fragment = (MyFragment) mTabsAdapter.getFragment(0);
-                if(fragment != null) {
-                    fragment.refreshData();
-                }
-            }
-        });
-        alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                editor.putBoolean("isSecondTime", true);
-                editor.commit();
-            }
-        });
-        alertDialogBuilder.show();
     }
 
     public void setRepeatingAlarm() {
