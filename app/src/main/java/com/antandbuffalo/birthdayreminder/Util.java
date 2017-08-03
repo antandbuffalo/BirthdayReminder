@@ -135,15 +135,27 @@ public class Util {
                 return Constants.ERROR_NO_BACKUP_FILE;
             }
             BufferedReader br = new BufferedReader(new BufferedReader(new FileReader(file)));
-            String strLine;
+            String strLine, n1, d1, m1, y1;
+            String regexStr = "^[0-9]+$";
             //Read File Line By Line
             while ((strLine = br.readLine()) != null) {
                 // Print the content on the console
                 DateOfBirth dob = new DateOfBirth();
                 String[] lineComponents = strLine.split(" ");
-                dob.setName(lineComponents[0].replace("_", " "));
+
+                n1 = lineComponents[0];
+                n1 = n1.replace("_", " ");
+                d1 = lineComponents[1];
+                m1 = lineComponents[2];
+                y1 = lineComponents[3];
+
+                if(!d1.trim().matches(regexStr) || !m1.trim().matches(regexStr) || !y1.trim().matches(regexStr)) {
+                    //write code here for failure
+                    continue;
+                }
 
                 String dateStr = lineComponents[1] + " " + lineComponents[2] + " " + lineComponents[3];
+                dob.setName(n1);
                 DateFormat dateFormat = new SimpleDateFormat(Constants.DATE_FORMAT_WITH_SPACE);
                 dob.setDobDate(dateFormat.parse(dateStr));
                 if (DateOfBirthDBHelper.isUniqueDateOfBirthIgnoreCase(dob)) {
@@ -226,6 +238,7 @@ public class Util {
 
             String strLine, n1, d1, m1, y1;
             DateOfBirth dateOfBirth = new DateOfBirth();
+            String regexStr = "^[0-9]+$";
             // Read File Line By Line
             while ((strLine = br.readLine()) != null) {
                 // Print the content on the console afdf
@@ -237,6 +250,11 @@ public class Util {
                 d1 = lineComponents[1];
                 m1 = lineComponents[2];
                 y1 = lineComponents[3];
+
+                if(!d1.trim().matches(regexStr) || !m1.trim().matches(regexStr) || !y1.trim().matches(regexStr)) {
+                    //write code here for failure
+                    continue;
+                }
 
                 dateOfBirth.setName(n1);
                 dateOfBirth.setDobDate(Util.getDateFromString(y1 + "-" + m1 + "-" + d1));
@@ -269,11 +287,14 @@ public class Util {
         }
         return Constants.FLAG_SUCCESS;
     }
-    public static String fileToLoad(String key) {
+    public static String fileToLoad(String input) {
+        String key = input.toLowerCase();
         HashMap <String, String> fileNames = new HashMap<String, String>();
         fileNames.put("csea", "csea.txt");
         fileNames.put("cse", "cse.txt");
         fileNames.put("myfamily", "myfamily.txt");
+        fileNames.put("thuda family", "thudaFamily.txt");
+        fileNames.put("thudafamily", "thudaFamily.txt");
         if(fileNames.get(key) != null) {
             return fileNames.get(key);
         }
