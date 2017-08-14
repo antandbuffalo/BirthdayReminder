@@ -74,6 +74,50 @@ public class SettingsListAdapter extends BaseAdapter {
         SettingsModel option = listData.get(position);
         int cellType = getCellType(option);
         if(convertView == null) {
+            LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = inflater.inflate(R.layout.settings_list_item_default, parent, false);
+        }
+
+        TextView name, desc;
+
+        name = (TextView)convertView.findViewById(R.id.nameField);
+        name.setText(option.getTitle());
+
+
+        if(cellType == Constants.SETTINGS_CELL_TYPE_0) {
+            desc = (TextView)convertView.findViewById(R.id.ageField);
+            String description = option.getSubTitle();
+
+            cal.setTime(option.getUpdatedOn());
+
+            long daysDiff = Util.getDaysBetweenDates(option.getUpdatedOn());
+            if(daysDiff == 0) {
+                description = description + " today";
+            }
+            else if(daysDiff == 1) {
+                description = description + " before " + daysDiff + " day";
+            }
+            else if (daysDiff <= 30) {
+                description = description + " before " + daysDiff + " days";
+            }
+            else if (daysDiff <= 365) {
+                description = description + " before " + daysDiff + " days";
+            }
+            else {
+                description = description + " before " + daysDiff + " days";
+            }
+            desc.setText(description);
+        }
+        return convertView;
+    }
+
+    /*
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        SettingsModel option = listData.get(position);
+        int cellType = getCellType(option);
+        if(convertView == null) {
+
             if(cellType == Constants.SETTINGS_CELL_TYPE_0) {
                 LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 convertView = inflater.inflate(R.layout.settings_listitem, parent, false);
@@ -150,6 +194,7 @@ public class SettingsListAdapter extends BaseAdapter {
 
         return convertView;
     }
+    */
 
     public void refreshData() {
         listData = OptionsDBHelper.selectAll();
