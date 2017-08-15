@@ -63,6 +63,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         //OptionsDBHelper.insertDefaultValues();
         //System.out.println(DateOfBirthDBHelper.selectToday());
 
+//        NotificationManager nMgr = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+//        nMgr.cancelAll();
+
         mainContainer = (RelativeLayout) findViewById(R.id.mainContainer);
         addNew = (Button) findViewById(R.id.addNew);
         animFadeOut = AnimationUtils.loadAnimation(getApplicationContext(), android.R.anim.fade_out);

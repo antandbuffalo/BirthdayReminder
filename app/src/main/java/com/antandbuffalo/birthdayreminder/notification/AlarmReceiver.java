@@ -46,6 +46,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         PendingIntent contentIntent = PendingIntent.getActivity(context, 0, resultingIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context).setSmallIcon(R.mipmap.ic_notification).setContentTitle(from).setContentText(message);
         mBuilder.setColor(Color.argb(255, 121, 85, 72));
+        mBuilder.setAutoCancel(true);
 
         mBuilder.setContentIntent(contentIntent);
         int notificationId = 101;
