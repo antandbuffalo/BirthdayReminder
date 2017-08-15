@@ -56,9 +56,12 @@ public class Constants {
     public static final String SETTINGS_WRITE_FILE = "WRITE_FILE";
     public static final String SETTINGS_READ_FILE = "READ_FILE";
     public static final String SETTINGS_DELETE_ALL = "DELETE_ALL";
-    public static final int SETTINGS_CELL_TYPE_0 = 0;
-    public static final int SETTINGS_CELL_TYPE_1 = 1;
-    public static final int SETTINGS_CELL_TYPE_2 = 2;
+    public static final String SETTINGS_ABOUT = "ABOUT";
+
+    public static final int SETTINGS_CELL_TYPE_DATE = 0;
+    public static final int SETTINGS_CELL_TYPE_1_LETTER = 1;
+    public static final int SETTINGS_CELL_TYPE_NA = 2;
+
     public static final int SETTINGS_CELL_TYPES_COUNT = 3;
 
     public static final Set<String> SETTINGS_CELL_TYPE_0_VALUES = new HashSet<String>() {{
@@ -66,8 +69,9 @@ public class Constants {
         add(SETTINGS_WRITE_FILE);
     }};
 
-    public static final Set<String> SETTINGS_CELL_TYPE_1_VALUES = new HashSet<String>() {{
+    public static final Set<String> SETTINGS_CELL_TYPE_1_LETTER_VALUES = new HashSet<String>() {{
         add(SETTINGS_DELETE_ALL);
+        add(SETTINGS_ABOUT);
     }};
 
     public static final String SETTINGS_WRITE_FILE_TITLE = "Take a backup";

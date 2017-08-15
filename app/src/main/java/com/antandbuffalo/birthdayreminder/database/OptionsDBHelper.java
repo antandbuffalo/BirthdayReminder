@@ -52,6 +52,14 @@ public class OptionsDBHelper {
         //datum.setUpdatedOn(new Date());
         data.add(datum);
 
+        datum = SettingsModel.newInstance();
+        datum.setKey(Constants.SETTINGS_ABOUT);
+        datum.setTitle("About");
+        datum.setSubTitle("");
+        //datum.setUpdatedOn(new Date());
+        data.add(datum);
+
+
         for(SettingsModel option : data) {
             ContentValues values = new ContentValues();
             values.put(Constants.COLUMN_OPTION_CODE, option.getKey());
