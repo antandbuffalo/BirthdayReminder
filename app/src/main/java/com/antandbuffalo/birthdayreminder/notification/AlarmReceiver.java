@@ -7,7 +7,9 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 
 import com.antandbuffalo.birthdayreminder.DateOfBirth;
 import com.antandbuffalo.birthdayreminder.MainActivity;
@@ -43,6 +45,8 @@ public class AlarmReceiver extends BroadcastReceiver {
         Intent resultingIntent = new Intent(context, MainActivity.class);
         PendingIntent contentIntent = PendingIntent.getActivity(context, 0, resultingIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context).setSmallIcon(R.mipmap.ic_notification).setContentTitle(from).setContentText(message);
+        mBuilder.setColor(Color.argb(255, 121, 85, 72));
+
         mBuilder.setContentIntent(contentIntent);
         int notificationId = 101;
         notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
