@@ -45,4 +45,14 @@
         android:layout_below="@+id/textView3"
         android:textColor="#ffffff"
         android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/contact_us"
+        android:id="@+id/contactUs"
+        android:textColor="#ffffff"
+        android:layout_above="@+id/textView4"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="45dp" />
 </RelativeLayout>
