@@ -12,6 +12,9 @@ import com.antandbuffalo.birthdayreminder.Util;
 import com.antandbuffalo.birthdayreminder.settings.Settings;
 import com.antandbuffalo.birthdayreminder.settings.SettingsModel;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -31,6 +34,12 @@ public class OptionsDBHelper {
 //        datum.setType("NORMAL");
 //        datum.setTitle("Add New");
 //        data.add(datum);
+        JSONObject sampleJson = new JSONObject();
+        try {
+            sampleJson.put("iconLetter", "A");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         datum = SettingsModel.newInstance();
         datum.setKey(Constants.SETTINGS_WRITE_FILE);

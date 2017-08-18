@@ -9,6 +9,8 @@ import android.util.Log;
 
 import com.antandbuffalo.birthdayreminder.Constants;
 
+import org.json.JSONObject;
+
 public final class DBHelper extends SQLiteOpenHelper {
 
     private static DBHelper dbHelperInstance = null;
@@ -43,7 +45,8 @@ public final class DBHelper extends SQLiteOpenHelper {
         String CREATE_DOB_TABLE = "CREATE TABLE " + Constants.TABLE_DATE_OF_BIRTH
                 + "(" + Constants.COLUMN_DOB_ID + " INTEGER PRIMARY KEY autoincrement,"
                 + Constants.COLUMN_DOB_NAME + " TEXT NOT NULL,"
-                + Constants.COLUMN_DOB_DATE + " DATE NOT NULL"
+                + Constants.COLUMN_DOB_DATE + " DATE NOT NULL,"
+                + Constants.COLUMN_DOB_EXTRA + " TEXT"
                 +")";
         System.out.println("create query -- " + CREATE_DOB_TABLE);
 
@@ -52,7 +55,8 @@ public final class DBHelper extends SQLiteOpenHelper {
                 + Constants.COLUMN_OPTION_CODE + " TEXT PRIMARY KEY, "
                 + Constants.COLUMN_OPTION_TITLE + " TEXT, "
                 + Constants.COLUMN_OPTION_SUBTITLE + " TEXT, "
-                + Constants.COLUMN_OPTION_UPDATED_ON + " DATE"
+                + Constants.COLUMN_OPTION_UPDATED_ON + " DATE, "
+                + Constants.COLUMN_OPTION_EXTRA + " TEXT"
                 +")";
         System.out.println("create option table query -- " + CREATE_OPTION_TABLE);
 
