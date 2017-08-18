@@ -74,7 +74,7 @@ public class Constants {
         add(SETTINGS_ABOUT);
     }};
 
-    public static final String SETTINGS_WRITE_FILE_TITLE = "Take a backup";
+    public static final String SETTINGS_WRITE_FILE_TITLE = "Backup";
     public static final String SETTINGS_READ_FILE_TITLE = "Restore from latest backup";
     public static final String SETTINGS_DELETE_ALL_TITLE = "Delete All";
 
