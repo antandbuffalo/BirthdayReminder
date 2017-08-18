@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.antandbuffalo.birthdayreminder.addnew.AddNew;
 import com.antandbuffalo.birthdayreminder.database.DBHelper;
 import com.antandbuffalo.birthdayreminder.database.DateOfBirthDBHelper;
+import com.antandbuffalo.birthdayreminder.database.OptionsDBHelper;
 import com.antandbuffalo.birthdayreminder.fragments.MyFragment;
 import com.antandbuffalo.birthdayreminder.notification.AlarmReceiver;
 import com.antandbuffalo.birthdayreminder.restore.RestoreBackup;
@@ -126,6 +127,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             }
         }
         Util.createEmptyFolder();
+
+        if(OptionsDBHelper.getNumberOfRows() != Constants.OPTIONS_TABLE_NUMBER_OF_ROWS) {
+            OptionsDBHelper.deleteAll();
+            OptionsDBHelper.insertDefaultValues();
+        }
     }
 
     public void setRepeatingAlarm() {

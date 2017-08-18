@@ -2,6 +2,7 @@ package com.antandbuffalo.birthdayreminder.database;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
@@ -21,7 +22,7 @@ import java.util.List;
  */
 public class OptionsDBHelper {
 
-    public static void insertDefaultValues(SQLiteDatabase db) {
+    public static void insertDefaultValues() {
         List<SettingsModel> data = new ArrayList();
         SettingsModel datum;
 
@@ -66,7 +67,7 @@ public class OptionsDBHelper {
             values.put(Constants.COLUMN_OPTION_TITLE, option.getTitle());
             values.put(Constants.COLUMN_OPTION_SUBTITLE, option.getSubTitle());
             values.put(Constants.COLUMN_OPTION_UPDATED_ON, Util.getStringFromDate(option.getUpdatedOn()));
-            db.insert(Constants.TABLE_OPTIONS, null, values); // Inserting Row
+            DBHelper.getInstace().getWritableDatabase().insert(Constants.TABLE_OPTIONS, null, values); // Inserting Row
         }
     }
 
@@ -134,5 +135,13 @@ public class OptionsDBHelper {
             } while (cursor.moveToNext());
         }
         return options;
+    }
+    public static String deleteAll() {
+        int numberOfRowsDeleted = DBHelper.deleteAll(Constants.TABLE_OPTIONS);
+        return Constants.NOTIFICATION_DELETE_1001;
+    }
+    public static long getNumberOfRows() {
+        long numberOfRows = DBHelper.getNumberOfRows(Constants.TABLE_OPTIONS);
+        return numberOfRows;
     }
 }

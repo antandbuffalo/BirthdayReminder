@@ -2,6 +2,7 @@ package com.antandbuffalo.birthdayreminder.database;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -39,10 +40,13 @@ public final class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         // TODO Auto-generated method stub
-        String CREATE_DOB_TABLE = "CREATE TABLE " + Constants.TABLE_DATE_OF_BIRTH + "(" + Constants.COLUMN_DOB_ID
-                + " INTEGER PRIMARY KEY autoincrement," + Constants.COLUMN_DOB_NAME + " TEXT NOT NULL,"
-                + Constants.COLUMN_DOB_DATE + " DATE NOT NULL" +")";
+        String CREATE_DOB_TABLE = "CREATE TABLE " + Constants.TABLE_DATE_OF_BIRTH
+                + "(" + Constants.COLUMN_DOB_ID + " INTEGER PRIMARY KEY autoincrement,"
+                + Constants.COLUMN_DOB_NAME + " TEXT NOT NULL,"
+                + Constants.COLUMN_DOB_DATE + " DATE NOT NULL"
+                +")";
         System.out.println("create query -- " + CREATE_DOB_TABLE);
+
 
         String CREATE_OPTION_TABLE = "CREATE TABLE " + Constants.TABLE_OPTIONS + "( "
                 + Constants.COLUMN_OPTION_CODE + " TEXT PRIMARY KEY, "
@@ -56,7 +60,7 @@ public final class DBHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_OPTION_TABLE);
 
         //inserting default values
-        OptionsDBHelper.insertDefaultValues(db);
+        //OptionsDBHelper.insertDefaultValues(db);
     }
 
     @Override
@@ -68,5 +72,19 @@ public final class DBHelper extends SQLiteOpenHelper {
 
         // Create tables again
         onCreate(db);
+    }
+
+    public static int deleteAll(String tableName) {
+        SQLiteDatabase db = DBHelper.getInstace().getWritableDatabase();
+        int numberOfRowsDeleted = db.delete(tableName, "1", null);
+        db.close();
+        Log.i("delete all", "Table name - " + tableName + " - return value - " + numberOfRowsDeleted);
+        return numberOfRowsDeleted;
+    }
+    public static long getNumberOfRows(String tableName) {
+        SQLiteDatabase db = DBHelper.getInstace().getReadableDatabase();
+        long cnt  = DatabaseUtils.queryNumEntries(db, tableName);
+        db.close();
+        return cnt;
     }
 }

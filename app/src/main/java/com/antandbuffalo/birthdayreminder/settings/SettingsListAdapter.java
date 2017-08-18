@@ -136,7 +136,7 @@ public class SettingsListAdapter extends BaseAdapter {
         }
         else if (cellType == Constants.SETTINGS_CELL_TYPE_1_LETTER) {
             dateField.setText(option.getTitle().substring(0, 1).toUpperCase());
-            if(option.getKey().equalsIgnoreCase(Constants.SETTINGS_DELETE_ALL)) {
+            if(option.getKey().equalsIgnoreCase(Constants.SETTINGS_DELETE_ALL) || option.getKey().equalsIgnoreCase(Constants.SETTINGS_READ_FILE) || option.getKey().equalsIgnoreCase(Constants.SETTINGS_WRITE_FILE)) {
                 circle.setBackgroundResource(R.drawable.cirlce_missed);
             }
             else {
@@ -162,6 +162,7 @@ public class SettingsListAdapter extends BaseAdapter {
     public int getCellType(SettingsModel option) {
         int returnValue = Constants.SETTINGS_CELL_TYPE_DATE;
 
+        /*
         if(Constants.SETTINGS_CELL_TYPE_1_LETTER_VALUES.contains(option.getKey())) {
             returnValue = Constants.SETTINGS_CELL_TYPE_1_LETTER;
         }
@@ -172,7 +173,14 @@ public class SettingsListAdapter extends BaseAdapter {
             else {
                 returnValue = Constants.SETTINGS_CELL_TYPE_DATE;
             }
+        }*/
+        if(option.getUpdatedOn() == null) {
+            returnValue = Constants.SETTINGS_CELL_TYPE_1_LETTER;
         }
+        else {
+            returnValue = Constants.SETTINGS_CELL_TYPE_DATE;
+        }
+
         return returnValue;
     }
 }

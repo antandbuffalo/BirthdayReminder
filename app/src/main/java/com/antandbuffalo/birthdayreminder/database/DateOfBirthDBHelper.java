@@ -317,15 +317,7 @@ public class DateOfBirthDBHelper {
     }
 
     public static String deleteAll() {
-        SQLiteDatabase db = DBHelper.getInstace().getWritableDatabase();
-
-//		String selectionQuery;
-//		selectionQuery = String.format("delete from %s", TABLE_DOB);
-//		System.out.println("query--" + selectionQuery);
-//		db.rawQuery(selectionQuery, null);
-        int returnValue = db.delete(Constants.TABLE_DATE_OF_BIRTH, null, null);
-        db.close();
-        Log.i("delete all", returnValue + "");
+        int numberOfRowsDeleted = DBHelper.deleteAll(Constants.TABLE_DATE_OF_BIRTH);
         return Constants.NOTIFICATION_DELETE_1001;
     }
 
