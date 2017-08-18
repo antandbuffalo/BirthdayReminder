@@ -20,12 +20,13 @@ public class Constants {
     public static final String COLUMN_DOB_ID = "DOB_ID";
     public static final String COLUMN_DOB_NAME = "NAME";
     public static final String COLUMN_DOB_DATE = "DOB_DATE";
-    public static final String KEY_DOB_EXTRA1 = "EXTRA1";
+    public static final String COLUMN_DOB_EXTRA = "EXTRA";
 
     public static final String COLUMN_OPTION_CODE = "OPTION_CODE";
     public static final String COLUMN_OPTION_TITLE = "TITLE";
     public static final String COLUMN_OPTION_SUBTITLE = "SUBTITLE";
     public static final String COLUMN_OPTION_UPDATED_ON = "UPDATED_ON";
+    public static final String COLUMN_OPTION_EXTRA = "EXTRA";
 
     public static final String DATE_FORMAT = "yyyy-MM-dd";
     public static final String ADD_NEW_DATE_FORMAT = "dd/MM/yyyy";
