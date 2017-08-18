@@ -102,4 +102,6 @@ public class Constants {
 
     public static final String PREFERENCE_NAME = "BirthdayReminder";
     public static final String TYPE_ADD_NEW = "AddNew";
+
+    public static final long OPTIONS_TABLE_NUMBER_OF_ROWS = 4;
 }

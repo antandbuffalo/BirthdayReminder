@@ -2,6 +2,7 @@ package com.antandbuffalo.birthdayreminder.database;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -56,7 +57,7 @@ public final class DBHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_OPTION_TABLE);
 
         //inserting default values
-        OptionsDBHelper.insertDefaultValues(db);
+        //OptionsDBHelper.insertDefaultValues(db);
     }
 
     @Override
@@ -68,5 +69,19 @@ public final class DBHelper extends SQLiteOpenHelper {
 
         // Create tables again
         onCreate(db);
+    }
+
+    public static int deleteAll(String tableName) {
+        SQLiteDatabase db = DBHelper.getInstace().getWritableDatabase();
+        int numberOfRowsDeleted = db.delete(tableName, "1", null);
+        db.close();
+        Log.i("delete all", "Table name - " + tableName + " - return value - " + numberOfRowsDeleted);
+        return numberOfRowsDeleted;
+    }
+    public static long getNumberOfRows(String tableName) {
+        SQLiteDatabase db = DBHelper.getInstace().getReadableDatabase();
+        long cnt  = DatabaseUtils.queryNumEntries(db, tableName);
+        db.close();
+        return cnt;
     }
 }
