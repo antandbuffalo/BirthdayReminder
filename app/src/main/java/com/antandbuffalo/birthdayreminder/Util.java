@@ -12,6 +12,9 @@ import android.widget.Toast;
 import com.antandbuffalo.birthdayreminder.database.DBHelper;
 import com.antandbuffalo.birthdayreminder.database.DateOfBirthDBHelper;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.File;
@@ -309,5 +312,38 @@ public class Util {
         // Get the text file
         File file = new File(sdcard, Constants.FOLDER_NAME + "/" + Constants.FILE_NAME + Constants.FILE_NAME_SUFFIX);
         return file.exists();
+    }
+
+    public static JSONObject validateAndSetExtra(JSONObject jsonObject, String key, String value) {
+        try {
+            jsonObject.put(key, value);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
+    public static JSONObject parseJSON(String givenString) {
+        JSONObject jsonObject = null;
+        if(givenString != null) {
+            try {
+                jsonObject = new JSONObject(givenString);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return jsonObject;
+    }
+    public static String getJsonValue(JSONObject jsonObject, String key) {
+        Log.i("obj -- ", jsonObject.toString());
+        Log.i("key -- ", key);
+        String value = null;
+        if(jsonObject.has(key)) {
+            try {
+                value = (String)jsonObject.get(key);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return value;
     }
 }
