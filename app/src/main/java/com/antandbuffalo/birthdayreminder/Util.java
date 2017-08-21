@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.antandbuffalo.birthdayreminder.database.DBHelper;
 import com.antandbuffalo.birthdayreminder.database.DateOfBirthDBHelper;
+import com.antandbuffalo.birthdayreminder.settings.SettingsModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -332,18 +333,5 @@ public class Util {
             }
         }
         return jsonObject;
-    }
-    public static String getJsonValue(JSONObject jsonObject, String key) {
-        Log.i("obj -- ", jsonObject.toString());
-        Log.i("key -- ", key);
-        String value = null;
-        if(jsonObject.has(key)) {
-            try {
-                value = (String)jsonObject.get(key);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        return value;
     }
 }

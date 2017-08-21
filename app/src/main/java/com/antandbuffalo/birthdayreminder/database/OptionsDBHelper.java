@@ -63,7 +63,7 @@ public class OptionsDBHelper {
         datum.setSubTitle("");
         //datum.setUpdatedOn(new Date());
         extraFields = new JSONObject();
-        Util.validateAndSetExtra(extraFields, "iconLetter", "A");
+        Util.validateAndSetExtra(extraFields, Constants.SETTINGS_ICON_LETTER, "A");
         datum.setExtra(extraFields.toString());
         data.add(datum);
 
@@ -141,7 +141,7 @@ public class OptionsDBHelper {
                 settingsModel.setSubTitle(cursor.getString(2));
                 settingsModel.setUpdatedOn(Util.getDateFromString(cursor.getString(3)));
                 settingsModel.setExtra(cursor.getString(4));
-                settingsModel.setExtraJson(Util.parseJSON(settingsModel.getExtra()));
+                //settingsModel.setExtraJson(Util.parseJSON(settingsModel.getExtra()));
 
                 // Adding contact to list
                 options.add(settingsModel);
@@ -156,5 +156,32 @@ public class OptionsDBHelper {
     public static long getNumberOfRows() {
         long numberOfRows = DBHelper.getNumberOfRows(Constants.TABLE_OPTIONS);
         return numberOfRows;
+    }
+    public static String getExtraValue(SettingsModel settingsModel, String key) {
+        System.out.println(settingsModel.getExtra());
+        System.out.println(key);
+        String returnValue = null;
+        if(settingsModel.getExtra() == null) {
+            returnValue = null;
+        }
+        else if(settingsModel.getExtraJson() == null) {
+            try {
+                settingsModel.setExtraJson(new JSONObject(settingsModel.getExtra()));
+                Log.i("summa ", (String)settingsModel.getExtraJson().get(key));
+                returnValue = (String)settingsModel.getExtraJson().get(key);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        else {
+            try {
+                returnValue = (String)settingsModel.getExtraJson().get(key);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        //Log.i("before return ", returnValue);
+        return returnValue;
     }
 }
