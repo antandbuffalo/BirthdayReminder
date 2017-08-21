@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.view.View;
 import android.widget.TextView;
 
+import com.antandbuffalo.birthdayreminder.BuildConfig;
 import com.antandbuffalo.birthdayreminder.R;
 
 public class About extends Activity {
@@ -14,6 +15,9 @@ public class About extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.about);
+
+        TextView version = (TextView)findViewById(R.id.version);
+        version.setText("Version " + BuildConfig.VERSION_NAME + " (" + BuildConfig.VERSION_CODE + ")");
 
         TextView contactUs = (TextView)findViewById(R.id.contactUs);
         contactUs.setOnClickListener(new View.OnClickListener() {
