@@ -2,6 +2,7 @@ package com.antandbuffalo.birthdayreminder.settings;
 
 import android.content.ComponentName;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -135,8 +136,10 @@ public class SettingsListAdapter extends BaseAdapter {
             desc.setText(description);
         }
         else if (cellType == Constants.SETTINGS_CELL_TYPE_1_LETTER) {
-            if(Util.getJsonValue(option.getExtraJson(), "iconLetter") != null) {
-                dateField.setText(Util.getJsonValue(option.getExtraJson(), "iconLetter"));
+            String extra = OptionsDBHelper.getExtraValue(option, Constants.SETTINGS_ICON_LETTER);
+            if(extra != null) {
+                Log.i("extr - ", extra);
+                dateField.setText(extra);
             }
             else {
                 dateField.setText(option.getTitle().substring(0, 1).toUpperCase());
