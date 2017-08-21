@@ -28,18 +28,13 @@ public class OptionsDBHelper {
     public static void insertDefaultValues() {
         List<SettingsModel> data = new ArrayList();
         SettingsModel datum;
+        JSONObject extraFields;
 
 //        datum = SettingsModel.newInstance();
 //        datum.setKey(Constants.TYPE_ADD_NEW);
 //        datum.setType("NORMAL");
 //        datum.setTitle("Add New");
 //        data.add(datum);
-        JSONObject sampleJson = new JSONObject();
-        try {
-            sampleJson.put("iconLetter", "A");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
 
         datum = SettingsModel.newInstance();
         datum.setKey(Constants.SETTINGS_WRITE_FILE);
@@ -67,6 +62,9 @@ public class OptionsDBHelper {
         datum.setTitle("About");
         datum.setSubTitle("");
         //datum.setUpdatedOn(new Date());
+        extraFields = new JSONObject();
+        Util.validateAndSetExtra(extraFields, "iconLetter", "A");
+        datum.setExtra(extraFields.toString());
         data.add(datum);
 
 
@@ -76,6 +74,7 @@ public class OptionsDBHelper {
             values.put(Constants.COLUMN_OPTION_TITLE, option.getTitle());
             values.put(Constants.COLUMN_OPTION_SUBTITLE, option.getSubTitle());
             values.put(Constants.COLUMN_OPTION_UPDATED_ON, Util.getStringFromDate(option.getUpdatedOn()));
+            values.put(Constants.COLUMN_OPTION_EXTRA, option.getExtra());
             DBHelper.getInstace().getWritableDatabase().insert(Constants.TABLE_OPTIONS, null, values); // Inserting Row
         }
     }
@@ -92,6 +91,7 @@ public class OptionsDBHelper {
         values.put(Constants.COLUMN_OPTION_TITLE, option.getTitle());
         values.put(Constants.COLUMN_OPTION_SUBTITLE, option.getSubTitle());
         values.put(Constants.COLUMN_OPTION_UPDATED_ON, Util.getStringFromDate(option.getUpdatedOn()));
+        values.put(Constants.COLUMN_OPTION_EXTRA, option.getExtra());
         long returnValue = db.insert(Constants.TABLE_OPTIONS, null, values); // Inserting Row
         db.close();
         return returnValue;
@@ -117,7 +117,8 @@ public class OptionsDBHelper {
                 + Constants.COLUMN_OPTION_CODE + ", "
                 + Constants.COLUMN_OPTION_TITLE + ", "
                 + Constants.COLUMN_OPTION_SUBTITLE + ", "
-                + Constants.COLUMN_OPTION_UPDATED_ON
+                + Constants.COLUMN_OPTION_UPDATED_ON + ", "
+                + Constants.COLUMN_OPTION_EXTRA
                 + " from "
                 + Constants.TABLE_OPTIONS;
 
@@ -139,6 +140,9 @@ public class OptionsDBHelper {
                 settingsModel.setTitle(cursor.getString(1));
                 settingsModel.setSubTitle(cursor.getString(2));
                 settingsModel.setUpdatedOn(Util.getDateFromString(cursor.getString(3)));
+                settingsModel.setExtra(cursor.getString(4));
+                settingsModel.setExtraJson(Util.parseJSON(settingsModel.getExtra()));
+
                 // Adding contact to list
                 options.add(settingsModel);
             } while (cursor.moveToNext());

@@ -135,7 +135,13 @@ public class SettingsListAdapter extends BaseAdapter {
             desc.setText(description);
         }
         else if (cellType == Constants.SETTINGS_CELL_TYPE_1_LETTER) {
-            dateField.setText(option.getTitle().substring(0, 1).toUpperCase());
+            if(Util.getJsonValue(option.getExtraJson(), "iconLetter") != null) {
+                dateField.setText(Util.getJsonValue(option.getExtraJson(), "iconLetter"));
+            }
+            else {
+                dateField.setText(option.getTitle().substring(0, 1).toUpperCase());
+            }
+
             if(option.getKey().equalsIgnoreCase(Constants.SETTINGS_DELETE_ALL) || option.getKey().equalsIgnoreCase(Constants.SETTINGS_READ_FILE) || option.getKey().equalsIgnoreCase(Constants.SETTINGS_WRITE_FILE)) {
                 circle.setBackgroundResource(R.drawable.cirlce_missed);
             }

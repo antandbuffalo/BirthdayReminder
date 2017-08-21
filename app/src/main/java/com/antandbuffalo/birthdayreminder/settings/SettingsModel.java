@@ -1,5 +1,8 @@
 package com.antandbuffalo.birthdayreminder.settings;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Date;
 
 /**
@@ -11,6 +14,8 @@ public class SettingsModel {
     private String subTitle;
     private Date updatedOn;
     private String type;
+    private String extra;
+    private JSONObject extraJson;
 
     public String getKey() {
         return key;
@@ -54,5 +59,21 @@ public class SettingsModel {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getExtra() {
+        return extra;
+    }
+
+    public void setExtra(String extra) {
+        this.extra = extra;
+    }
+
+    public JSONObject getExtraJson() {
+        return extraJson;
+    }
+
+    public void setExtraJson(JSONObject extraJson) {
+        this.extraJson = extraJson;
     }
 }
