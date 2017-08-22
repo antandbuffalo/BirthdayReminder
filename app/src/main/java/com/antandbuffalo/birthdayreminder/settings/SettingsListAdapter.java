@@ -138,7 +138,6 @@ public class SettingsListAdapter extends BaseAdapter {
         else if (cellType == Constants.SETTINGS_CELL_TYPE_1_LETTER) {
             String extra = OptionsDBHelper.getExtraValue(option, Constants.SETTINGS_ICON_LETTER);
             if(extra != null) {
-                Log.i("extr - ", extra);
                 dateField.setText(extra);
             }
             else {
