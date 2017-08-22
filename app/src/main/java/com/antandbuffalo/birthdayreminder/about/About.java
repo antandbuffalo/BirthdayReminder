@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.antandbuffalo.birthdayreminder.BuildConfig;
+import com.antandbuffalo.birthdayreminder.Constants;
 import com.antandbuffalo.birthdayreminder.R;
 
 public class About extends Activity {
@@ -26,7 +27,7 @@ public class About extends Activity {
                 Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
                 emailIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 emailIntent.setType("vnd.android.cursor.item/email");
-                emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[] {"antandbuffalo@gmail.com"});
+                emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{Constants.DEVELOPER_EMAIL});
                 emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Feedback of Birthday Reminder app");
                 //emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "");
                 startActivity(Intent.createChooser(emailIntent, "Send mail using..."));

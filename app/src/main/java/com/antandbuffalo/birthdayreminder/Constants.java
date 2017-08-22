@@ -106,4 +106,6 @@ public class Constants {
 
     public static final long OPTIONS_TABLE_NUMBER_OF_ROWS = 6;
     public static final String SETTINGS_ICON_LETTER = "SETTINGS_ICON_LETTER";
+
+    public static final String DEVELOPER_EMAIL = "antandbuffalo@gmail.com";
 }
