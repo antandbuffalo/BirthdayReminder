@@ -121,6 +121,7 @@ public class AddNew extends Activity {
                             alertDialogBuilder.show();
                         } else {
                             DateOfBirthDBHelper.insertDOB(dob);
+                            Util.updateFile(dob);
                             System.out.println("Inserted successfully");
                             clearInputs();
 
