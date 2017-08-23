@@ -108,4 +108,6 @@ public class Constants {
     public static final String SETTINGS_ICON_LETTER = "SETTINGS_ICON_LETTER";
 
     public static final String DEVELOPER_EMAIL = "antandbuffalo@gmail.com";
+
+    public static final String STATUS_FILE_APPEND_SUCCESS = "STATUS_FILE_APPEND_SUCCESS";
 }

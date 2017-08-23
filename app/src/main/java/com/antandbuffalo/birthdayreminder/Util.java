@@ -226,6 +226,47 @@ public class Util {
         }
         return returnValue;
     }
+
+    public static String updateFile(DateOfBirth dob) {
+        String returnValue = "";
+        String createFolderStatus = Util.createEmptyFolder();
+        if(!createFolderStatus.equalsIgnoreCase(Constants.FLAG_SUCCESS)) {
+            return createFolderStatus;
+        }
+        File sdcard = Environment.getExternalStorageDirectory();
+        long currentMillis = System.currentTimeMillis();
+        String fileName = "/" + Constants.FOLDER_NAME + "/" + Constants.FILE_NAME + Constants.FILE_NAME_SUFFIX;
+
+        File myFile = new File(sdcard, fileName);
+
+        try {
+            FileOutputStream fOut = new FileOutputStream(myFile, true);
+            OutputStreamWriter myOutWriter = new OutputStreamWriter(fOut);
+
+            String name = dob.getName().replace(" ", Constants.SPACE_REPLACER);
+
+            Calendar cal = getCalendar(dob.getDobDate());
+
+            String dobString = cal.get(Calendar.DATE) + " "
+                    + (cal.get(Calendar.MONTH) + 1) + " "
+                    + cal.get(Calendar.YEAR);
+            myOutWriter.append(name + " " + dobString);
+            myOutWriter.append("\n");
+
+            myOutWriter.close();
+            fOut.close();
+            System.out.println("Write successful");
+            returnValue = Constants.STATUS_FILE_APPEND_SUCCESS;
+
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            //Toast.makeText(DataHolder.getInstance().getAppContext(), Constants.ERROR_READ_WRITE_1003, Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+            returnValue = Constants.ERROR_UNKNOWN;
+        }
+        return returnValue;
+    }
+
     public static String readFromAssetFile(String defaultFileName) {
         try {
             //DateOfBirthDBHelper.deleteAll();
