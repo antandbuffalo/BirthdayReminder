@@ -158,8 +158,6 @@ public class OptionsDBHelper {
         return numberOfRows;
     }
     public static String getExtraValue(SettingsModel settingsModel, String key) {
-        System.out.println(settingsModel.getExtra());
-        System.out.println(key);
         String returnValue = null;
         if(settingsModel.getExtra() == null) {
             returnValue = null;
