@@ -340,6 +340,8 @@ public class Util {
         fileNames.put("myfamily", "myfamily.txt");
         fileNames.put("thuda family", "thudaFamily.txt");
         fileNames.put("thudafamily", "thudaFamily.txt");
+        fileNames.put("rengalla family", "rengallaFamily.txt");
+        fileNames.put("rengallafamily", "rengallaFamily.txt");
         if(fileNames.get(key) != null) {
             return fileNames.get(key);
         }

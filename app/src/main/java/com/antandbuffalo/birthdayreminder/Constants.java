@@ -76,7 +76,7 @@ public class Constants {
     }};
 
     public static final String SETTINGS_WRITE_FILE_TITLE = "Backup";
-    public static final String SETTINGS_READ_FILE_TITLE = "Restore from latest backup";
+    public static final String SETTINGS_READ_FILE_TITLE = "Restore";
     public static final String SETTINGS_DELETE_ALL_TITLE = "Delete All";
 
     public static final String SETTINGS_WRITE_FILE_SUB_TITLE = "Till now no backup files created";
@@ -104,10 +104,12 @@ public class Constants {
     public static final String PREFERENCE_NAME = "BirthdayReminder";
     public static final String TYPE_ADD_NEW = "AddNew";
 
-    public static final long OPTIONS_TABLE_NUMBER_OF_ROWS = 6;
+    public static final long OPTIONS_TABLE_NUMBER_OF_ROWS = 4;
     public static final String SETTINGS_ICON_LETTER = "SETTINGS_ICON_LETTER";
 
-    public static final String DEVELOPER_EMAIL = "antandbuffalo@gmail.com";
+    public static final String FEEDBACK_EMAIL = "antandbuffalo@gmail.com";
+    public static final String FEEDBACK_EMAIL_SUBJECT = "Feedback of Birthday Reminder app";
+    public static final String FEEDBACK_EMAIL_POPUP_MESSAGE = "Send email using...";
 
     public static final String STATUS_FILE_APPEND_SUCCESS = "STATUS_FILE_APPEND_SUCCESS";
 }
