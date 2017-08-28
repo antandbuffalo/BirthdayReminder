@@ -38,6 +38,8 @@ public class AddNew extends Activity {
         name = (EditText)findViewById(R.id.personName);
         datePicker = (DatePicker)findViewById(R.id.perosnDateOfBirth);
         datePicker.setMaxDate(new Date().getTime());
+//        Calendar currentDate = Util.getCalendar(new Date());
+//        datePicker.updateDate(currentDate.get(Calendar.YEAR) - 1, currentDate.get(Calendar.MONTH), currentDate.get(Calendar.DATE));
 
         datePicker.getCalendarView().setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
