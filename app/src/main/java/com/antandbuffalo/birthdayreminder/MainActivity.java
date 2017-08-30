@@ -125,16 +125,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 startActivityForResult(intent, Constants.ADD_NEW_MEMBER);
                 //loadBackupFile();
             }
-
-//            if(OptionsDBHelper.getNumberOfRows() != Constants.OPTIONS_TABLE_NUMBER_OF_ROWS) {
-//            }
-            OptionsDBHelper.deleteAll();
-            OptionsDBHelper.insertDefaultValues();
-
             SharedPreferences.Editor editor = settings.edit();
             editor.putBoolean("isSecondTime", true);
             editor.commit();
         }
+        OptionsDBHelper.populatePage();
         Util.createEmptyFolder();
 
     }

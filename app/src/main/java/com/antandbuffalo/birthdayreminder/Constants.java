@@ -1,6 +1,8 @@
 package com.antandbuffalo.birthdayreminder;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -27,7 +29,7 @@ public class Constants {
     public static final String COLUMN_OPTION_SUBTITLE = "SUBTITLE";
     public static final String COLUMN_OPTION_UPDATED_ON = "UPDATED_ON";
     public static final String COLUMN_OPTION_EXTRA = "EXTRA";
-    public static final String COLUMN_OPTION_S_NO = "S_NO";
+    public static final String COLUMN_OPTION_SNO = "SNO";
 
     public static final String DATE_FORMAT = "yyyy-MM-dd";
     public static final String ADD_NEW_DATE_FORMAT = "dd/MM/yyyy";
@@ -59,7 +61,16 @@ public class Constants {
     public static final String SETTINGS_READ_FILE = "READ_FILE";
     public static final String SETTINGS_DELETE_ALL = "DELETE_ALL";
     public static final String SETTINGS_ABOUT = "ABOUT";
-    public static final String SETTINGS_LIST_ORDER = "SETTINGS_LIST_ORDER";
+    public static final String SETTINGS_TODAY = "SETTINGS_TODAY";
+
+    public static final Map<String, Integer> OPIONS_SNO_MAPPER = new HashMap<String, Integer>() {{
+        put(SETTINGS_WRITE_FILE, 1);
+        put(SETTINGS_READ_FILE, 2);
+        put(SETTINGS_DELETE_ALL, 3);
+        put(SETTINGS_TODAY, 4);
+        put(SETTINGS_ABOUT, 5);
+    }};
+
 
     public static final int SETTINGS_CELL_TYPE_DATE = 0;
     public static final int SETTINGS_CELL_TYPE_1_LETTER = 1;
@@ -106,7 +117,7 @@ public class Constants {
     public static final String PREFERENCE_NAME = "BirthdayReminder";
     public static final String TYPE_ADD_NEW = "AddNew";
 
-    public static final long OPTIONS_TABLE_NUMBER_OF_ROWS = 4;
+    public static final long OPTIONS_TABLE_NUMBER_OF_ROWS = 5;
     public static final String SETTINGS_ICON_LETTER = "SETTINGS_ICON_LETTER";
 
     public static final String FEEDBACK_EMAIL = "antandbuffalo@gmail.com";

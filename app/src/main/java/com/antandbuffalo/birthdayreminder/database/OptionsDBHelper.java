@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import com.antandbuffalo.birthdayreminder.Constants;
@@ -25,7 +26,7 @@ import java.util.List;
  */
 public class OptionsDBHelper {
 
-    public static void insertDefaultValues() {
+    public static List getDefatultValues() {
         List<SettingsModel> data = new ArrayList();
         SettingsModel datum;
         JSONObject extraFields;
@@ -41,6 +42,7 @@ public class OptionsDBHelper {
         datum.setTitle(Constants.SETTINGS_WRITE_FILE_TITLE);
         datum.setSubTitle(Constants.SETTINGS_WRITE_FILE_SUB_TITLE);
         //datum.setUpdatedOn(new Date());
+        datum.setSno(1);
         data.add(datum);
 
         datum = SettingsModel.newInstance();
@@ -48,6 +50,7 @@ public class OptionsDBHelper {
         datum.setTitle(Constants.SETTINGS_READ_FILE_TITLE);
         datum.setSubTitle(Constants.SETTINGS_READ_FILE_SUB_TITLE);
         //datum.setUpdatedOn(new Date());
+        datum.setSno(2);
         data.add(datum);
 
         datum = SettingsModel.newInstance();
@@ -55,6 +58,7 @@ public class OptionsDBHelper {
         datum.setTitle(Constants.SETTINGS_DELETE_ALL_TITLE);
         datum.setSubTitle("");
         //datum.setUpdatedOn(new Date());
+        datum.setSno(3);
         data.add(datum);
 
         datum = SettingsModel.newInstance();
@@ -63,8 +67,8 @@ public class OptionsDBHelper {
         datum.setSubTitle("");
         extraFields = new JSONObject();
         Util.validateAndSetExtra(extraFields, Constants.SETTINGS_ICON_LETTER, "T");
-        Util.validateAndSetExtra(extraFields, Constants.SETTINGS_LIST_ORDER, "4");
         datum.setExtra(extraFields.toString());
+        datum.setSno(4);
         data.add(datum);
 
         datum = SettingsModel.newInstance();
@@ -75,8 +79,12 @@ public class OptionsDBHelper {
         extraFields = new JSONObject();
         Util.validateAndSetExtra(extraFields, Constants.SETTINGS_ICON_LETTER, "A");
         datum.setExtra(extraFields.toString());
+        datum.setSno(5);
         data.add(datum);
-
+        return data;
+    }
+    public static void insertDefaultValues() {
+        List<SettingsModel> data = getDefatultValues();
         for(SettingsModel option : data) {
             ContentValues values = new ContentValues();
             values.put(Constants.COLUMN_OPTION_CODE, option.getKey());
@@ -84,6 +92,7 @@ public class OptionsDBHelper {
             values.put(Constants.COLUMN_OPTION_SUBTITLE, option.getSubTitle());
             values.put(Constants.COLUMN_OPTION_UPDATED_ON, Util.getStringFromDate(option.getUpdatedOn()));
             values.put(Constants.COLUMN_OPTION_EXTRA, option.getExtra());
+            values.put(Constants.COLUMN_OPTION_SNO, option.getSno());
             DBHelper.getInstace().getWritableDatabase().insert(Constants.TABLE_OPTIONS, null, values); // Inserting Row
         }
     }
@@ -127,9 +136,10 @@ public class OptionsDBHelper {
                 + Constants.COLUMN_OPTION_TITLE + ", "
                 + Constants.COLUMN_OPTION_SUBTITLE + ", "
                 + Constants.COLUMN_OPTION_UPDATED_ON + ", "
-                + Constants.COLUMN_OPTION_EXTRA
+                + Constants.COLUMN_OPTION_EXTRA + ", "
+                + Constants.COLUMN_OPTION_SNO
                 + " from "
-                + Constants.TABLE_OPTIONS;
+                + Constants.TABLE_OPTIONS + " ORDER BY " + Constants.COLUMN_OPTION_SNO;
 
         System.out.println("query-- select all options --- " + selectionQuery);
         SQLiteDatabase db = DBHelper.getInstace().getReadableDatabase();
@@ -190,5 +200,39 @@ public class OptionsDBHelper {
 
         //Log.i("before return ", returnValue);
         return returnValue;
+    }
+
+    public static void updateSNO(SQLiteDatabase db) {
+        List<SettingsModel> data = getDefatultValues();
+        for(SettingsModel option : data) {
+            ContentValues values = new ContentValues();
+            values.put(Constants.COLUMN_OPTION_SNO, Constants.OPIONS_SNO_MAPPER.get(option.getKey()));
+            String where = Constants.COLUMN_OPTION_CODE + " = ?";
+            db.update(Constants.TABLE_OPTIONS, values, where, new String[]{option.getKey()});
+        }
+    }
+
+    public static void populatePage() {
+        List<SettingsModel> data = getDefatultValues();
+        long totalRows = OptionsDBHelper.getNumberOfRows();
+        if(totalRows == 0) {
+            OptionsDBHelper.insertDefaultValues();
+        }
+        else {
+            if(totalRows != Constants.OPTIONS_TABLE_NUMBER_OF_ROWS) {
+                List<SettingsModel> options = selectAll();
+                for(SettingsModel defaultOption : data) {
+                    boolean isAlreadyInDB = false;
+                    for(SettingsModel option : options) {
+                        if(defaultOption.getKey().equalsIgnoreCase(option.getKey())) {
+                            isAlreadyInDB = true;
+                        }
+                    }
+                    if(!isAlreadyInDB) {
+                        insertOption(defaultOption);
+                    }
+                }
+            }
+        }
     }
 }
