@@ -58,6 +58,16 @@ public class OptionsDBHelper {
         data.add(datum);
 
         datum = SettingsModel.newInstance();
+        datum.setKey("TODAY_RECENTLY_FINISHED");
+        datum.setTitle("Modify Today Section");
+        datum.setSubTitle("");
+        extraFields = new JSONObject();
+        Util.validateAndSetExtra(extraFields, Constants.SETTINGS_ICON_LETTER, "T");
+        Util.validateAndSetExtra(extraFields, Constants.SETTINGS_LIST_ORDER, "4");
+        datum.setExtra(extraFields.toString());
+        data.add(datum);
+
+        datum = SettingsModel.newInstance();
         datum.setKey(Constants.SETTINGS_ABOUT);
         datum.setTitle("About");
         datum.setSubTitle("");
@@ -66,7 +76,6 @@ public class OptionsDBHelper {
         Util.validateAndSetExtra(extraFields, Constants.SETTINGS_ICON_LETTER, "A");
         datum.setExtra(extraFields.toString());
         data.add(datum);
-
 
         for(SettingsModel option : data) {
             ContentValues values = new ContentValues();

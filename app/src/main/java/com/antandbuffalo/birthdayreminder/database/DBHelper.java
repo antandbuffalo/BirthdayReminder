@@ -56,7 +56,8 @@ public final class DBHelper extends SQLiteOpenHelper {
                 + Constants.COLUMN_OPTION_TITLE + " TEXT, "
                 + Constants.COLUMN_OPTION_SUBTITLE + " TEXT, "
                 + Constants.COLUMN_OPTION_UPDATED_ON + " DATE, "
-                + Constants.COLUMN_OPTION_EXTRA + " TEXT"
+                + Constants.COLUMN_OPTION_EXTRA + " TEXT, "
+                + Constants.COLUMN_OPTION_S_NO+ " INTEGER"
                 +")";
         System.out.println("create option table query -- " + CREATE_OPTION_TABLE);
 
@@ -68,14 +69,17 @@ public final class DBHelper extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int arg1, int arg2) {
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // TODO Auto-generated method stub
+        String addSNOInOptions = "ALTER TABLE " + Constants.TABLE_OPTIONS + " ADD COLUMN " + Constants.COLUMN_OPTION_S_NO + " INTEGER";
+        if(oldVersion == 1 && newVersion == Constants.DATABASE_VERSION) {
+            db.execSQL(addSNOInOptions);
+        }
         // Drop older table if existed
-        db.execSQL("DROP TABLE IF EXISTS " + Constants.TABLE_DATE_OF_BIRTH);
-        db.execSQL("DROP TABLE IF EXISTS " + Constants.TABLE_OPTIONS);
-
-        // Create tables again
-        onCreate(db);
+//        db.execSQL("DROP TABLE IF EXISTS " + Constants.TABLE_DATE_OF_BIRTH);
+//        db.execSQL("DROP TABLE IF EXISTS " + Constants.TABLE_OPTIONS);
+//        // Create tables again
+//        onCreate(db);
     }
 
     public static int deleteAll(String tableName) {

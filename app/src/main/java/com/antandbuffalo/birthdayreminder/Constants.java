@@ -10,7 +10,7 @@ public class Constants {
 
     // Database Name
     public static final String DATABASE_NAME = "BirthdayReminder";
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
 
     // Contacts table name
     public static final String TABLE_DATE_OF_BIRTH = "DATE_OF_BIRTH";
@@ -27,6 +27,7 @@ public class Constants {
     public static final String COLUMN_OPTION_SUBTITLE = "SUBTITLE";
     public static final String COLUMN_OPTION_UPDATED_ON = "UPDATED_ON";
     public static final String COLUMN_OPTION_EXTRA = "EXTRA";
+    public static final String COLUMN_OPTION_S_NO = "S_NO";
 
     public static final String DATE_FORMAT = "yyyy-MM-dd";
     public static final String ADD_NEW_DATE_FORMAT = "dd/MM/yyyy";
@@ -58,6 +59,7 @@ public class Constants {
     public static final String SETTINGS_READ_FILE = "READ_FILE";
     public static final String SETTINGS_DELETE_ALL = "DELETE_ALL";
     public static final String SETTINGS_ABOUT = "ABOUT";
+    public static final String SETTINGS_LIST_ORDER = "SETTINGS_LIST_ORDER";
 
     public static final int SETTINGS_CELL_TYPE_DATE = 0;
     public static final int SETTINGS_CELL_TYPE_1_LETTER = 1;

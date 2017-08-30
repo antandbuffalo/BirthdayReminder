@@ -50,9 +50,9 @@ public class RestoreBackup extends Activity {
 //                }
                 intent.putExtra(Constants.IS_USER_ADDED, Constants.FLAG_FAILURE.toString());
                 setResult(RESULT_OK, intent);
-                loadedFirstTime();
                 Toast toast = Toast.makeText(getApplicationContext(), Constants.NOTIFICATION_SUCCESS_DATA_LOAD, Toast.LENGTH_SHORT);
                 toast.show();
+                finish();
             }
         });
 
@@ -61,7 +61,6 @@ public class RestoreBackup extends Activity {
             public void onClick(View v) {
                 intent.putExtra(Constants.IS_USER_ADDED, Constants.FLAG_FAILURE.toString());
                 setResult(RESULT_OK, intent);
-                loadedFirstTime();
                 finish();
             }
         });
@@ -70,13 +69,5 @@ public class RestoreBackup extends Activity {
     public void onBackPressed() {
         intent.putExtra(Constants.IS_USER_ADDED, Constants.FLAG_FAILURE.toString());
         setResult(RESULT_OK, intent);
-        loadedFirstTime();
-    }
-    public void loadedFirstTime() {
-        SharedPreferences settings = getSharedPreferences(Constants.PREFERENCE_NAME, 0);
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putBoolean("isSecondTime", true);
-        editor.commit();
-        finish();
     }
 }
