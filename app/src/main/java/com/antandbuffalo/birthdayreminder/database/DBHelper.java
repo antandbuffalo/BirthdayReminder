@@ -76,9 +76,9 @@ public final class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // TODO Auto-generated method stub
-        String addSNOInOptions = "ALTER TABLE " + Constants.TABLE_OPTIONS + " ADD COLUMN " + Constants.COLUMN_OPTION_SNO + " INTEGER";
+        String addSNOColumn = "ALTER TABLE " + Constants.TABLE_OPTIONS + " ADD COLUMN " + Constants.COLUMN_OPTION_SNO + " INTEGER";
         if(oldVersion == 1 && newVersion == Constants.DATABASE_VERSION) {
-            db.execSQL(addSNOInOptions);
+            db.execSQL(addSNOColumn);
             OptionsDBHelper.updateSNO(db);
         }
 

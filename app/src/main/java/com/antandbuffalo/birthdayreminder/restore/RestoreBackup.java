@@ -20,6 +20,7 @@ import com.antandbuffalo.birthdayreminder.DateOfBirth;
 import com.antandbuffalo.birthdayreminder.R;
 import com.antandbuffalo.birthdayreminder.Util;
 import com.antandbuffalo.birthdayreminder.database.DateOfBirthDBHelper;
+import com.antandbuffalo.birthdayreminder.settings.SettingsModel;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -52,6 +53,13 @@ public class RestoreBackup extends Activity {
                 setResult(RESULT_OK, intent);
                 Toast toast = Toast.makeText(getApplicationContext(), Constants.NOTIFICATION_SUCCESS_DATA_LOAD, Toast.LENGTH_SHORT);
                 toast.show();
+
+                SettingsModel datum = SettingsModel.newInstance();
+                datum.setKey(Constants.SETTINGS_READ_FILE);
+                datum.setTitle(Constants.SETTINGS_READ_FILE_TITLE);
+                datum.setSno(2);
+                Util.updateRestoreTime(datum);
+
                 finish();
             }
         });

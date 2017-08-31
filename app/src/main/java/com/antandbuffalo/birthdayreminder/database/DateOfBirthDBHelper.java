@@ -194,15 +194,18 @@ public class DateOfBirthDBHelper {
 
     public static List selectTodayAndBelated() {
         String selectionQuery;
-        java.sql.Date today = new java.sql.Date(new Date().getTime());
-        Calendar cal = Calendar.getInstance();
-        int currentDayOfYear = Integer.parseInt(Util.getStringFromDate(new Date(), Constants.DAY_OF_YEAR));
-        cal.setTime(new Date());
         SharedPreferences sharedPreferences = Util.getSharedPreference();
         int recentDuration = sharedPreferences.getInt(Constants.PREFERENCE_RECENT_DAYS_TODAY, 0);
 
+        Calendar cal = Calendar.getInstance();
+        int currentDayOfYear = Integer.parseInt(Util.getStringFromDate(new Date(), Constants.DAY_OF_YEAR));
+        cal.setTime(new Date());
         cal.add(Calendar.DATE, -recentDuration);
         int belatedDate = Integer.parseInt(Util.getStringFromDate(cal.getTime(), Constants.DAY_OF_YEAR));
+
+        java.sql.Date today = new java.sql.Date(new Date().getTime());
+        java.sql.Date todayRecent = new java.sql.Date(cal.getTimeInMillis());
+
         if(belatedDate > currentDayOfYear) {
             selectionQuery = "select " + Constants.COLUMN_DOB_ID + ", "
                     + Constants.COLUMN_DOB_NAME + ", "
@@ -233,10 +236,10 @@ public class DateOfBirthDBHelper {
                     + Constants.COLUMN_DOB_DATE + ", "
                     + "cast(strftime('%m%d', "
                     + Constants.COLUMN_DOB_DATE + ") as int) as day from "
-                    + Constants.TABLE_DATE_OF_BIRTH + " where day >= (cast(strftime('%m%d', '"
-                    + today
-                    + "') as int) - "
-                    + recentDuration + ") AND day <= cast(strftime('%m%d', '"
+                    + Constants.TABLE_DATE_OF_BIRTH + " where day >= cast(strftime('%m%d', '"
+                    + todayRecent
+                    + "') as int)"
+                    + " AND day <= cast(strftime('%m%d', '"
                     + today
                     + "') as int) order by day desc";
         }

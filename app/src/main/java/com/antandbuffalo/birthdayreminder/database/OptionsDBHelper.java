@@ -86,19 +86,9 @@ public class OptionsDBHelper {
     public static void insertDefaultValues() {
         List<SettingsModel> data = getDefatultValues();
         for(SettingsModel option : data) {
-            ContentValues values = new ContentValues();
-            values.put(Constants.COLUMN_OPTION_CODE, option.getKey());
-            values.put(Constants.COLUMN_OPTION_TITLE, option.getTitle());
-            values.put(Constants.COLUMN_OPTION_SUBTITLE, option.getSubTitle());
-            values.put(Constants.COLUMN_OPTION_UPDATED_ON, Util.getStringFromDate(option.getUpdatedOn()));
-            values.put(Constants.COLUMN_OPTION_EXTRA, option.getExtra());
-            values.put(Constants.COLUMN_OPTION_SNO, option.getSno());
-            DBHelper.getInstace().getWritableDatabase().insert(Constants.TABLE_OPTIONS, null, values); // Inserting Row
+            long status = insertOption(option);
+            Log.i("Option insertition", status + "");
         }
-    }
-
-    public static long addOptions(SettingsModel option) {
-        return insertOption(option);
     }
 
     public static long insertOption(SettingsModel option) {
@@ -110,6 +100,7 @@ public class OptionsDBHelper {
         values.put(Constants.COLUMN_OPTION_SUBTITLE, option.getSubTitle());
         values.put(Constants.COLUMN_OPTION_UPDATED_ON, Util.getStringFromDate(option.getUpdatedOn()));
         values.put(Constants.COLUMN_OPTION_EXTRA, option.getExtra());
+        values.put(Constants.COLUMN_OPTION_SNO, option.getSno());
         long returnValue = db.insert(Constants.TABLE_OPTIONS, null, values); // Inserting Row
         db.close();
         return returnValue;
@@ -139,7 +130,7 @@ public class OptionsDBHelper {
                 + Constants.COLUMN_OPTION_EXTRA + ", "
                 + Constants.COLUMN_OPTION_SNO
                 + " from "
-                + Constants.TABLE_OPTIONS + " ORDER BY " + Constants.COLUMN_OPTION_SNO;
+                + Constants.TABLE_OPTIONS + " ORDER BY " + Constants.COLUMN_OPTION_SNO + " ASC";
 
         System.out.println("query-- select all options --- " + selectionQuery);
         SQLiteDatabase db = DBHelper.getInstace().getReadableDatabase();

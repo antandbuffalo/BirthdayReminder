@@ -57,15 +57,11 @@ public class Settings extends MyFragment {
                 SettingsModel option = settingsListAdapter.listData.get(position);
                 if (option.getKey().equalsIgnoreCase(Constants.SETTINGS_WRITE_FILE)) {
                     Toast.makeText(inflater.getContext(), Util.writeToFile(), Toast.LENGTH_SHORT).show();
-                    option.setSubTitle("Last backup was");
-                    option.setUpdatedOn(new Date());
-                    OptionsDBHelper.updateOption(option);
+                    Util.updateBackupTime(option);
                     settingsListAdapter.refreshData();
                 } else if (option.getKey().equalsIgnoreCase(Constants.SETTINGS_READ_FILE)) {
                     Toast.makeText(inflater.getContext(), Util.readFromFile(Constants.FILE_NAME), Toast.LENGTH_SHORT).show();
-                    option.setSubTitle("Data was loaded");
-                    option.setUpdatedOn(new Date());
-                    OptionsDBHelper.updateOption(option);
+                    Util.updateRestoreTime(option);
                     settingsListAdapter.refreshData();
                     for (int i = 0; i < DataHolder.getInstance().refreshTracker.size(); i++) {
                         DataHolder.getInstance().refreshTracker.set(i, true);
