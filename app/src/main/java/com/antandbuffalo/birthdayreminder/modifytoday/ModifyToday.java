@@ -30,6 +30,7 @@ public class ModifyToday extends Activity {
         numberPicker.setWrapSelectorWheel(true);
         numberPicker.setMaxValue(10);
         numberPicker.setMinValue(0);
+        numberPicker.setWrapSelectorWheel(false);
 
         int recentDays = settings.getInt(Constants.PREFERENCE_RECENT_DAYS_TODAY, 0);
         numberPicker.setValue(recentDays);

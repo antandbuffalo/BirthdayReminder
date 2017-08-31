@@ -140,7 +140,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 123,
                 intent, PendingIntent.FLAG_CANCEL_CURRENT);
         Calendar calendar = Calendar.getInstance();
-        // 9 AM
+        // 12:00 AM
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
