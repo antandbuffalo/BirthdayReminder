@@ -2,11 +2,13 @@ package com.antandbuffalo.birthdayreminder.database;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.antandbuffalo.birthdayreminder.Constants;
+import com.antandbuffalo.birthdayreminder.DataHolder;
 import com.antandbuffalo.birthdayreminder.DateOfBirth;
 import com.antandbuffalo.birthdayreminder.Util;
 
@@ -196,7 +198,10 @@ public class DateOfBirthDBHelper {
         Calendar cal = Calendar.getInstance();
         int currentDayOfYear = Integer.parseInt(Util.getStringFromDate(new Date(), Constants.DAY_OF_YEAR));
         cal.setTime(new Date());
-        cal.add(Calendar.DATE, -Constants.RECENT_DURATION);
+        SharedPreferences sharedPreferences = Util.getSharedPreference();
+        int recentDuration = sharedPreferences.getInt(Constants.PREFERENCE_RECENT_DAYS_TODAY, 0);
+
+        cal.add(Calendar.DATE, -recentDuration);
         int belatedDate = Integer.parseInt(Util.getStringFromDate(cal.getTime(), Constants.DAY_OF_YEAR));
         if(belatedDate > currentDayOfYear) {
             selectionQuery = "select " + Constants.COLUMN_DOB_ID + ", "
@@ -219,7 +224,7 @@ public class DateOfBirthDBHelper {
                     + Constants.TABLE_DATE_OF_BIRTH + " where day >= cast(strftime('%m%d', date('"
                     + today
                     + "', '"
-                    + (-Constants.RECENT_DURATION)
+                    + (-recentDuration)
                     +" day')) as int) order by TYPE, day desc";
         }
         else {
@@ -231,7 +236,7 @@ public class DateOfBirthDBHelper {
                     + Constants.TABLE_DATE_OF_BIRTH + " where day >= (cast(strftime('%m%d', '"
                     + today
                     + "') as int) - "
-                    + Constants.RECENT_DURATION + ") AND day <= cast(strftime('%m%d', '"
+                    + recentDuration + ") AND day <= cast(strftime('%m%d', '"
                     + today
                     + "') as int) order by day desc";
         }

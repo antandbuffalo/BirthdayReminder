@@ -118,7 +118,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         setRepeatingAlarm();
 
         SharedPreferences settings = getSharedPreferences(Constants.PREFERENCE_NAME, 0);
-        Boolean isSecondTime = settings.getBoolean("isSecondTime", false);
+        Boolean isSecondTime = settings.getBoolean(Constants.PREFERENCE_IS_SECONDTIME, false);
         if(!isSecondTime) {
             if(Util.isBackupFileFound()) {
                 Intent intent = new Intent(getApplicationContext(), RestoreBackup.class);
@@ -126,7 +126,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 //loadBackupFile();
             }
             SharedPreferences.Editor editor = settings.edit();
-            editor.putBoolean("isSecondTime", true);
+            editor.putBoolean(Constants.PREFERENCE_IS_SECONDTIME, true);
             editor.commit();
         }
         OptionsDBHelper.populatePage();

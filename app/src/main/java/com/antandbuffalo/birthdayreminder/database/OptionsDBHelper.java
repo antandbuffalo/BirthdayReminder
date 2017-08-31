@@ -62,7 +62,7 @@ public class OptionsDBHelper {
         data.add(datum);
 
         datum = SettingsModel.newInstance();
-        datum.setKey("TODAY_RECENTLY_FINISHED");
+        datum.setKey(Constants.SETTINGS_MODIFY_TODAY);
         datum.setTitle("Modify Today Section");
         datum.setSubTitle("");
         extraFields = new JSONObject();

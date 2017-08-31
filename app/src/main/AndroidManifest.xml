@@ -45,7 +45,10 @@
             android:label="@string/title_activity_update" />
         <activity
             android:name=".about.About"
-            android:label="@string/title_activity_about"></activity>
+            android:label="@string/title_activity_about" />
+        <activity
+            android:name=".modifytoday.ModifyToday"
+            android:label="@string/title_activity_modify_today"></activity>
     </application>
 
 </manifest>

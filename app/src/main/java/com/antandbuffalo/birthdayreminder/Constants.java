@@ -61,13 +61,13 @@ public class Constants {
     public static final String SETTINGS_READ_FILE = "READ_FILE";
     public static final String SETTINGS_DELETE_ALL = "DELETE_ALL";
     public static final String SETTINGS_ABOUT = "ABOUT";
-    public static final String SETTINGS_TODAY = "SETTINGS_TODAY";
+    public static final String SETTINGS_MODIFY_TODAY = "SETTINGS_MODIFY_TODAY";
 
     public static final Map<String, Integer> OPIONS_SNO_MAPPER = new HashMap<String, Integer>() {{
         put(SETTINGS_WRITE_FILE, 1);
         put(SETTINGS_READ_FILE, 2);
         put(SETTINGS_DELETE_ALL, 3);
-        put(SETTINGS_TODAY, 4);
+        put(SETTINGS_MODIFY_TODAY, 4);
         put(SETTINGS_ABOUT, 5);
     }};
 
@@ -115,6 +115,9 @@ public class Constants {
     public static final String OK = "OK";
 
     public static final String PREFERENCE_NAME = "BirthdayReminder";
+    public static final String PREFERENCE_IS_SECONDTIME = "isSecondTime";
+    public static final String PREFERENCE_RECENT_DAYS_TODAY = "PREFERENCE_RECENT_DAYS_TODAY";
+
     public static final String TYPE_ADD_NEW = "AddNew";
 
     public static final long OPTIONS_TABLE_NUMBER_OF_ROWS = 5;

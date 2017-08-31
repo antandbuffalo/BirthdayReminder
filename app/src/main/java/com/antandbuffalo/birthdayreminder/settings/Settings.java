@@ -24,6 +24,7 @@ import com.antandbuffalo.birthdayreminder.about.About;
 import com.antandbuffalo.birthdayreminder.database.DateOfBirthDBHelper;
 import com.antandbuffalo.birthdayreminder.database.OptionsDBHelper;
 import com.antandbuffalo.birthdayreminder.fragments.MyFragment;
+import com.antandbuffalo.birthdayreminder.modifytoday.ModifyToday;
 
 import java.util.Date;
 import java.util.List;
@@ -86,6 +87,9 @@ public class Settings extends MyFragment {
                             })
                             .setNegativeButton("No", null)
                             .show();
+                } else if (option.getKey().equalsIgnoreCase(Constants.SETTINGS_MODIFY_TODAY)) {
+                    Intent intent = new Intent(view.getContext(), ModifyToday.class);
+                    startActivity(intent);
                 } else if (option.getKey().equalsIgnoreCase(Constants.SETTINGS_ABOUT)) {
                     Intent intent = new Intent(view.getContext(), About.class);
                     startActivity(intent);

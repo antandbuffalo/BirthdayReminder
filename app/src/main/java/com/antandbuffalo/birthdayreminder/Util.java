@@ -2,6 +2,7 @@ package com.antandbuffalo.birthdayreminder;
 
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.database.Cursor;
@@ -376,5 +377,10 @@ public class Util {
             }
         }
         return jsonObject;
+    }
+
+    public static SharedPreferences getSharedPreference() {
+        SharedPreferences settings = DataHolder.getInstance().getAppContext().getSharedPreferences(Constants.PREFERENCE_NAME, 0);
+        return settings;
     }
 }
