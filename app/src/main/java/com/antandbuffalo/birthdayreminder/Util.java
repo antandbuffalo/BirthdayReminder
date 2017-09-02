@@ -119,7 +119,11 @@ public class Util {
         Calendar birthDate = getCalendar(date);
         Calendar currentDate = getCalendar(new Date());
         int age = currentDate.get(Calendar.YEAR) - birthDate.get(Calendar.YEAR);
-        if(currentDate.get(Calendar.DAY_OF_YEAR) <= birthDate.get(Calendar.DAY_OF_YEAR)) {
+
+        int currentDayInNumber = Integer.parseInt(Util.getStringFromDate(currentDate.getTime(), Constants.DAY_OF_YEAR));
+        int birthDayInNumber = Integer.parseInt(Util.getStringFromDate(birthDate.getTime(), Constants.DAY_OF_YEAR));
+
+        if(currentDayInNumber < birthDayInNumber) {
             age--;
         }
         return age;
@@ -397,5 +401,14 @@ public class Util {
         option.setSubTitle("Last restore was");
         option.setUpdatedOn(new Date());
         OptionsDBHelper.updateOption(option);
+    }
+    public static void setDescription(DateOfBirth dob, String info) {
+        if(dob.getAge() <= 1) {
+            //dob.setAge(0);
+            dob.setDescription(info + ": " + dob.getAge() + " year");
+        }
+        else {
+            dob.setDescription(info + ": " + dob.getAge() + " years");
+        }
     }
 }

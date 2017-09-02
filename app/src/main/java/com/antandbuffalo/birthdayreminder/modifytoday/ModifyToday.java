@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.NumberPicker;
+import android.widget.Toast;
 
 import com.antandbuffalo.birthdayreminder.Constants;
 import com.antandbuffalo.birthdayreminder.R;
@@ -49,6 +50,8 @@ public class ModifyToday extends Activity {
                 SharedPreferences.Editor editor = settings.edit();
                 editor.putInt(Constants.PREFERENCE_RECENT_DAYS_TODAY, numberPicker.getValue());
                 editor.commit();
+                Toast toast = Toast.makeText(getApplicationContext(), Constants.NOTIFICATION_SUCCESSFULLY_UPDATED, Toast.LENGTH_SHORT);
+                toast.show();
                 finish();
             }
         });
@@ -77,13 +80,13 @@ public class ModifyToday extends Activity {
                     return true;
                 }
                 catch(NoSuchFieldException e){
-                    Log.w("setNumberPickerTextColor", e);
+                    Log.w("setNumberPickerTextCol", e);
                 }
                 catch(IllegalAccessException e){
-                    Log.w("setNumberPickerTextColor", e);
+                    Log.w("setNumberPickerTextCol", e);
                 }
                 catch(IllegalArgumentException e){
-                    Log.w("setNumberPickerTextColor", e);
+                    Log.w("setNumberPickerTextC", e);
                 }
             }
         }

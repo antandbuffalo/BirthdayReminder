@@ -70,8 +70,9 @@ public class TodayListAdapter extends BaseAdapter {
         TextView yearField = (TextView)convertView.findViewById(R.id.yearField);
 
         DateOfBirth dob = dobs.get(position);
+
         name.setText(dob.getName());
-        desc.setText(dob.getDescription());
+
         noBirthday.setText(dob.getName());
         if(dob.getDobId() == -1) {
             name.setVisibility(View.INVISIBLE);
@@ -98,7 +99,10 @@ public class TodayListAdapter extends BaseAdapter {
         }
         else {
             circle.setBackgroundResource(R.drawable.cirlce_missed);
+            //dob.setAge(dob.getAge() - 1);
         }
+        Util.setDescription(dob, "Completed");
+        desc.setText(dob.getDescription());
 
         return convertView;
     }

@@ -118,8 +118,8 @@ public class UpcomingListAdapter extends BaseAdapter implements Filterable {
         cal.setTime(new Date());
         cal.add(Calendar.DATE, Constants.RECENT_DURATION);
         recentDayOfYear = Integer.parseInt(Util.getStringFromDate(cal.getTime(), Constants.DAY_OF_YEAR));
-        allDobs = DateOfBirthDBHelper.selectAll();
-        dobs = DateOfBirthDBHelper.selectAll();
+        allDobs = DateOfBirthDBHelper.selectUpcoming();
+        dobs = DateOfBirthDBHelper.selectUpcoming();
     }
 
     @Override
