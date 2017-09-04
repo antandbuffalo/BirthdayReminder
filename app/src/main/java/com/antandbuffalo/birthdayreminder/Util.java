@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.antandbuffalo.birthdayreminder.database.DBHelper;
 import com.antandbuffalo.birthdayreminder.database.DateOfBirthDBHelper;
+
 import com.antandbuffalo.birthdayreminder.database.OptionsDBHelper;
 import com.antandbuffalo.birthdayreminder.settings.SettingsModel;
 
@@ -387,7 +388,6 @@ public class Util {
         }
         return jsonObject;
     }
-
     public static SharedPreferences getSharedPreference() {
         SharedPreferences settings = DataHolder.getInstance().getAppContext().getSharedPreferences(Constants.PREFERENCE_NAME, 0);
         return settings;

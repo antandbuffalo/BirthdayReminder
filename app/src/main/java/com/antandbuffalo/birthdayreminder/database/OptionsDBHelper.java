@@ -86,6 +86,7 @@ public class OptionsDBHelper {
     public static void insertDefaultValues() {
         List<SettingsModel> data = getDefatultValues();
         for(SettingsModel option : data) {
+
             long status = insertOption(option);
             Log.i("Option insertition", status + "");
         }
@@ -192,7 +193,6 @@ public class OptionsDBHelper {
         //Log.i("before return ", returnValue);
         return returnValue;
     }
-
     public static void updateSNO(SQLiteDatabase db) {
         List<SettingsModel> data = getDefatultValues();
         for(SettingsModel option : data) {

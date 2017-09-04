@@ -123,6 +123,7 @@ public class Constants {
     public static final String TYPE_ADD_NEW = "AddNew";
 
     public static final long OPTIONS_TABLE_NUMBER_OF_ROWS = 5;
+
     public static final String SETTINGS_ICON_LETTER = "SETTINGS_ICON_LETTER";
 
     public static final String FEEDBACK_EMAIL = "antandbuffalo@gmail.com";
