@@ -1,6 +1,8 @@
 package com.antandbuffalo.birthdayreminder;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -10,7 +12,7 @@ public class Constants {
 
     // Database Name
     public static final String DATABASE_NAME = "BirthdayReminder";
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
 
     // Contacts table name
     public static final String TABLE_DATE_OF_BIRTH = "DATE_OF_BIRTH";
@@ -27,6 +29,7 @@ public class Constants {
     public static final String COLUMN_OPTION_SUBTITLE = "SUBTITLE";
     public static final String COLUMN_OPTION_UPDATED_ON = "UPDATED_ON";
     public static final String COLUMN_OPTION_EXTRA = "EXTRA";
+    public static final String COLUMN_OPTION_SNO = "SNO";
 
     public static final String DATE_FORMAT = "yyyy-MM-dd";
     public static final String ADD_NEW_DATE_FORMAT = "dd/MM/yyyy";
@@ -58,6 +61,16 @@ public class Constants {
     public static final String SETTINGS_READ_FILE = "READ_FILE";
     public static final String SETTINGS_DELETE_ALL = "DELETE_ALL";
     public static final String SETTINGS_ABOUT = "ABOUT";
+    public static final String SETTINGS_MODIFY_TODAY = "SETTINGS_MODIFY_TODAY";
+
+    public static final Map<String, Integer> OPIONS_SNO_MAPPER = new HashMap<String, Integer>() {{
+        put(SETTINGS_WRITE_FILE, 1);
+        put(SETTINGS_READ_FILE, 2);
+        put(SETTINGS_DELETE_ALL, 3);
+        put(SETTINGS_MODIFY_TODAY, 4);
+        put(SETTINGS_ABOUT, 5);
+    }};
+
 
     public static final int SETTINGS_CELL_TYPE_DATE = 0;
     public static final int SETTINGS_CELL_TYPE_1_LETTER = 1;
@@ -96,15 +109,21 @@ public class Constants {
     public static final String NOTIFICATION_DELETE_MEMBER_SUCCESS = "Successfully Deleted";
     public static final String NOTIFICATION_UPDATE_MEMBER_SUCCESS = "Successfully Updated";
 
+    public static final String NOTIFICATION_SUCCESSFULLY_UPDATED = "Successfully Updated";
+
     public static final String NAME_EMPTY = "Please enter Name";
     public static final String ERROR = "Error";
     public static final String USER_EXIST = "Same Date of Birth already available";
     public static final String OK = "OK";
 
     public static final String PREFERENCE_NAME = "BirthdayReminder";
+    public static final String PREFERENCE_IS_SECONDTIME = "isSecondTime";
+    public static final String PREFERENCE_RECENT_DAYS_TODAY = "PREFERENCE_RECENT_DAYS_TODAY";
+
     public static final String TYPE_ADD_NEW = "AddNew";
 
-    public static final long OPTIONS_TABLE_NUMBER_OF_ROWS = 4;
+    public static final long OPTIONS_TABLE_NUMBER_OF_ROWS = 5;
+
     public static final String SETTINGS_ICON_LETTER = "SETTINGS_ICON_LETTER";
 
     public static final String FEEDBACK_EMAIL = "antandbuffalo@gmail.com";

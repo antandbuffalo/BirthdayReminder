@@ -1,5 +1,6 @@
 package com.antandbuffalo.birthdayreminder.database;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
@@ -8,6 +9,12 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.antandbuffalo.birthdayreminder.Constants;
+import com.antandbuffalo.birthdayreminder.Util;
+import com.antandbuffalo.birthdayreminder.settings.SettingsModel;
+
+import org.json.JSONObject;
+
+import java.util.List;
 
 import org.json.JSONObject;
 
@@ -56,7 +63,8 @@ public final class DBHelper extends SQLiteOpenHelper {
                 + Constants.COLUMN_OPTION_TITLE + " TEXT, "
                 + Constants.COLUMN_OPTION_SUBTITLE + " TEXT, "
                 + Constants.COLUMN_OPTION_UPDATED_ON + " DATE, "
-                + Constants.COLUMN_OPTION_EXTRA + " TEXT"
+                + Constants.COLUMN_OPTION_EXTRA + " TEXT, "
+                + Constants.COLUMN_OPTION_SNO+ " INTEGER"
                 +")";
         System.out.println("create option table query -- " + CREATE_OPTION_TABLE);
 
@@ -68,14 +76,19 @@ public final class DBHelper extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int arg1, int arg2) {
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // TODO Auto-generated method stub
-        // Drop older table if existed
-        db.execSQL("DROP TABLE IF EXISTS " + Constants.TABLE_DATE_OF_BIRTH);
-        db.execSQL("DROP TABLE IF EXISTS " + Constants.TABLE_OPTIONS);
+        String addSNOColumn = "ALTER TABLE " + Constants.TABLE_OPTIONS + " ADD COLUMN " + Constants.COLUMN_OPTION_SNO + " INTEGER";
+        if(oldVersion == 1 && newVersion == Constants.DATABASE_VERSION) {
+            db.execSQL(addSNOColumn);
+            OptionsDBHelper.updateSNO(db);
+        }
 
-        // Create tables again
-        onCreate(db);
+        // Drop older table if existed
+//        db.execSQL("DROP TABLE IF EXISTS " + Constants.TABLE_DATE_OF_BIRTH);
+//        db.execSQL("DROP TABLE IF EXISTS " + Constants.TABLE_OPTIONS);
+//        // Create tables again
+//        onCreate(db);
     }
 
     public static int deleteAll(String tableName) {

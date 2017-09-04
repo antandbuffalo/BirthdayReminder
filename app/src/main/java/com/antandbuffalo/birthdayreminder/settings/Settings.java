@@ -24,6 +24,7 @@ import com.antandbuffalo.birthdayreminder.about.About;
 import com.antandbuffalo.birthdayreminder.database.DateOfBirthDBHelper;
 import com.antandbuffalo.birthdayreminder.database.OptionsDBHelper;
 import com.antandbuffalo.birthdayreminder.fragments.MyFragment;
+import com.antandbuffalo.birthdayreminder.modifytoday.ModifyToday;
 
 import java.util.Date;
 import java.util.List;
@@ -56,15 +57,11 @@ public class Settings extends MyFragment {
                 SettingsModel option = settingsListAdapter.listData.get(position);
                 if (option.getKey().equalsIgnoreCase(Constants.SETTINGS_WRITE_FILE)) {
                     Toast.makeText(inflater.getContext(), Util.writeToFile(), Toast.LENGTH_SHORT).show();
-                    option.setSubTitle("Last backup was");
-                    option.setUpdatedOn(new Date());
-                    OptionsDBHelper.updateOption(option);
+                    Util.updateBackupTime(option);
                     settingsListAdapter.refreshData();
                 } else if (option.getKey().equalsIgnoreCase(Constants.SETTINGS_READ_FILE)) {
                     Toast.makeText(inflater.getContext(), Util.readFromFile(Constants.FILE_NAME), Toast.LENGTH_SHORT).show();
-                    option.setSubTitle("Data was loaded");
-                    option.setUpdatedOn(new Date());
-                    OptionsDBHelper.updateOption(option);
+                    Util.updateRestoreTime(option);
                     settingsListAdapter.refreshData();
                     for (int i = 0; i < DataHolder.getInstance().refreshTracker.size(); i++) {
                         DataHolder.getInstance().refreshTracker.set(i, true);
@@ -86,6 +83,9 @@ public class Settings extends MyFragment {
                             })
                             .setNegativeButton("No", null)
                             .show();
+                } else if (option.getKey().equalsIgnoreCase(Constants.SETTINGS_MODIFY_TODAY)) {
+                    Intent intent = new Intent(view.getContext(), ModifyToday.class);
+                    startActivity(intent);
                 } else if (option.getKey().equalsIgnoreCase(Constants.SETTINGS_ABOUT)) {
                     Intent intent = new Intent(view.getContext(), About.class);
                     startActivity(intent);

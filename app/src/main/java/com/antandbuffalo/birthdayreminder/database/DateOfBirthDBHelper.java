@@ -2,11 +2,13 @@ package com.antandbuffalo.birthdayreminder.database;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.antandbuffalo.birthdayreminder.Constants;
+import com.antandbuffalo.birthdayreminder.DataHolder;
 import com.antandbuffalo.birthdayreminder.DateOfBirth;
 import com.antandbuffalo.birthdayreminder.Util;
 
@@ -150,7 +152,7 @@ public class DateOfBirthDBHelper {
         // update Row
         String dobId = Constants.COLUMN_DOB_ID + "=" + dateOfBirth.getDobId();
         long returnValue = db.update(Constants.TABLE_DATE_OF_BIRTH, values, dobId, null);
-        Log.i("after update",returnValue + "");
+        Log.i("after update", returnValue + "");
         db.close();
         return returnValue;
     }
@@ -190,14 +192,38 @@ public class DateOfBirthDBHelper {
         return dobList;
     }
 
+    public static List selectUpcoming() {
+        List<DateOfBirth> dobList = selectAll();
+        int currentDayInNumber = Integer.parseInt(Util.getStringFromDate(new Date(), Constants.DAY_OF_YEAR));
+        int birthdayInNumber = 0;
+        for(DateOfBirth dateOfBirth : dobList) {
+            birthdayInNumber = Integer.parseInt(Util.getStringFromDate(dateOfBirth.getDobDate(), Constants.DAY_OF_YEAR));
+            if(currentDayInNumber == birthdayInNumber) {
+                Util.setDescription(dateOfBirth, "Completed");
+            }
+            else {
+                dateOfBirth.setAge(dateOfBirth.getAge() + 1);
+                Util.setDescription(dateOfBirth, "Completing");
+            }
+        }
+
+        return dobList;
+    }
+
     public static List selectTodayAndBelated() {
         String selectionQuery;
-        java.sql.Date today = new java.sql.Date(new Date().getTime());
+        SharedPreferences sharedPreferences = Util.getSharedPreference();
+        int recentDuration = sharedPreferences.getInt(Constants.PREFERENCE_RECENT_DAYS_TODAY, 0);
+
         Calendar cal = Calendar.getInstance();
         int currentDayOfYear = Integer.parseInt(Util.getStringFromDate(new Date(), Constants.DAY_OF_YEAR));
         cal.setTime(new Date());
-        cal.add(Calendar.DATE, -Constants.RECENT_DURATION);
+        cal.add(Calendar.DATE, -recentDuration);
         int belatedDate = Integer.parseInt(Util.getStringFromDate(cal.getTime(), Constants.DAY_OF_YEAR));
+
+        java.sql.Date today = new java.sql.Date(new Date().getTime());
+        java.sql.Date todayRecent = new java.sql.Date(cal.getTimeInMillis());
+
         if(belatedDate > currentDayOfYear) {
             selectionQuery = "select " + Constants.COLUMN_DOB_ID + ", "
                     + Constants.COLUMN_DOB_NAME + ", "
@@ -219,7 +245,7 @@ public class DateOfBirthDBHelper {
                     + Constants.TABLE_DATE_OF_BIRTH + " where day >= cast(strftime('%m%d', date('"
                     + today
                     + "', '"
-                    + (-Constants.RECENT_DURATION)
+                    + (-recentDuration)
                     +" day')) as int) order by TYPE, day desc";
         }
         else {
@@ -228,10 +254,10 @@ public class DateOfBirthDBHelper {
                     + Constants.COLUMN_DOB_DATE + ", "
                     + "cast(strftime('%m%d', "
                     + Constants.COLUMN_DOB_DATE + ") as int) as day from "
-                    + Constants.TABLE_DATE_OF_BIRTH + " where day >= (cast(strftime('%m%d', '"
-                    + today
-                    + "') as int) - "
-                    + Constants.RECENT_DURATION + ") AND day <= cast(strftime('%m%d', '"
+                    + Constants.TABLE_DATE_OF_BIRTH + " where day >= cast(strftime('%m%d', '"
+                    + todayRecent
+                    + "') as int)"
+                    + " AND day <= cast(strftime('%m%d', '"
                     + today
                     + "') as int) order by day desc";
         }
@@ -239,7 +265,10 @@ public class DateOfBirthDBHelper {
         System.out.println("query today and belated --" + selectionQuery);
         SQLiteDatabase db = DBHelper.getInstace().getReadableDatabase();
         Cursor cursor = db.rawQuery(selectionQuery, null);
-        List<DateOfBirth> dobList = getDateOfBirthsFromCursor(cursor, "Completed");
+        List<DateOfBirth> dobList = getDateOfBirthsFromCursor(cursor);
+        for(DateOfBirth dateOfBirth : dobList) {
+            Util.setDescription(dateOfBirth, "Completed");
+        }
         cursor.close();
         db.close();
         return dobList;
@@ -262,7 +291,7 @@ public class DateOfBirthDBHelper {
         System.out.println("query today -- " + selectionQuery);
         SQLiteDatabase db = DBHelper.createInstance(context).getReadableDatabase();
         Cursor cursor = db.rawQuery(selectionQuery, null);
-        List<DateOfBirth> dobList = getDateOfBirthsFromCursor(cursor, "Completed");
+        List<DateOfBirth> dobList = getDateOfBirthsFromCursor(cursor);
         cursor.close();
         db.close();
         return dobList;
@@ -290,7 +319,8 @@ public class DateOfBirthDBHelper {
         return count;
     }
 
-    public static List<DateOfBirth> getDateOfBirthsFromCursor(Cursor cursor, String description) {
+    //This function purely creates the objects list and return
+    public static List<DateOfBirth> getDateOfBirthsFromCursor(Cursor cursor) {
         List<DateOfBirth> dobList = new ArrayList<DateOfBirth>();
         if (cursor.moveToFirst()) {
             do {
@@ -299,21 +329,10 @@ public class DateOfBirthDBHelper {
                 dateOfBirth.setName(cursor.getString(1));
                 dateOfBirth.setDobDate(Util.getDateFromString(cursor.getString(2)));
                 dateOfBirth.setAge(Util.getAge(dateOfBirth.getDobDate()));
-                if(dateOfBirth.getAge() == 0) {
-                    dateOfBirth.setDescription(description + ": " + (dateOfBirth.getAge() + 1) + " year");
-                }
-                else {
-                    dateOfBirth.setDescription(description + ": " + (dateOfBirth.getAge() + 1) + " years");
-                }
-                // Adding contact to list
                 dobList.add(dateOfBirth);
             } while (cursor.moveToNext());
         }
         return dobList;
-    }
-
-    public static List<DateOfBirth> getDateOfBirthsFromCursor(Cursor cursor) {
-        return getDateOfBirthsFromCursor(cursor, "Completing");
     }
 
     public static String deleteAll() {

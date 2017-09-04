@@ -16,6 +16,7 @@ public class SettingsModel {
     private String type;
     private String extra;
     private JSONObject extraJson;
+    private int sno;
 
     public String getKey() {
         return key;
@@ -75,5 +76,13 @@ public class SettingsModel {
 
     public void setExtraJson(JSONObject extraJson) {
         this.extraJson = extraJson;
+    }
+
+    public int getSno() {
+        return sno;
+    }
+
+    public void setSno(int sno) {
+        this.sno = sno;
     }
 }

@@ -118,20 +118,20 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         setRepeatingAlarm();
 
         SharedPreferences settings = getSharedPreferences(Constants.PREFERENCE_NAME, 0);
-        Boolean isSecondTime = settings.getBoolean("isSecondTime", false);
+        Boolean isSecondTime = settings.getBoolean(Constants.PREFERENCE_IS_SECONDTIME, false);
         if(!isSecondTime) {
             if(Util.isBackupFileFound()) {
                 Intent intent = new Intent(getApplicationContext(), RestoreBackup.class);
                 startActivityForResult(intent, Constants.ADD_NEW_MEMBER);
                 //loadBackupFile();
             }
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putBoolean(Constants.PREFERENCE_IS_SECONDTIME, true);
+            editor.commit();
         }
+        OptionsDBHelper.populatePage();
         Util.createEmptyFolder();
 
-        if(OptionsDBHelper.getNumberOfRows() != Constants.OPTIONS_TABLE_NUMBER_OF_ROWS) {
-            OptionsDBHelper.deleteAll();
-            OptionsDBHelper.insertDefaultValues();
-        }
     }
 
     public void setRepeatingAlarm() {
@@ -140,7 +140,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 123,
                 intent, PendingIntent.FLAG_CANCEL_CURRENT);
         Calendar calendar = Calendar.getInstance();
-        // 9 AM
+        // 12:00 AM
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);

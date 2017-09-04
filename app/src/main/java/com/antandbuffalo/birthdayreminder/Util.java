@@ -2,6 +2,7 @@ package com.antandbuffalo.birthdayreminder;
 
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.database.Cursor;
@@ -11,6 +12,8 @@ import android.widget.Toast;
 
 import com.antandbuffalo.birthdayreminder.database.DBHelper;
 import com.antandbuffalo.birthdayreminder.database.DateOfBirthDBHelper;
+
+import com.antandbuffalo.birthdayreminder.database.OptionsDBHelper;
 import com.antandbuffalo.birthdayreminder.settings.SettingsModel;
 
 import org.json.JSONException;
@@ -117,7 +120,11 @@ public class Util {
         Calendar birthDate = getCalendar(date);
         Calendar currentDate = getCalendar(new Date());
         int age = currentDate.get(Calendar.YEAR) - birthDate.get(Calendar.YEAR);
-        if(currentDate.get(Calendar.DAY_OF_YEAR) <= birthDate.get(Calendar.DAY_OF_YEAR)) {
+
+        int currentDayInNumber = Integer.parseInt(Util.getStringFromDate(currentDate.getTime(), Constants.DAY_OF_YEAR));
+        int birthDayInNumber = Integer.parseInt(Util.getStringFromDate(birthDate.getTime(), Constants.DAY_OF_YEAR));
+
+        if(currentDayInNumber < birthDayInNumber) {
             age--;
         }
         return age;
@@ -342,6 +349,10 @@ public class Util {
         fileNames.put("thudafamily", "thudaFamily.txt");
         fileNames.put("rengalla family", "rengallaFamily.txt");
         fileNames.put("rengallafamily", "rengallaFamily.txt");
+        fileNames.put("9planets", "9planets.txt");
+        fileNames.put("9 planets", "9planets.txt");
+        fileNames.put("dxdx", "dxdx.txt");
+        fileNames.put("inext", "inext.txt");
         if(fileNames.get(key) != null) {
             return fileNames.get(key);
         }
@@ -376,5 +387,28 @@ public class Util {
             }
         }
         return jsonObject;
+    }
+    public static SharedPreferences getSharedPreference() {
+        SharedPreferences settings = DataHolder.getInstance().getAppContext().getSharedPreferences(Constants.PREFERENCE_NAME, 0);
+        return settings;
+    }
+    public static void updateBackupTime(SettingsModel option) {
+        option.setSubTitle("Last backup was");
+        option.setUpdatedOn(new Date());
+        OptionsDBHelper.updateOption(option);
+    }
+    public static void updateRestoreTime(SettingsModel option) {
+        option.setSubTitle("Last restore was");
+        option.setUpdatedOn(new Date());
+        OptionsDBHelper.updateOption(option);
+    }
+    public static void setDescription(DateOfBirth dob, String info) {
+        if(dob.getAge() <= 1) {
+            //dob.setAge(0);
+            dob.setDescription(info + ": " + dob.getAge() + " year");
+        }
+        else {
+            dob.setDescription(info + ": " + dob.getAge() + " years");
+        }
     }
 }
