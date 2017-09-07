@@ -47,7 +47,7 @@
         android:text="12/12/1988"
         android:id="@+id/selectedDate"
         android:layout_below="@+id/personName"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_toRightOf="@id/label2"
         />
 
