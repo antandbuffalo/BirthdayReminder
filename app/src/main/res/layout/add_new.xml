@@ -38,7 +38,7 @@
         android:text="Date Of Birth: "
         android:id="@+id/label2"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_marginLeft="3sp"
         android:layout_below="@+id/personName" />
     <TextView
@@ -111,5 +111,15 @@
 
 
     </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="You cannot select a future date. Please change the year accordingly to select an upcoming date"
+        android:id="@+id/textView5"
+        android:layout_above="@+id/buttonsLayout"
+        android:textColor="#888888"
+        android:phoneNumber="false"
+        android:textSize="12sp" />
 
 </RelativeLayout>
