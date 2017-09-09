@@ -40,6 +40,7 @@
         android:layout_alignParentStart="true"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="3sp"
+        android:textColor="@color/sub_text_color"
         android:layout_below="@+id/personName" />
     <TextView
         android:layout_width="wrap_content"
@@ -48,6 +49,7 @@
         android:id="@+id/selectedDate"
         android:layout_below="@+id/personName"
         android:layout_marginTop="10dp"
+        android:textColor="@color/sub_text_color"
         android:layout_toRightOf="@id/label2"
         />
 
@@ -72,7 +74,7 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/linearLayout"
+        android:layout_below="@+id/textView5"
         android:layout_centerHorizontal="true"
         android:gravity="center"
         android:layout_marginTop="15dp"
@@ -117,8 +119,8 @@
         android:layout_height="wrap_content"
         android:text="You cannot select a future date. Please change the year accordingly to select an upcoming date"
         android:id="@+id/textView5"
-        android:layout_above="@+id/buttonsLayout"
-        android:textColor="#888888"
+        android:layout_below="@+id/linearLayout"
+        android:textColor="@color/sub_text_color"
         android:phoneNumber="false"
         android:textSize="12sp" />
 

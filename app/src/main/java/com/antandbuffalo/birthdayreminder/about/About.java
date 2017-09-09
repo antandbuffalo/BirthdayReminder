@@ -35,6 +35,19 @@ public class About extends Activity {
                 //startActivity(emailIntent);
             }
         });
+
+        Button share = (Button)findViewById(R.id.share);
+        share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //create the sharing intent
+                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                sharingIntent.setType("text/plain");
+                String shareBody = "https://play.google.com/store/apps/details?id=com.antandbuffalo.birthdayreminder";
+                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+                startActivity(Intent.createChooser(sharingIntent, "Share..."));
+            }
+        });
     }
 
 }

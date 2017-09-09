@@ -123,7 +123,8 @@ public class Update extends Activity {
                     } else {
                         Log.i("after update", currentDOB.getName());
                         DateOfBirthDBHelper.updateDOB(currentDOB);
-                        Toast toast = Toast.makeText(getApplicationContext(), Constants.NOTIFICATION_UPDATE_MEMBER_SUCCESS, Toast.LENGTH_SHORT);
+                        String status = Constants.NOTIFICATION_UPDATE_MEMBER_SUCCESS + ". You will get notified at 12:00am and 12:00pm on " + Util.getStringFromDate(currentDOB.getDobDate(), "dd MMM") + " every year";
+                        Toast toast = Toast.makeText(getApplicationContext(), status, Toast.LENGTH_LONG);
                         toast.show();
                         setResult(RESULT_OK, intent);
                         finish();
