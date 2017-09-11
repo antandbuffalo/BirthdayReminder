@@ -56,7 +56,8 @@ public class Settings extends MyFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 SettingsModel option = settingsListAdapter.listData.get(position);
                 if (option.getKey().equalsIgnoreCase(Constants.SETTINGS_WRITE_FILE)) {
-                    Toast.makeText(inflater.getContext(), Util.writeToFile(), Toast.LENGTH_SHORT).show();
+                    Util.writeToFile();
+                    Toast.makeText(inflater.getContext(), "Backup file is created and stored in the location " + Constants.FOLDER_NAME + "/" + Constants.FILE_NAME + Constants.FILE_NAME_SUFFIX, Toast.LENGTH_LONG).show();
                     Util.updateBackupTime(option);
                     settingsListAdapter.refreshData();
                 } else if (option.getKey().equalsIgnoreCase(Constants.SETTINGS_READ_FILE)) {
