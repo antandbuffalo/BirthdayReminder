@@ -100,7 +100,7 @@ public class DateOfBirthDBHelper {
                 + Constants.COLUMN_DOB_DATE + " = '"
                 + sampleDate + "'";
 
-        System.out.println("query -- is unique --- " + selectionQuery);
+        //System.out.println("query -- is unique --- " + selectionQuery);
         SQLiteDatabase db = DBHelper.getInstace().getReadableDatabase();
 
         String[] columns = {Constants.COLUMN_DOB_ID, Constants.COLUMN_DOB_NAME, Constants.COLUMN_DOB_DATE};
