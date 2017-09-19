@@ -126,8 +126,8 @@ public class AddNew extends Activity {
                             Util.updateFile(dob);
                             System.out.println("Inserted successfully");
                             clearInputs();
-
-                            Toast toast = Toast.makeText(getApplicationContext(), Constants.NOTIFICATION_ADD_MEMBER_SUCCESS, Toast.LENGTH_SHORT);
+                            String status = Constants.NOTIFICATION_ADD_MEMBER_SUCCESS + ". You will get notified at 12:00am and 12:00pm on " + Util.getStringFromDate(dob.getDobDate(), "dd MMM") + " every year";
+                            Toast toast = Toast.makeText(getApplicationContext(), status, Toast.LENGTH_LONG);
                             toast.show();
                             intent.putExtra(Constants.IS_USER_ADDED, Constants.FLAG_SUCCESS.toString());
                             setResult(RESULT_OK, intent);

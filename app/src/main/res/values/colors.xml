@@ -28,4 +28,6 @@
 
     <color name="light_green">#689F38</color>
 
+    <color name="sub_text_color">#888888</color>
+
 </resources>
