@@ -8,25 +8,16 @@
     android:background="@color/white"
     tools:context="com.antandbuffalo.birthdayreminder.addnew.AddNew">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="3sp"
-        android:text="Name"
-        android:id="@+id/nameLabel"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
-
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="30sp"
         android:inputType="textPersonName"
+        android:hint="Enter Name"
         android:ems="10"
         android:background="@drawable/addnew_edittext"
         android:elevation="2dp"
         android:paddingLeft="2dp"
         android:id="@+id/personName"
-        android:layout_below="@+id/nameLabel"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_marginLeft="2sp"
@@ -70,16 +61,33 @@
             android:calendarViewShown="false"/>
     </LinearLayout>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="You cannot select a future date. Please change the year accordingly to select an upcoming date"
+        android:id="@+id/textView5"
+        android:layout_below="@+id/linearLayout"
+        android:textColor="@color/sub_text_color"
+        android:phoneNumber="false"
+        android:textSize="12sp" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="I don't know year"
+        android:id="@+id/isYearOptional"
+        android:layout_below="@+id/textView5"
+        android:layout_alignStart="@+id/selectedDate" />
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView5"
-        android:layout_centerHorizontal="true"
         android:gravity="center"
-        android:layout_marginTop="15dp"
         android:weightSum="1"
-        android:id="@+id/buttonsLayout">
+        android:id="@+id/buttonsLayout"
+        android:layout_below="@+id/isYearOptional"
+        android:layout_alignParentEnd="true">
 
         <ImageButton
             android:layout_width="wrap_content"
@@ -113,15 +121,5 @@
 
 
     </LinearLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="You cannot select a future date. Please change the year accordingly to select an upcoming date"
-        android:id="@+id/textView5"
-        android:layout_below="@+id/linearLayout"
-        android:textColor="@color/sub_text_color"
-        android:phoneNumber="false"
-        android:textSize="12sp" />
 
 </RelativeLayout>
