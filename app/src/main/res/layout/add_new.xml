@@ -68,16 +68,7 @@
         android:id="@+id/textView5"
         android:layout_below="@+id/linearLayout"
         android:textColor="@color/sub_text_color"
-        android:phoneNumber="false"
         android:textSize="12sp" />
-
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="I don't know year"
-        android:id="@+id/isYearOptional"
-        android:layout_below="@+id/textView5"
-        android:layout_alignStart="@+id/selectedDate" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -86,7 +77,7 @@
         android:gravity="center"
         android:weightSum="1"
         android:id="@+id/buttonsLayout"
-        android:layout_below="@+id/isYearOptional"
+        android:layout_below="@+id/textView5"
         android:layout_alignParentEnd="true">
 
         <ImageButton
