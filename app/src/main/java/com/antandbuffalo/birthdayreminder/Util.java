@@ -30,9 +30,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.text.DateFormat;
+import java.text.DateFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -410,5 +412,12 @@ public class Util {
         else {
             dob.setDescription(info + ": " + dob.getAge() + " years");
         }
+    }
+
+    public static List<String> getMonths() {
+        String[] months = new DateFormatSymbols().getShortMonths();
+        List<String> monthsList = Arrays.asList(months);
+
+        return monthsList;
     }
 }

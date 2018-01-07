@@ -6,11 +6,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,8 +22,11 @@ import com.antandbuffalo.birthdayreminder.R;
 import com.antandbuffalo.birthdayreminder.Util;
 import com.antandbuffalo.birthdayreminder.database.DateOfBirthDBHelper;
 
+import java.text.DateFormatSymbols;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class AddNew extends Activity {
     EditText name;
@@ -38,6 +43,23 @@ public class AddNew extends Activity {
         name = (EditText)findViewById(R.id.personName);
         datePicker = (DatePicker)findViewById(R.id.perosnDateOfBirth);
         datePicker.setMaxDate(new Date().getTime());
+
+        ImageButton save = (ImageButton) findViewById(R.id.save);
+        save.setBackgroundResource(R.drawable.save_button);
+
+        ImageButton cancel = (ImageButton)findViewById(R.id.cancel);
+        cancel.setBackgroundResource(R.drawable.cancel_button);
+
+        Spinner monthSpinner = (Spinner) findViewById(R.id.monthSpinner);
+        addMonthsToSpinner(monthSpinner);
+
+        Spinner datesSpinner = (Spinner) findViewById(R.id.dateSpinner);
+        addDatesToSpinner(datesSpinner);
+
+        Spinner yearSpinner = (Spinner) findViewById(R.id.yearSpinner);
+        addYearsToSpinner(yearSpinner);
+
+
 //        Calendar currentDate = Util.getCalendar(new Date());
 //        datePicker.updateDate(currentDate.get(Calendar.YEAR) - 1, currentDate.get(Calendar.MONTH), currentDate.get(Calendar.DATE));
 
@@ -72,12 +94,6 @@ public class AddNew extends Activity {
         intent = new Intent();
         intent.putExtra(Constants.IS_USER_ADDED, Constants.FLAG_FAILURE.toString());
         setResult(RESULT_OK, intent);
-
-        ImageButton save = (ImageButton) findViewById(R.id.save);
-        save.setBackgroundResource(R.drawable.save_button);
-
-        ImageButton cancel = (ImageButton)findViewById(R.id.cancel);
-        cancel.setBackgroundResource(R.drawable.cancel_button);
 
         save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -144,6 +160,35 @@ public class AddNew extends Activity {
                 finish();
             }
         });
+    }
+
+    public void addMonthsToSpinner(Spinner spinner) {
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, Util.getMonths());
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(dataAdapter);
+    }
+
+    public void addDatesToSpinner(Spinner spinner) {
+        List<String> datesList = new ArrayList<String>();
+        for (int i = 1; i <= 31; i++) {
+            datesList .add(i + "");
+        }
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, datesList);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(dataAdapter);
+    }
+
+    public void addYearsToSpinner(Spinner spinner) {
+        List<String> yearsList = new ArrayList<String>();
+        for (int i = 1901; i <= 2018; i++) {
+            yearsList .add(i + "");
+        }
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, yearsList);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(dataAdapter);
     }
 
     public void clearInputs() {

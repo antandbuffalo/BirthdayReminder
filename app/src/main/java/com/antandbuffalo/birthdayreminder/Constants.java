@@ -1,7 +1,11 @@
 package com.antandbuffalo.birthdayreminder;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -131,4 +135,8 @@ public class Constants {
     public static final String FEEDBACK_EMAIL_POPUP_MESSAGE = "Send email using...";
 
     public static final String STATUS_FILE_APPEND_SUCCESS = "STATUS_FILE_APPEND_SUCCESS";
+
+    public static final List<String> MONTHS =
+            Collections.unmodifiableList(Arrays.asList("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"));
+
 }
