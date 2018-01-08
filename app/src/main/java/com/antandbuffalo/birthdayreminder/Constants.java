@@ -75,6 +75,20 @@ public class Constants {
         put(SETTINGS_ABOUT, 5);
     }};
 
+    public static final Map<Integer, Integer> MONTH_DAYS = new HashMap<Integer, Integer>() {{
+        put(0, 31);
+        put(1, 29);
+        put(2, 31);
+        put(3, 30);
+        put(4, 31);
+        put(5, 30);
+        put(6, 31);
+        put(7, 31);
+        put(8, 30);
+        put(9, 31);
+        put(10, 30);
+        put(11, 31);
+    }};
 
     public static final int SETTINGS_CELL_TYPE_DATE = 0;
     public static final int SETTINGS_CELL_TYPE_1_LETTER = 1;
@@ -135,8 +149,5 @@ public class Constants {
     public static final String FEEDBACK_EMAIL_POPUP_MESSAGE = "Send email using...";
 
     public static final String STATUS_FILE_APPEND_SUCCESS = "STATUS_FILE_APPEND_SUCCESS";
-
-    public static final List<String> MONTHS =
-            Collections.unmodifiableList(Arrays.asList("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"));
 
 }

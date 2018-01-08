@@ -5,7 +5,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CalendarView;
@@ -26,7 +28,9 @@ import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AddNew extends Activity {
     EditText name;
@@ -44,6 +48,8 @@ public class AddNew extends Activity {
         datePicker = (DatePicker)findViewById(R.id.perosnDateOfBirth);
         datePicker.setMaxDate(new Date().getTime());
 
+        final Calendar cal = Util.getCalendar();
+
         ImageButton save = (ImageButton) findViewById(R.id.save);
         save.setBackgroundResource(R.drawable.save_button);
 
@@ -51,13 +57,33 @@ public class AddNew extends Activity {
         cancel.setBackgroundResource(R.drawable.cancel_button);
 
         Spinner monthSpinner = (Spinner) findViewById(R.id.monthSpinner);
+        final Spinner datesSpinner = (Spinner) findViewById(R.id.dateSpinner);
+        Spinner yearSpinner = (Spinner) findViewById(R.id.yearSpinner);
+
         addMonthsToSpinner(monthSpinner);
 
-        Spinner datesSpinner = (Spinner) findViewById(R.id.dateSpinner);
-        addDatesToSpinner(datesSpinner);
+        monthSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.i("Item select", "" + position);
+                addDatesToSpinner(datesSpinner, Constants.MONTH_DAYS.get(position));
+                if(cal.get(Calendar.MONTH) == position) {
+                    datesSpinner.setSelection(cal.get(Calendar.DAY_OF_MONTH) - 1);
+                }
+            }
 
-        Spinner yearSpinner = (Spinner) findViewById(R.id.yearSpinner);
-        addYearsToSpinner(yearSpinner);
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                Log.i("Item select", "" + parent);
+            }
+        });
+
+        Map<Integer, Integer> yearMapper = getYearMapper(1901, cal.get(Calendar.YEAR));
+
+        addYearsToSpinner(yearSpinner, 1901, cal.get(Calendar.YEAR));
+
+        monthSpinner.setSelection(cal.get(Calendar.MONTH));
+        yearSpinner.setSelection(yearMapper.get(cal.get(Calendar.YEAR)));
 
 
 //        Calendar currentDate = Util.getCalendar(new Date());
@@ -169,9 +195,9 @@ public class AddNew extends Activity {
         spinner.setAdapter(dataAdapter);
     }
 
-    public void addDatesToSpinner(Spinner spinner) {
+    public void addDatesToSpinner(Spinner spinner, Integer maxValue) {
         List<String> datesList = new ArrayList<String>();
-        for (int i = 1; i <= 31; i++) {
+        for (int i = 1; i <= maxValue; i++) {
             datesList .add(i + "");
         }
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
@@ -180,7 +206,7 @@ public class AddNew extends Activity {
         spinner.setAdapter(dataAdapter);
     }
 
-    public void addYearsToSpinner(Spinner spinner) {
+    public void addYearsToSpinner(Spinner spinner, Integer minYear, Integer maxYear) {
         List<String> yearsList = new ArrayList<String>();
         for (int i = 1901; i <= 2018; i++) {
             yearsList .add(i + "");
@@ -189,6 +215,17 @@ public class AddNew extends Activity {
                 android.R.layout.simple_spinner_item, yearsList);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(dataAdapter);
+    }
+
+    public Map<Integer, Integer> getYearMapper(Integer minYear, Integer maxYear) {
+        Map<Integer, Integer> yearsMap = new HashMap<Integer, Integer>();
+        Integer counter = maxYear - minYear;
+        int j = minYear;
+        for (int i=0; i<=counter; i++) {
+            Log.i("YEAR", i + " -- " + j);
+            yearsMap.put(j++, i);
+        }
+        return yearsMap;
     }
 
     public void clearInputs() {
