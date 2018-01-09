@@ -28,6 +28,7 @@ import com.antandbuffalo.birthdayreminder.Util;
 import com.antandbuffalo.birthdayreminder.database.DateOfBirthDBHelper;
 
 import java.text.DateFormatSymbols;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -41,16 +42,19 @@ public class AddNew extends Activity {
     Intent intent = null;
     TextView selectedDate, dateView, monthView, yearView, nameView, descView;
     Integer date, month, year;
+    Calendar cal;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_new);
 
+        DateOfBirth dob = new DateOfBirth();
+
         selectedDate = (TextView)findViewById(R.id.selectedDate);
         selectedDate.setText(Util.getStringFromDate(new Date(), Constants.ADD_NEW_DATE_FORMAT));
         name = (EditText)findViewById(R.id.personName);
 
-        final Calendar cal = Util.getCalendar();
+        cal = Util.getCalendar();
 
         ImageButton save = (ImageButton) findViewById(R.id.save);
         save.setBackgroundResource(R.drawable.save_button);
@@ -73,6 +77,7 @@ public class AddNew extends Activity {
                     datesSpinner.setSelection(cal.get(Calendar.DAY_OF_MONTH) - 1);
                 }
                 month = monthSpinner.getSelectedItemPosition();
+                preview("Test", date, month, year);
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -80,10 +85,9 @@ public class AddNew extends Activity {
             }
         });
 
-        final Map<Integer, Integer> yearMapper = getYearMapper(1901, cal.get(Calendar.YEAR));
+        final Map<Integer, Integer> yearMapper = getYearMapper(Constants.START_YEAR, cal.get(Calendar.YEAR));
 
-        addYearsToSpinner(yearSpinner, 1901, cal.get(Calendar.YEAR));
-
+        addYearsToSpinner(yearSpinner, Constants.START_YEAR, cal.get(Calendar.YEAR));
         monthSpinner.setSelection(cal.get(Calendar.MONTH));
         yearSpinner.setSelection(yearMapper.get(cal.get(Calendar.YEAR)));
 
@@ -91,6 +95,7 @@ public class AddNew extends Activity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 date = Integer.parseInt(datesSpinner.getSelectedItem().toString());
+                preview("Test", date, month, year);
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -102,6 +107,7 @@ public class AddNew extends Activity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 year = Integer.parseInt(yearSpinner.getSelectedItem().toString());
+                preview("Test", date, month, year);
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -161,7 +167,7 @@ public class AddNew extends Activity {
                 String plainName = name.getText().toString().trim();
                 Calendar cal = Util.getCalendar();
                 if(yearSpinner.getVisibility() == View.INVISIBLE) {
-                    year = 1900;
+                    year = Constants.NO_YEAR;
                 }
                 cal.set(year, month, date);
                 Log.i("DATE", cal.getTime() + "");
@@ -246,7 +252,7 @@ public class AddNew extends Activity {
 
     public void addYearsToSpinner(Spinner spinner, Integer minYear, Integer maxYear) {
         List<String> yearsList = new ArrayList<String>();
-        for (int i = 1901; i <= 2018; i++) {
+        for (int i = minYear; i <= maxYear; i++) {
             yearsList .add(i + "");
         }
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
@@ -264,6 +270,21 @@ public class AddNew extends Activity {
             yearsMap.put(j++, i);
         }
         return yearsMap;
+    }
+
+    public void preview(String givenName, Integer date, Integer month, Integer year) {
+
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("MMM");
+        TextView name = (TextView)findViewById(R.id.nameField);
+        TextView desc = (TextView)findViewById(R.id.ageField);
+        TextView dateField = (TextView)findViewById(R.id.dateField);
+        TextView monthField = (TextView)findViewById(R.id.monthField);
+        TextView yearField = (TextView)findViewById(R.id.yearField);
+
+        name.setText(givenName);
+        dateField.setText(date != null? date + "" : "");
+        monthField.setText(month != null? month + "" : "");
+        yearField.setText(year != null? year + "" : "");
     }
 
     public void clearInputs() {
