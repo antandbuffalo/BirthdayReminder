@@ -3,6 +3,7 @@ package com.antandbuffalo.birthdayreminder.addnew;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.app.Activity;
 import android.util.Log;
@@ -11,6 +12,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CalendarView;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -37,6 +40,7 @@ public class AddNew extends Activity {
     DatePicker datePicker;
     Intent intent = null;
     TextView selectedDate, dateView, monthView, yearView, nameView, descView;
+    Integer date, month, year;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,8 +49,6 @@ public class AddNew extends Activity {
         selectedDate = (TextView)findViewById(R.id.selectedDate);
         selectedDate.setText(Util.getStringFromDate(new Date(), Constants.ADD_NEW_DATE_FORMAT));
         name = (EditText)findViewById(R.id.personName);
-        datePicker = (DatePicker)findViewById(R.id.perosnDateOfBirth);
-        datePicker.setMaxDate(new Date().getTime());
 
         final Calendar cal = Util.getCalendar();
 
@@ -56,9 +58,9 @@ public class AddNew extends Activity {
         ImageButton cancel = (ImageButton)findViewById(R.id.cancel);
         cancel.setBackgroundResource(R.drawable.cancel_button);
 
-        Spinner monthSpinner = (Spinner) findViewById(R.id.monthSpinner);
+        final Spinner monthSpinner = (Spinner) findViewById(R.id.monthSpinner);
         final Spinner datesSpinner = (Spinner) findViewById(R.id.dateSpinner);
-        Spinner yearSpinner = (Spinner) findViewById(R.id.yearSpinner);
+        final Spinner yearSpinner = (Spinner) findViewById(R.id.yearSpinner);
 
         addMonthsToSpinner(monthSpinner);
 
@@ -70,37 +72,56 @@ public class AddNew extends Activity {
                 if(cal.get(Calendar.MONTH) == position) {
                     datesSpinner.setSelection(cal.get(Calendar.DAY_OF_MONTH) - 1);
                 }
+                month = monthSpinner.getSelectedItemPosition();
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 Log.i("Item select", "" + parent);
             }
         });
 
-        Map<Integer, Integer> yearMapper = getYearMapper(1901, cal.get(Calendar.YEAR));
+        final Map<Integer, Integer> yearMapper = getYearMapper(1901, cal.get(Calendar.YEAR));
 
         addYearsToSpinner(yearSpinner, 1901, cal.get(Calendar.YEAR));
 
         monthSpinner.setSelection(cal.get(Calendar.MONTH));
         yearSpinner.setSelection(yearMapper.get(cal.get(Calendar.YEAR)));
 
-
-//        Calendar currentDate = Util.getCalendar(new Date());
-//        datePicker.updateDate(currentDate.get(Calendar.YEAR) - 1, currentDate.get(Calendar.MONTH), currentDate.get(Calendar.DATE));
-
-        datePicker.getCalendarView().setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+        datesSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
-                //Date selectedDateObject = Util.getDateFromString(year + "-" + (month + 1) + "-" + dayOfMonth);
-                //selectedDate.setText(Util.getStringFromDate(Util.getDateFromString(year + "-" + (month + 1) + "-" + dayOfMonth), Constants.ADD_NEW_DATE_FORMAT));
-                String strMonth = month >= 9? (month + 1) + "" : "0" + (month + 1);
-                selectedDate.setText(dayOfMonth + "/" + strMonth + "/" + year);
-//                dateView.setText(String.valueOf(dayOfMonth));
-//                monthView.setText(Util.getStringFromDate(selectedDateObject, "MMM"));
-//                yearView.setText(String.valueOf(year));
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                date = Integer.parseInt(datesSpinner.getSelectedItem().toString());
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                Log.i("Item select", "" + parent);
             }
         });
+
+        yearSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                year = Integer.parseInt(yearSpinner.getSelectedItem().toString());
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+//        datePicker.getCalendarView().setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+//            @Override
+//            public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
+//                //Date selectedDateObject = Util.getDateFromString(year + "-" + (month + 1) + "-" + dayOfMonth);
+//                //selectedDate.setText(Util.getStringFromDate(Util.getDateFromString(year + "-" + (month + 1) + "-" + dayOfMonth), Constants.ADD_NEW_DATE_FORMAT));
+//                String strMonth = month >= 9? (month + 1) + "" : "0" + (month + 1);
+//                selectedDate.setText(dayOfMonth + "/" + strMonth + "/" + year);
+////                dateView.setText(String.valueOf(dayOfMonth));
+////                monthView.setText(Util.getStringFromDate(selectedDateObject, "MMM"));
+////                yearView.setText(String.valueOf(year));
+//            }
+//        });
 
         /*name.addTextChangedListener(new TextWatcher() {
             @Override
@@ -117,6 +138,19 @@ public class AddNew extends Activity {
             }
         });*/
 
+        CheckBox removeYear = (CheckBox) findViewById(R.id.removeYear);
+        removeYear.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked) {
+                    yearSpinner.setVisibility(View.INVISIBLE);
+                }
+                else {
+                    yearSpinner.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
         intent = new Intent();
         intent.putExtra(Constants.IS_USER_ADDED, Constants.FLAG_FAILURE.toString());
         setResult(RESULT_OK, intent);
@@ -126,7 +160,11 @@ public class AddNew extends Activity {
             public void onClick(View v) {
                 String plainName = name.getText().toString().trim();
                 Calendar cal = Util.getCalendar();
-                cal.set(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth());
+                if(yearSpinner.getVisibility() == View.INVISIBLE) {
+                    year = 1900;
+                }
+                cal.set(year, month, date);
+                Log.i("DATE", cal.getTime() + "");
                 Date plainDate = cal.getTime();
 
                 if (plainName.equalsIgnoreCase("")) {

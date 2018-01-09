@@ -109,7 +109,7 @@
         android:gravity="center"
         android:weightSum="1"
         android:id="@+id/buttonsLayout"
-        android:layout_below="@+id/removeYear"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true">
 
         <ImageButton
@@ -144,13 +144,5 @@
 
 
     </LinearLayout>
-
-    <DatePicker
-        android:id="@+id/perosnDateOfBirth"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/buttonsLayout"
-        android:calendarViewShown="false"
-        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
