@@ -23,32 +23,11 @@
         android:layout_marginLeft="2sp"
         android:layout_marginRight="2sp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Date Of Birth: "
-        android:id="@+id/label2"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="3sp"
-        android:textColor="@color/sub_text_color"
-        android:layout_below="@+id/personName" />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="12/12/1988"
-        android:id="@+id/selectedDate"
-        android:layout_below="@+id/personName"
-        android:layout_marginTop="10dp"
-        android:textColor="@color/sub_text_color"
-        android:layout_toRightOf="@id/label2"
-        />
-
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/label2"
+        android:layout_below="@+id/personName"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:id="@+id/linearLayout"
@@ -105,34 +84,36 @@
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/removeYear">
+        android:layout_below="@+id/removeYear"
+        android:layout_marginTop="5dp"
+        android:background="@color/switch_thumb_normal_material_light">
 
         <LinearLayout
             android:id="@+id/circlebg"
-            android:orientation="vertical"
             android:layout_width="46sp"
             android:layout_height="46sp"
-            android:layout_margin="6dp">
+            android:layout_margin="6dp"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/dateField"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="3dp"
                 android:text="12"
                 android:textColor="@color/white"
-                android:layout_gravity="center_horizontal"
                 android:textSize="16sp"
-                android:layout_marginTop="3dp"
-                android:textStyle="bold"
-                />
+                android:textStyle="bold" />
+
             <TextView
                 android:id="@+id/monthField"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Dec"
-                android:textColor="@color/white"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="-4dp"
+                android:text="Dec"
+                android:textColor="@color/white"
                 android:textSize="14sp" />
         </LinearLayout>
 
@@ -142,8 +123,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="5dp"
-            android:layout_toRightOf="@+id/circlebg"
             android:layout_toLeftOf="@+id/yearField"
+            android:layout_toRightOf="@+id/circlebg"
             android:text="CodeLearn Chapter 1"
             android:textSize="18sp" />
 
@@ -151,23 +132,23 @@
             android:id="@+id/ageField"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:text="Description"
-            android:textSize="11sp"
-            android:alpha="0.7"
+            android:layout_alignStart="@+id/nameField"
             android:layout_below="@+id/nameField"
-            android:layout_alignStart="@+id/nameField" />
+            android:layout_marginBottom="5dp"
+            android:alpha="0.7"
+            android:text="Description"
+            android:textSize="11sp" />
 
         <TextView
             android:id="@+id/yearField"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="1988"
-            android:alpha="0.38"
-            android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginRight="10dp" />
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:alpha="0.38"
+            android:text="1988"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
     </RelativeLayout>
 

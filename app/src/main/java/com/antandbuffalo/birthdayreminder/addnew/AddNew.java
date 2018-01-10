@@ -3,20 +3,19 @@ package com.antandbuffalo.birthdayreminder.addnew;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.opengl.Visibility;
 import android.os.Bundle;
 import android.app.Activity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.CalendarView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,7 +26,6 @@ import com.antandbuffalo.birthdayreminder.R;
 import com.antandbuffalo.birthdayreminder.Util;
 import com.antandbuffalo.birthdayreminder.database.DateOfBirthDBHelper;
 
-import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -38,46 +36,57 @@ import java.util.Map;
 
 public class AddNew extends Activity {
     EditText name;
-    DatePicker datePicker;
     Intent intent = null;
-    TextView selectedDate, dateView, monthView, yearView, nameView, descView;
     Integer date, month, year;
     Calendar cal;
+    SimpleDateFormat dateFormatter;
+    int dayOfYear, currentDayOfYear, recentDayOfYear;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_new);
 
-        DateOfBirth dob = new DateOfBirth();
-
-        selectedDate = (TextView)findViewById(R.id.selectedDate);
-        selectedDate.setText(Util.getStringFromDate(new Date(), Constants.ADD_NEW_DATE_FORMAT));
-        name = (EditText)findViewById(R.id.personName);
+        dateFormatter = new SimpleDateFormat("MMM");
+        currentDayOfYear = Integer.parseInt(Util.getStringFromDate(new Date(), Constants.DAY_OF_YEAR));
 
         cal = Util.getCalendar();
+        cal.setTime(new Date());
+        cal.add(Calendar.DATE, Constants.RECENT_DURATION);
+        recentDayOfYear = Integer.parseInt(Util.getStringFromDate(cal.getTime(), Constants.DAY_OF_YEAR));
+
+
+        name = (EditText)findViewById(R.id.personName);
 
         ImageButton save = (ImageButton) findViewById(R.id.save);
         save.setBackgroundResource(R.drawable.save_button);
 
-        ImageButton cancel = (ImageButton)findViewById(R.id.cancel);
+        final ImageButton cancel = (ImageButton)findViewById(R.id.cancel);
         cancel.setBackgroundResource(R.drawable.cancel_button);
 
         final Spinner monthSpinner = (Spinner) findViewById(R.id.monthSpinner);
         final Spinner datesSpinner = (Spinner) findViewById(R.id.dateSpinner);
         final Spinner yearSpinner = (Spinner) findViewById(R.id.yearSpinner);
+        final Map<Integer, Integer> yearMapper = getYearMapper(Constants.START_YEAR, cal.get(Calendar.YEAR));
 
         addMonthsToSpinner(monthSpinner);
+        monthSpinner.setSelection(cal.get(Calendar.MONTH));
+
+        addYearsToSpinner(yearSpinner, Constants.START_YEAR, cal.get(Calendar.YEAR));
+        yearSpinner.setSelection(yearMapper.get(cal.get(Calendar.YEAR)));
 
         monthSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.i("Item select", "" + position);
                 addDatesToSpinner(datesSpinner, Constants.MONTH_DAYS.get(position));
+                //to select today's date if the month is current month
+                cal.setTime(new Date());
                 if(cal.get(Calendar.MONTH) == position) {
                     datesSpinner.setSelection(cal.get(Calendar.DAY_OF_MONTH) - 1);
                 }
+                //passing position here. Because the item value is text "Jan"
                 month = monthSpinner.getSelectedItemPosition();
-                preview("Test", date, month, year);
+                preview(name.getText().toString(), date, month, year);
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -85,17 +94,11 @@ public class AddNew extends Activity {
             }
         });
 
-        final Map<Integer, Integer> yearMapper = getYearMapper(Constants.START_YEAR, cal.get(Calendar.YEAR));
-
-        addYearsToSpinner(yearSpinner, Constants.START_YEAR, cal.get(Calendar.YEAR));
-        monthSpinner.setSelection(cal.get(Calendar.MONTH));
-        yearSpinner.setSelection(yearMapper.get(cal.get(Calendar.YEAR)));
-
         datesSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 date = Integer.parseInt(datesSpinner.getSelectedItem().toString());
-                preview("Test", date, month, year);
+                preview(name.getText().toString(), date, month, year);
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -107,7 +110,7 @@ public class AddNew extends Activity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 year = Integer.parseInt(yearSpinner.getSelectedItem().toString());
-                preview("Test", date, month, year);
+                preview(name.getText().toString(), date, month, year);
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -115,21 +118,7 @@ public class AddNew extends Activity {
             }
         });
 
-
-//        datePicker.getCalendarView().setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-//            @Override
-//            public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
-//                //Date selectedDateObject = Util.getDateFromString(year + "-" + (month + 1) + "-" + dayOfMonth);
-//                //selectedDate.setText(Util.getStringFromDate(Util.getDateFromString(year + "-" + (month + 1) + "-" + dayOfMonth), Constants.ADD_NEW_DATE_FORMAT));
-//                String strMonth = month >= 9? (month + 1) + "" : "0" + (month + 1);
-//                selectedDate.setText(dayOfMonth + "/" + strMonth + "/" + year);
-////                dateView.setText(String.valueOf(dayOfMonth));
-////                monthView.setText(Util.getStringFromDate(selectedDateObject, "MMM"));
-////                yearView.setText(String.valueOf(year));
-//            }
-//        });
-
-        /*name.addTextChangedListener(new TextWatcher() {
+        name.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
@@ -140,9 +129,10 @@ public class AddNew extends Activity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                nameView.setText(name.getText());
+                preview(name.getText().toString(), date, month, year);
+                //nameView.setText(name.getText());
             }
-        });*/
+        });
 
         CheckBox removeYear = (CheckBox) findViewById(R.id.removeYear);
         removeYear.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -150,9 +140,11 @@ public class AddNew extends Activity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked) {
                     yearSpinner.setVisibility(View.INVISIBLE);
+                    preview(name.getText().toString(), date, month, Constants.NO_YEAR);
                 }
                 else {
                     yearSpinner.setVisibility(View.VISIBLE);
+                    preview(name.getText().toString(), date, month, year);
                 }
             }
         });
@@ -165,7 +157,6 @@ public class AddNew extends Activity {
             @Override
             public void onClick(View v) {
                 String plainName = name.getText().toString().trim();
-                Calendar cal = Util.getCalendar();
                 if(yearSpinner.getVisibility() == View.INVISIBLE) {
                     year = Constants.NO_YEAR;
                 }
@@ -274,17 +265,58 @@ public class AddNew extends Activity {
 
     public void preview(String givenName, Integer date, Integer month, Integer year) {
 
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("MMM");
+        if(date == null || month == null || year == null) {
+            return;
+        }
+        DateOfBirth dateOfBirth = new DateOfBirth();
+        dateOfBirth.setDobDate(Util.getDateFromString(year + "-" + (month + 1) + "-" + date));
+
+        dayOfYear = Integer.parseInt(Util.getStringFromDate(dateOfBirth.getDobDate(), Constants.DAY_OF_YEAR));
+
         TextView name = (TextView)findViewById(R.id.nameField);
         TextView desc = (TextView)findViewById(R.id.ageField);
         TextView dateField = (TextView)findViewById(R.id.dateField);
         TextView monthField = (TextView)findViewById(R.id.monthField);
         TextView yearField = (TextView)findViewById(R.id.yearField);
 
+        LinearLayout circle = (LinearLayout)findViewById(R.id.circlebg);
+
+        if(dayOfYear == currentDayOfYear) {
+            circle.setBackgroundResource(R.drawable.cirlce_today);
+        }
+        else if(recentDayOfYear < currentDayOfYear) {   //year end case
+            if(dayOfYear > currentDayOfYear || dayOfYear < recentDayOfYear) {
+                circle.setBackgroundResource(R.drawable.cirlce_recent);
+            }
+            else {
+                circle.setBackgroundResource(R.drawable.cirlce_normal);
+            }
+        }
+        else if(dayOfYear <= recentDayOfYear && dayOfYear > currentDayOfYear ){
+            circle.setBackgroundResource(R.drawable.cirlce_recent);
+        }
+        else {
+            circle.setBackgroundResource(R.drawable.cirlce_normal);
+        }
+
+        dateOfBirth.setAge(Util.getAge(dateOfBirth.getDobDate()));
+        Util.setDescription(dateOfBirth, "Age");
+
+        if(year == Constants.NO_YEAR) {
+            yearField.setVisibility(View.INVISIBLE);
+            desc.setVisibility(View.INVISIBLE);
+        }
+        else {
+            yearField.setVisibility(View.VISIBLE);
+            desc.setVisibility(View.VISIBLE);
+        }
+
         name.setText(givenName);
-        dateField.setText(date != null? date + "" : "");
-        monthField.setText(month != null? month + "" : "");
-        yearField.setText(year != null? year + "" : "");
+        dateField.setText(date + "");
+        monthField.setText(dateFormatter.format(dateOfBirth.getDobDate().getTime()));
+        yearField.setText(year + "");
+        desc.setText(dateOfBirth.getDescription());
+
     }
 
     public void clearInputs() {
