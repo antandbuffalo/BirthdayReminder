@@ -37,7 +37,7 @@ import java.util.Map;
 public class AddNew extends Activity {
     EditText name;
     Intent intent = null;
-    Integer date, month, year;
+    Integer date, month, year, selectedDate;
     Calendar cal;
     SimpleDateFormat dateFormatter;
     int dayOfYear, currentDayOfYear, recentDayOfYear;
@@ -81,8 +81,11 @@ public class AddNew extends Activity {
                 addDatesToSpinner(datesSpinner, Constants.MONTH_DAYS.get(position));
                 //to select today's date if the month is current month
                 cal.setTime(new Date());
-                if(cal.get(Calendar.MONTH) == position) {
+                if(date == null) {
                     datesSpinner.setSelection(cal.get(Calendar.DAY_OF_MONTH) - 1);
+                }
+                else {
+                    datesSpinner.setSelection(date - 1);
                 }
                 //passing position here. Because the item value is text "Jan"
                 month = monthSpinner.getSelectedItemPosition();
