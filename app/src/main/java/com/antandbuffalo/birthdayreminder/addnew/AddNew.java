@@ -1,10 +1,15 @@
 package com.antandbuffalo.birthdayreminder.addnew;
 
 import android.app.AlertDialog;
+import android.app.Fragment;
+import android.arch.lifecycle.ViewModel;
+import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
+import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -34,17 +39,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AddNew extends Activity {
+public class AddNew extends FragmentActivity {
     EditText name;
     Intent intent = null;
     Integer date, month, year, selectedDate;
     Calendar cal;
     SimpleDateFormat dateFormatter;
     int dayOfYear, currentDayOfYear, recentDayOfYear;
+    AddNewViewModel addNewViewModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_new);
+
+        addNewViewModel = ViewModelProviders.of(this).get(AddNewViewModel.class);
+
 
         dateFormatter = new SimpleDateFormat("MMM");
         currentDayOfYear = Integer.parseInt(Util.getStringFromDate(new Date(), Constants.DAY_OF_YEAR));
