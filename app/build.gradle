@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 22
-    buildToolsVersion '25.0.0'
+    buildToolsVersion '26.0.2'
 
     defaultConfig {
         applicationId "com.antandbuffalo.birthdayreminder"
@@ -10,7 +10,6 @@ android {
         targetSdkVersion 22
         versionCode 13
         versionName "1.1.1"
-        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -23,6 +22,7 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:22.0.0'
+
     // ViewModel and LiveData
     implementation "android.arch.lifecycle:extensions:1.0.0"
     annotationProcessor "android.arch.lifecycle:compiler:1.0.0"

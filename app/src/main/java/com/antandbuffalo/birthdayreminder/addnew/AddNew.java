@@ -54,7 +54,6 @@ public class AddNew extends FragmentActivity {
 
         addNewViewModel = ViewModelProviders.of(this).get(AddNewViewModel.class);
 
-
         dateFormatter = new SimpleDateFormat("MMM");
         currentDayOfYear = Integer.parseInt(Util.getStringFromDate(new Date(), Constants.DAY_OF_YEAR));
 
