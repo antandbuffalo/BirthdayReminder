@@ -2,9 +2,9 @@ package com.antandbuffalo.birthdayreminder.addnew;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
-import android.arch.lifecycle.ViewModel;
-import android.arch.lifecycle.ViewModelProvider;
-import android.arch.lifecycle.ViewModelProviders;
+//import android.arch.lifecycle.ViewModel;
+//import android.arch.lifecycle.ViewModelProvider;
+//import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -46,13 +46,13 @@ public class AddNew extends FragmentActivity {
     Calendar cal;
     SimpleDateFormat dateFormatter;
     int dayOfYear, currentDayOfYear, recentDayOfYear;
-    AddNewViewModel addNewViewModel;
+    //AddNewViewModel addNewViewModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_new);
 
-        addNewViewModel = ViewModelProviders.of(this).get(AddNewViewModel.class);
+        //addNewViewModel = ViewModelProviders.of(this).get(AddNewViewModel.class);
 
         dateFormatter = new SimpleDateFormat("MMM");
         currentDayOfYear = Integer.parseInt(Util.getStringFromDate(new Date(), Constants.DAY_OF_YEAR));

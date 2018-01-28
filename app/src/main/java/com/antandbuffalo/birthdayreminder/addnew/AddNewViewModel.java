@@ -5,9 +5,6 @@ import android.arch.lifecycle.ViewModel;
 
 import com.antandbuffalo.birthdayreminder.DateOfBirth;
 
-/**
- * Created by Jeyabalaji on 20/1/18.
- */
 
 public class AddNewViewModel extends ViewModel {
 
