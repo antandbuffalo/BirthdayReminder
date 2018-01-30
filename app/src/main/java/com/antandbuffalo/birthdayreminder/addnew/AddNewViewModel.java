@@ -1,36 +1,43 @@
 package com.antandbuffalo.birthdayreminder.addnew;
 
-import android.arch.lifecycle.LiveData;
+import android.app.AlertDialog;
 import android.arch.lifecycle.ViewModel;
+import android.content.DialogInterface;
+import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
 
+import com.antandbuffalo.birthdayreminder.Constants;
 import com.antandbuffalo.birthdayreminder.DateOfBirth;
+import com.antandbuffalo.birthdayreminder.Util;
+import com.antandbuffalo.birthdayreminder.database.DateOfBirthDBHelper;
+
+import java.util.Calendar;
+import java.util.Date;
 
 
 public class AddNewViewModel extends ViewModel {
 
-    private LiveData<Integer> day, month, year;
+    Calendar cal = Util.getCalendar();
 
-    public LiveData<Integer> getDay() {
-        return day;
+    public Boolean isDOBAvailable(DateOfBirth dob) {
+        return !DateOfBirthDBHelper.isUniqueDateOfBirthIgnoreCase(dob);
     }
 
-    public void setDay(LiveData<Integer> day) {
-        this.day = day;
+    public String getFileName(String name) {
+        return Util.fileToLoad(name);
     }
 
-    public LiveData<Integer> getMonth() {
-        return month;
+    public String loadFromFileWithName(String fileName) {
+        return Util.readFromAssetFile(fileName);
     }
 
-    public void setMonth(LiveData<Integer> month) {
-        this.month = month;
-    }
-
-    public LiveData<Integer> getYear() {
-        return year;
-    }
-
-    public void setYear(LiveData<Integer> year) {
-        this.year = year;
+    public void saveToDB(String name, Integer year) {
+        Date plainDate = cal.getTime();
+        DateOfBirth dob = new DateOfBirth();
+        dob.setName(name);
+        dob.setDobDate(plainDate);
+        DateOfBirthDBHelper.insertDOB(dob);
+        Util.updateFile(dob);
     }
 }
