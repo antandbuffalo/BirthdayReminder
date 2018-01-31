@@ -1,12 +1,14 @@
 package com.antandbuffalo.birthdayreminder.addnew;
 
 import android.app.AlertDialog;
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -139,7 +141,6 @@ public class AddNew extends FragmentActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 preview(name.getText().toString(), date, month, year);
-                //nameView.setText(name.getText());
             }
         });
 

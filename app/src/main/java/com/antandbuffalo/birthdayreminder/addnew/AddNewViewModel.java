@@ -1,11 +1,9 @@
 package com.antandbuffalo.birthdayreminder.addnew;
 
 import android.app.AlertDialog;
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
-import android.content.DialogInterface;
-import android.util.Log;
-import android.view.View;
-import android.widget.Toast;
 
 import com.antandbuffalo.birthdayreminder.Constants;
 import com.antandbuffalo.birthdayreminder.DateOfBirth;
@@ -19,6 +17,7 @@ import java.util.Date;
 public class AddNewViewModel extends ViewModel {
 
     Calendar cal = Util.getCalendar();
+    String name;
 
     public Boolean isDOBAvailable(DateOfBirth dob) {
         return !DateOfBirthDBHelper.isUniqueDateOfBirthIgnoreCase(dob);
