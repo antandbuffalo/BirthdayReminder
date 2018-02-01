@@ -74,7 +74,7 @@ public class AddNew extends FragmentActivity {
         final Spinner monthSpinner = (Spinner) findViewById(R.id.monthSpinner);
         final Spinner datesSpinner = (Spinner) findViewById(R.id.dateSpinner);
         final Spinner yearSpinner = (Spinner) findViewById(R.id.yearSpinner);
-        final Map<Integer, Integer> yearMapper = getYearMapper(Constants.START_YEAR, cal.get(Calendar.YEAR));
+        final Map<Integer, Integer> yearMapper = addNewViewModel.getYearsMapper(Constants.START_YEAR, cal.get(Calendar.YEAR));
 
         addMonthsToSpinner(monthSpinner);
         monthSpinner.setSelection(cal.get(Calendar.MONTH));
@@ -235,42 +235,23 @@ public class AddNew extends FragmentActivity {
 
     public void addMonthsToSpinner(Spinner spinner) {
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, Util.getMonths());
+                android.R.layout.simple_spinner_item, addNewViewModel.getMonths());
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(dataAdapter);
     }
 
     public void addDatesToSpinner(Spinner spinner, Integer maxValue) {
-        List<String> datesList = new ArrayList<String>();
-        for (int i = 1; i <= maxValue; i++) {
-            datesList .add(i + "");
-        }
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, datesList);
+                android.R.layout.simple_spinner_item, addNewViewModel.getDates(maxValue));
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(dataAdapter);
     }
 
     public void addYearsToSpinner(Spinner spinner, Integer minYear, Integer maxYear) {
-        List<String> yearsList = new ArrayList<String>();
-        for (int i = minYear; i <= maxYear; i++) {
-            yearsList .add(i + "");
-        }
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, yearsList);
+                android.R.layout.simple_spinner_item, addNewViewModel.getYears(minYear, maxYear));
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(dataAdapter);
-    }
-
-    public Map<Integer, Integer> getYearMapper(Integer minYear, Integer maxYear) {
-        Map<Integer, Integer> yearsMap = new HashMap<Integer, Integer>();
-        Integer counter = maxYear - minYear;
-        int j = minYear;
-        for (int i=0; i<=counter; i++) {
-            Log.i("YEAR", i + " -- " + j);
-            yearsMap.put(j++, i);
-        }
-        return yearsMap;
     }
 
     public void preview(String givenName, Integer date, Integer month, Integer year) {
