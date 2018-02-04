@@ -1,12 +1,7 @@
 package com.antandbuffalo.birthdayreminder.addnew;
 
-import android.app.AlertDialog;
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.util.Log;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
 
 import com.antandbuffalo.birthdayreminder.Constants;
 import com.antandbuffalo.birthdayreminder.DateOfBirth;

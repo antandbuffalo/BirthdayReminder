@@ -1,14 +1,10 @@
 package com.antandbuffalo.birthdayreminder.addnew;
 
 import android.app.AlertDialog;
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.app.Activity;
-import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -26,17 +22,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.antandbuffalo.birthdayreminder.Constants;
-import com.antandbuffalo.birthdayreminder.DateOfBirth;
 import com.antandbuffalo.birthdayreminder.R;
 import com.antandbuffalo.birthdayreminder.Util;
-import com.antandbuffalo.birthdayreminder.database.DateOfBirthDBHelper;
-
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class AddNew extends FragmentActivity {
