@@ -128,6 +128,7 @@ public class DateOfBirthDBHelper {
         ContentValues values = new ContentValues();
         values.put(Constants.COLUMN_DOB_NAME, dateOfBirth.getName()); // Contact Name
         values.put(Constants.COLUMN_DOB_DATE, Util.getStringFromDate(dateOfBirth.getDobDate())); // date of birth - 2000
+        values.put(Constants.COLUMN_DOB_OPTIONAL_YEAR, dateOfBirth.getRemoveYear());
         long returnValue = db.insert(Constants.TABLE_DATE_OF_BIRTH, null, values); // Inserting Row
         db.close();
         return returnValue;
@@ -149,6 +150,7 @@ public class DateOfBirthDBHelper {
         ContentValues values = new ContentValues();
         values.put(Constants.COLUMN_DOB_NAME, dateOfBirth.getName()); // Contact Name
         values.put(Constants.COLUMN_DOB_DATE, Util.getStringFromDate(dateOfBirth.getDobDate())); // date of birth - 2000
+        values.put(Constants.COLUMN_DOB_OPTIONAL_YEAR, dateOfBirth.getRemoveYear());
         // update Row
         String dobId = Constants.COLUMN_DOB_ID + "=" + dateOfBirth.getDobId();
         long returnValue = db.update(Constants.TABLE_DATE_OF_BIRTH, values, dobId, null);
@@ -171,6 +173,7 @@ public class DateOfBirthDBHelper {
         selectionQuery = "select " + Constants.COLUMN_DOB_ID + ", "
                 + Constants.COLUMN_DOB_NAME + ", "
                 + Constants.COLUMN_DOB_DATE + ", "
+                + Constants.COLUMN_DOB_OPTIONAL_YEAR + ", "
                 + "case when day < cast(strftime('%m%d','"
                 + today
                 + "') as int) then priority + 1 else priority end cp from"
@@ -178,6 +181,7 @@ public class DateOfBirthDBHelper {
                 + Constants.COLUMN_DOB_ID + ", "
                 + Constants.COLUMN_DOB_NAME + ", "
                 + Constants.COLUMN_DOB_DATE + ", "
+                + Constants.COLUMN_DOB_OPTIONAL_YEAR + ", "
                 + "cast(strftime('%m%d', "
                 + Constants.COLUMN_DOB_DATE + ") as int) as day, 0 as priority from "
                 + Constants.TABLE_DATE_OF_BIRTH + ") order by cp, day";
@@ -228,6 +232,7 @@ public class DateOfBirthDBHelper {
             selectionQuery = "select " + Constants.COLUMN_DOB_ID + ", "
                     + Constants.COLUMN_DOB_NAME + ", "
                     + Constants.COLUMN_DOB_DATE + ", "
+                    + Constants.COLUMN_DOB_OPTIONAL_YEAR + ", "
                     + "0 as TYPE, "
                     + "cast(strftime('%m%d', "
                     + Constants.COLUMN_DOB_DATE + ") as int) as day from "
@@ -252,6 +257,7 @@ public class DateOfBirthDBHelper {
             selectionQuery = "select " + Constants.COLUMN_DOB_ID + ", "
                     + Constants.COLUMN_DOB_NAME + ", "
                     + Constants.COLUMN_DOB_DATE + ", "
+                    + Constants.COLUMN_DOB_OPTIONAL_YEAR + ", "
                     + "cast(strftime('%m%d', "
                     + Constants.COLUMN_DOB_DATE + ") as int) as day from "
                     + Constants.TABLE_DATE_OF_BIRTH + " where day >= cast(strftime('%m%d', '"
@@ -329,6 +335,12 @@ public class DateOfBirthDBHelper {
                 dateOfBirth.setName(cursor.getString(1));
                 dateOfBirth.setDobDate(Util.getDateFromString(cursor.getString(2)));
                 dateOfBirth.setAge(Util.getAge(dateOfBirth.getDobDate()));
+                if(cursor.getInt(3) == 1) {
+                    dateOfBirth.setRemoveYear(true);
+                }
+                else {
+                    dateOfBirth.setRemoveYear(false);
+                }
                 dobList.add(dateOfBirth);
             } while (cursor.moveToNext());
         }

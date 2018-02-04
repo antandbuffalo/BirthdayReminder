@@ -79,7 +79,7 @@ public class Constants {
 
     public static final Map<Integer, Integer> MONTH_DAYS = new HashMap<Integer, Integer>() {{
         put(0, 31);
-        put(1, 29);
+        put(1, 28);
         put(2, 31);
         put(3, 30);
         put(4, 31);

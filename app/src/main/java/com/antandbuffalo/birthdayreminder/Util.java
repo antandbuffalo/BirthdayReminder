@@ -420,4 +420,21 @@ public class Util {
 
         return monthsList;
     }
+
+    public static Integer getDayOfYear(Date date) {
+        return Integer.parseInt(Util.getStringFromDate(date, Constants.DAY_OF_YEAR));
+    }
+
+    public static Integer getCurrentDayOfYear() {
+        return Integer.parseInt(Util.getStringFromDate(new Date(), Constants.DAY_OF_YEAR));
+    }
+
+    public static Integer getRecentDayOfYear() {
+        Calendar cal = Util.getCalendar();
+        cal.setTime(new Date());
+        cal.add(Calendar.DATE, Constants.RECENT_DURATION);
+
+        return Integer.parseInt(Util.getStringFromDate(cal.getTime(), Constants.DAY_OF_YEAR));
+    }
+
 }

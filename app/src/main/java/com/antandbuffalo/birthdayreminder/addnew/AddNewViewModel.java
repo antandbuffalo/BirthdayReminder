@@ -25,9 +25,59 @@ public class AddNewViewModel extends ViewModel {
 
     Calendar cal = Util.getCalendar();
     String name;
+    //months starts from 0 for Jan
+    Integer date = 1, month = 0, year = Constants.START_YEAR;
+    boolean isRemoveYear = false;
+    private static final int MONTH_FEB = 1;
+    DateOfBirth dateOfBirth;
 
-    public List getDates(Integer maxValue) {
+    public void initDefaults() {
+        cal.setTime(new Date());
+        date = cal.get(Calendar.DATE);
+        month = cal.get(Calendar.MONTH);
+        year = cal.get(Calendar.YEAR);
+
+        dateOfBirth = new DateOfBirth();
+    }
+
+    public void setName(String givenName) {
+        name = givenName.trim();
+    }
+
+    public boolean isLeapYear(Integer year) {
+        return (year % 4 == 0);
+    }
+
+    public Integer getSelectedYearPosition() {
+        Map<Integer, Integer> yearsMap = getYearsMapper();
+        return yearsMap.get(year);
+    }
+
+    public Integer getSelectedMonthPosition() {
+        return month;
+    }
+
+    public Integer getSelectedDatePosition() {
+        List dateList = getDates();
+        //need to check the max value. Because of different values of month like 28, 29, 30 and 31 days.
+        if(date > dateList.size()) {
+            date = dateList.size();
+        }
+        //date starts from 1. So for the position substract 1
+        return (date - 1);
+    }
+
+
+    public List getDates() {
         List<String> dateList = new ArrayList<String>();
+        Integer maxValue;
+        if(isLeapYear(year) && month == MONTH_FEB) {
+            //leap year
+            maxValue = 29;
+        }
+        else {
+            maxValue = Constants.MONTH_DAYS.get(month);
+        }
         for (int i = 1; i <= maxValue; i++) {
             dateList.add(i + "");
         }
@@ -38,7 +88,8 @@ public class AddNewViewModel extends ViewModel {
         return Util.getMonths();
     }
 
-    public List getYears(Integer minYear, Integer maxYear) {
+    public List getYears() {
+        Integer minYear = Constants.START_YEAR, maxYear = cal.get(Calendar.YEAR);
         List<String> yearsList = new ArrayList<String>();
         for (int i = minYear; i <= maxYear; i++) {
             yearsList .add(i + "");
@@ -46,7 +97,21 @@ public class AddNewViewModel extends ViewModel {
         return yearsList;
     }
 
-    public Map<Integer, Integer> getYearsMapper(Integer minYear, Integer maxYear) {
+    public void setSelectedDate(Integer selectedDate) {
+        date = selectedDate;
+    }
+
+    public void setSelectedMonth(Integer selectedMonth) {
+        month = selectedMonth;
+    }
+
+    public void setSelectedYear(Integer selectedYear) {
+        year = selectedYear;
+    }
+
+    public Map<Integer, Integer> getYearsMapper() {
+        cal.setTime(new Date());
+        Integer minYear = Constants.START_YEAR, maxYear = cal.get(Calendar.YEAR);
         Map<Integer, Integer> yearsMap = new HashMap<Integer, Integer>();
         Integer counter = maxYear - minYear;
         int j = minYear;
@@ -63,7 +128,12 @@ public class AddNewViewModel extends ViewModel {
         return !DateOfBirthDBHelper.isUniqueDateOfBirthIgnoreCase(dob);
     }
 
-    public String getFileName(String name) {
+    public Boolean isNameEmpty() {
+        return name.equalsIgnoreCase("");
+    }
+
+
+    public String getFileName() {
         return Util.fileToLoad(name);
     }
 
@@ -71,12 +141,22 @@ public class AddNewViewModel extends ViewModel {
         return Util.readFromAssetFile(fileName);
     }
 
-    public void saveToDB(String name, Integer year) {
+    public void setDateOfBirth() {
+        cal.set(year, month, date);
         Date plainDate = cal.getTime();
-        DateOfBirth dob = new DateOfBirth();
-        dob.setName(name);
-        dob.setDobDate(plainDate);
-        DateOfBirthDBHelper.insertDOB(dob);
-        Util.updateFile(dob);
+
+        dateOfBirth.setName(name);
+        dateOfBirth.setDobDate(plainDate);
+        dateOfBirth.setRemoveYear(isRemoveYear);
+        dateOfBirth.setAge(Util.getAge(dateOfBirth.getDobDate()));
+    }
+
+    public void saveToDB() {
+        DateOfBirthDBHelper.insertDOB(dateOfBirth);
+        Util.updateFile(dateOfBirth);
+    }
+
+    public void clearInputs() {
+        initDefaults();
     }
 }

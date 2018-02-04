@@ -50,10 +50,10 @@ public final class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         // TODO Auto-generated method stub
         String CREATE_DOB_TABLE = "CREATE TABLE " + Constants.TABLE_DATE_OF_BIRTH
-                + "(" + Constants.COLUMN_DOB_ID + " INTEGER PRIMARY KEY autoincrement,"
-                + Constants.COLUMN_DOB_NAME + " TEXT NOT NULL,"
-                + Constants.COLUMN_DOB_DATE + " DATE NOT NULL,"
-                + Constants.COLUMN_DOB_EXTRA + " TEXT"
+                + "(" + Constants.COLUMN_DOB_ID + " INTEGER PRIMARY KEY autoincrement, "
+                + Constants.COLUMN_DOB_NAME + " TEXT NOT NULL, "
+                + Constants.COLUMN_DOB_DATE + " DATE NOT NULL, "
+                + Constants.COLUMN_DOB_EXTRA + " TEXT, "
                 + Constants.COLUMN_DOB_OPTIONAL_YEAR + " INTEGER"
                 +")";
         System.out.println("create query -- " + CREATE_DOB_TABLE);
