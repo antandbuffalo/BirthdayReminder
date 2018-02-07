@@ -1,16 +1,22 @@
 package com.antandbuffalo.birthdayreminder.update;
 
 import android.app.AlertDialog;
+import android.app.Fragment;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,13 +26,15 @@ import com.antandbuffalo.birthdayreminder.DateOfBirth;
 import com.antandbuffalo.birthdayreminder.R;
 import com.antandbuffalo.birthdayreminder.TabsAdapter;
 import com.antandbuffalo.birthdayreminder.Util;
+import com.antandbuffalo.birthdayreminder.addnew.AddNewViewModel;
 import com.antandbuffalo.birthdayreminder.database.DateOfBirthDBHelper;
 import com.antandbuffalo.birthdayreminder.fragments.MyFragment;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Map;
 
-public class Update extends Activity {
+public class Update extends FragmentActivity {
     TextView selectedDate;
     EditText name;
     DatePicker datePicker;
@@ -34,31 +42,47 @@ public class Update extends Activity {
     Intent intent;
     Calendar cal;
 
+    private UpdateViewModel updateViewModel;
+    int dayOfYear, currentDayOfYear, recentDayOfYear;
+    TextView namePreview, desc, dateField, monthField, yearField;
+    Spinner yearSpinner, monthSpinner, datesSpinner;
+    LinearLayout circle;
+    ImageButton update, cancel, delete;
+    Map<Integer, Integer> yearMapper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update);
 
-        currentDOB = (DateOfBirth)getIntent().getSerializableExtra("currentDOB");
+        initLayout();
 
-        selectedDate = (TextView)findViewById(R.id.selectedDate);
-        selectedDate.setText(Util.getStringFromDate(currentDOB.getDobDate(), Constants.ADD_NEW_DATE_FORMAT));
+        updateViewModel = ViewModelProviders.of(this).get(UpdateViewModel.class);
+
+        currentDOB = (DateOfBirth)getIntent().getSerializableExtra("currentDOB");
+        updateViewModel.setDateOfBirth(currentDOB);
+
         name = (EditText)findViewById(R.id.personName);
         name.setText(currentDOB.getName());
-        datePicker = (DatePicker)findViewById(R.id.perosnDateOfBirth);
-        datePicker.setMaxDate(new Date().getTime());
 
-        cal = Calendar.getInstance();
-        cal.setTime(currentDOB.getDobDate());
-        datePicker.updateDate(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DATE));
+        currentDayOfYear = Util.getCurrentDayOfYear();
+        recentDayOfYear = Util.getRecentDayOfYear();
 
-        ImageButton delete = (ImageButton)findViewById(R.id.delete);
+        addYearsToSpinner(yearSpinner);
+        addMonthsToSpinner(monthSpinner);
+        addDatesToSpinner(datesSpinner);
+
+        yearSpinner.setSelection(updateViewModel.getSelectedYearPosition());
+        monthSpinner.setSelection(updateViewModel.getSelectedMonthPosition());
+        datesSpinner.setSelection(updateViewModel.getSelectedDatePosition());
+
+        delete = (ImageButton)findViewById(R.id.delete);
         delete.setBackgroundResource(R.drawable.delete_button);
 
-        ImageButton cancel = (ImageButton)findViewById(R.id.cancel);
+        cancel = (ImageButton)findViewById(R.id.cancel);
         cancel.setBackgroundResource(R.drawable.cancel_button);
 
-        ImageButton update = (ImageButton)findViewById(R.id.save);
+        update = (ImageButton)findViewById(R.id.save);
         update.setBackgroundResource(R.drawable.save_button);
 
         intent = new Intent();
@@ -132,6 +156,51 @@ public class Update extends Activity {
                 }
             }
         });
+    }
+
+    public void initLayout() {
+        name = (EditText)findViewById(R.id.personName);
+
+        monthSpinner = (Spinner) findViewById(R.id.monthSpinner);
+        datesSpinner = (Spinner) findViewById(R.id.dateSpinner);
+        yearSpinner = (Spinner) findViewById(R.id.yearSpinner);
+
+        update = (ImageButton) findViewById(R.id.save);
+        update.setBackgroundResource(R.drawable.save_button);
+
+        cancel = (ImageButton)findViewById(R.id.cancel);
+        cancel.setBackgroundResource(R.drawable.cancel_button);
+
+        yearMapper = updateViewModel.getYearsMapper();
+
+        namePreview = (TextView)findViewById(R.id.nameField);
+        desc = (TextView)findViewById(R.id.ageField);
+        dateField = (TextView)findViewById(R.id.dateField);
+        monthField = (TextView)findViewById(R.id.monthField);
+        yearField = (TextView)findViewById(R.id.yearField);
+
+        circle = (LinearLayout)findViewById(R.id.circlebg);
+    }
+
+    public void addMonthsToSpinner(Spinner spinner) {
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, updateViewModel.getMonths());
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(dataAdapter);
+    }
+
+    public void addDatesToSpinner(Spinner spinner) {
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, updateViewModel.getDates());
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(dataAdapter);
+    }
+
+    public void addYearsToSpinner(Spinner spinner) {
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, updateViewModel.getYears());
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(dataAdapter);
     }
 
     public void clearInputs() {
