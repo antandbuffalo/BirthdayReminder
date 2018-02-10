@@ -55,23 +55,12 @@ public class DateOfBirthDBHelper {
     //returns true is the given values is not available in DB
     //returns false if the entry is available already
     public static boolean isUniqueDateOfBirth(DateOfBirth dob) {
-        java.sql.Date sampleDate = new java.sql.Date(dob.getDobDate().getTime());
-        String selectionQuery = "";
-        selectionQuery = "select " + Constants.COLUMN_DOB_ID + ", "
-                + Constants.COLUMN_DOB_NAME + ", "
-                + Constants.COLUMN_DOB_DATE + " from "
-                + Constants.TABLE_DATE_OF_BIRTH + " where "
-                + Constants.COLUMN_DOB_NAME + " = '"
-                + dob.getName() + "' AND "
-                + Constants.COLUMN_DOB_DATE + " = '"
-                + sampleDate + "'";
-
-        //System.out.println("query -- is unique --- " + selectionQuery);
         SQLiteDatabase db = DBHelper.getInstace().getReadableDatabase();
 
-        String[] columns = {Constants.COLUMN_DOB_ID, Constants.COLUMN_DOB_NAME, Constants.COLUMN_DOB_DATE};
-        String selection = Constants.COLUMN_DOB_NAME + " =? AND " + Constants.COLUMN_DOB_DATE + " =?";
-        String[] selectionArgs = {dob.getName(), Util.getStringFromDate(dob.getDobDate())};
+        String[] columns = {Constants.COLUMN_DOB_ID, Constants.COLUMN_DOB_NAME, Constants.COLUMN_DOB_DATE, Constants.COLUMN_DOB_OPTIONAL_YEAR};
+        String selection = Constants.COLUMN_DOB_NAME + " =? AND " + Constants.COLUMN_DOB_DATE + " =? AND " + Constants.COLUMN_DOB_OPTIONAL_YEAR + " =?";
+        String optionalYear = dob.getRemoveYear()? "1" : "0";
+        String[] selectionArgs = {dob.getName(), Util.getStringFromDate(dob.getDobDate()), optionalYear};
         String groupBy = null;
         String having = null;
         String orderBy = null;
@@ -89,23 +78,12 @@ public class DateOfBirthDBHelper {
     }
 
     public static boolean isUniqueDateOfBirthIgnoreCase(DateOfBirth dob) {
-        java.sql.Date sampleDate = new java.sql.Date(dob.getDobDate().getTime());
-        String selectionQuery = "";
-        selectionQuery = "select " + Constants.COLUMN_DOB_ID + ", "
-                + Constants.COLUMN_DOB_NAME + ", "
-                + Constants.COLUMN_DOB_DATE + " from "
-                + Constants.TABLE_DATE_OF_BIRTH + " where "
-                + Constants.COLUMN_DOB_NAME + " = '"
-                + dob.getName() + "' COLLATE NOCASE AND "
-                + Constants.COLUMN_DOB_DATE + " = '"
-                + sampleDate + "'";
-
-        //System.out.println("query -- is unique --- " + selectionQuery);
         SQLiteDatabase db = DBHelper.getInstace().getReadableDatabase();
 
-        String[] columns = {Constants.COLUMN_DOB_ID, Constants.COLUMN_DOB_NAME, Constants.COLUMN_DOB_DATE};
-        String selection = Constants.COLUMN_DOB_NAME + " =? COLLATE NOCASE AND " + Constants.COLUMN_DOB_DATE + " =?";
-        String[] selectionArgs = {dob.getName(), Util.getStringFromDate(dob.getDobDate())};
+        String[] columns = {Constants.COLUMN_DOB_ID, Constants.COLUMN_DOB_NAME, Constants.COLUMN_DOB_DATE, Constants.COLUMN_DOB_OPTIONAL_YEAR};
+        String selection = Constants.COLUMN_DOB_NAME + " =? COLLATE NOCASE AND " + Constants.COLUMN_DOB_DATE + " =? AND " + Constants.COLUMN_DOB_OPTIONAL_YEAR + " =?";
+        String optionalYear = dob.getRemoveYear()? "1" : "0";
+        String[] selectionArgs = {dob.getName(), Util.getStringFromDate(dob.getDobDate()), optionalYear};
         String groupBy = null;
         String having = null;
         String orderBy = null;

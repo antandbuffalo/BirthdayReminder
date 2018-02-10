@@ -31,6 +31,8 @@ public class UpdateViewModel extends ViewModel {
 
         dateOfBirth = givenDateOfBirth;
 
+        name = givenDateOfBirth.getName();
+
         date = cal.get(Calendar.DATE);
         month = cal.get(Calendar.MONTH);
         year = cal.get(Calendar.YEAR);
@@ -123,7 +125,7 @@ public class UpdateViewModel extends ViewModel {
     
 
     public Boolean isDOBAvailable(DateOfBirth dob) {
-        return !DateOfBirthDBHelper.isUniqueDateOfBirthIgnoreCase(dob);
+        return !DateOfBirthDBHelper.isUniqueDateOfBirth(dob);
     }
 
     public Boolean isNameEmpty() {
@@ -139,13 +141,27 @@ public class UpdateViewModel extends ViewModel {
         return Util.readFromAssetFile(fileName);
     }
 
-    public void setDateOfBirth(DateOfBirth givenDateOfBirth) {
-        dateOfBirth = givenDateOfBirth;
+    public void setDateOfBirth() {
+        cal.set(year, month, date);
+        Date plainDate = cal.getTime();
+
+        dateOfBirth.setName(name);
+        dateOfBirth.setDobDate(plainDate);
+        dateOfBirth.setRemoveYear(isRemoveYear);
+        dateOfBirth.setAge(Util.getAge(dateOfBirth.getDobDate()));
     }
 
     public void saveToDB() {
         DateOfBirthDBHelper.insertDOB(dateOfBirth);
         Util.updateFile(dateOfBirth);
+    }
+
+    public void delete(long dobId) {
+        DateOfBirthDBHelper.deleteRecordForTheId(dobId);
+    }
+
+    public void update() {
+        DateOfBirthDBHelper.updateDOB(dateOfBirth);
     }
 
 }

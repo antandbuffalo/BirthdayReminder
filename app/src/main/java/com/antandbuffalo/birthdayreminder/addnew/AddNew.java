@@ -38,8 +38,6 @@ public class AddNew extends FragmentActivity {
 
     ImageButton save, cancel;
 
-    Map<Integer, Integer> yearMapper;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -259,7 +257,6 @@ public class AddNew extends FragmentActivity {
         monthField.setText(Util.getStringFromDate(addNewViewModel.dateOfBirth.getDobDate(), "MMM"));
         yearField.setText(addNewViewModel.year + "");
         desc.setText(addNewViewModel.dateOfBirth.getDescription());
-
     }
 
     public void initLayout() {
@@ -274,8 +271,6 @@ public class AddNew extends FragmentActivity {
 
         cancel = (ImageButton)findViewById(R.id.cancel);
         cancel.setBackgroundResource(R.drawable.cancel_button);
-
-        yearMapper = addNewViewModel.getYearsMapper();
 
         namePreview = (TextView)findViewById(R.id.nameField);
         desc = (TextView)findViewById(R.id.ageField);

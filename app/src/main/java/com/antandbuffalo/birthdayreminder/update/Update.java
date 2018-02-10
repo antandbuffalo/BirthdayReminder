@@ -1,18 +1,19 @@
 package com.antandbuffalo.birthdayreminder.update;
 
 import android.app.AlertDialog;
-import android.app.Fragment;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.app.Activity;
 import android.support.v4.app.FragmentActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.DatePicker;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -21,26 +22,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.antandbuffalo.birthdayreminder.Constants;
-import com.antandbuffalo.birthdayreminder.DataHolder;
 import com.antandbuffalo.birthdayreminder.DateOfBirth;
 import com.antandbuffalo.birthdayreminder.R;
-import com.antandbuffalo.birthdayreminder.TabsAdapter;
 import com.antandbuffalo.birthdayreminder.Util;
-import com.antandbuffalo.birthdayreminder.addnew.AddNewViewModel;
-import com.antandbuffalo.birthdayreminder.database.DateOfBirthDBHelper;
-import com.antandbuffalo.birthdayreminder.fragments.MyFragment;
-
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Map;
 
 public class Update extends FragmentActivity {
-    TextView selectedDate;
     EditText name;
-    DatePicker datePicker;
     DateOfBirth currentDOB;
     Intent intent;
-    Calendar cal;
 
     private UpdateViewModel updateViewModel;
     int dayOfYear, currentDayOfYear, recentDayOfYear;
@@ -48,22 +38,28 @@ public class Update extends FragmentActivity {
     Spinner yearSpinner, monthSpinner, datesSpinner;
     LinearLayout circle;
     ImageButton update, cancel, delete;
-    Map<Integer, Integer> yearMapper;
+    CheckBox removeYear;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update);
 
-        initLayout();
-
         updateViewModel = ViewModelProviders.of(this).get(UpdateViewModel.class);
 
         currentDOB = (DateOfBirth)getIntent().getSerializableExtra("currentDOB");
-        updateViewModel.setDateOfBirth(currentDOB);
+        updateViewModel.initDefaults(currentDOB);
 
-        name = (EditText)findViewById(R.id.personName);
-        name.setText(currentDOB.getName());
+        initLayout();
+        name.setText(updateViewModel.name);
+        removeYear.setChecked(updateViewModel.isRemoveYear);
+
+        if(updateViewModel.isRemoveYear) {
+            yearSpinner.setVisibility(View.INVISIBLE);
+        }
+        else {
+            yearSpinner.setVisibility(View.VISIBLE);
+        }
 
         currentDayOfYear = Util.getCurrentDayOfYear();
         recentDayOfYear = Util.getRecentDayOfYear();
@@ -76,14 +72,78 @@ public class Update extends FragmentActivity {
         monthSpinner.setSelection(updateViewModel.getSelectedMonthPosition());
         datesSpinner.setSelection(updateViewModel.getSelectedDatePosition());
 
-        delete = (ImageButton)findViewById(R.id.delete);
-        delete.setBackgroundResource(R.drawable.delete_button);
+        preview();
 
-        cancel = (ImageButton)findViewById(R.id.cancel);
-        cancel.setBackgroundResource(R.drawable.cancel_button);
+        yearSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                updateViewModel.setSelectedYear(Integer.parseInt(yearSpinner.getSelectedItem().toString()));
+                addDatesToSpinner(datesSpinner);
+                datesSpinner.setSelection(updateViewModel.getSelectedDatePosition());
+                preview();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
-        update = (ImageButton)findViewById(R.id.save);
-        update.setBackgroundResource(R.drawable.save_button);
+            }
+        });
+
+        monthSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.i("Item select", "" + position);
+                updateViewModel.setSelectedMonth(monthSpinner.getSelectedItemPosition());
+                addDatesToSpinner(datesSpinner);
+                datesSpinner.setSelection(updateViewModel.getSelectedDatePosition());
+                preview();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                Log.i("Item select", "" + parent);
+            }
+        });
+
+        datesSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                updateViewModel.setSelectedDate(Integer.parseInt(datesSpinner.getSelectedItem().toString()));
+                preview();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                Log.i("Item select", "" + parent);
+            }
+        });
+
+        name.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                updateViewModel.setName(name.getText().toString());
+                preview();
+            }
+        });
+
+        removeYear.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                updateViewModel.isRemoveYear = isChecked;
+                if(isChecked) {
+                    yearSpinner.setVisibility(View.INVISIBLE);
+                }
+                else {
+                    yearSpinner.setVisibility(View.VISIBLE);
+                }
+                preview();
+            }
+        });
 
         intent = new Intent();
 
@@ -99,7 +159,7 @@ public class Update extends FragmentActivity {
                 {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        DateOfBirthDBHelper.deleteRecordForTheId(currentDOB.getDobId());
+                        updateViewModel.delete(currentDOB.getDobId());
                         currentDOB = null;
                         Toast toast = Toast.makeText(getApplicationContext(), Constants.NOTIFICATION_DELETE_MEMBER_SUCCESS, Toast.LENGTH_SHORT);
                         toast.show();
@@ -124,19 +184,14 @@ public class Update extends FragmentActivity {
         update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String plainName = name.getText().toString().trim();
-                Calendar cal = Util.getCalendar();
-                cal.set(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth());
-                Date plainDate = cal.getTime();
+                updateViewModel.setName(name.getText().toString());
+                updateViewModel.setDateOfBirth();
 
-                if (plainName.equalsIgnoreCase("")) {
+                if (updateViewModel.isNameEmpty()) {
                     //show error
                     Toast.makeText(getApplicationContext(), Constants.NAME_EMPTY, Toast.LENGTH_SHORT).show();
                 } else {
-                    currentDOB.setName(plainName);
-                    currentDOB.setDobDate(plainDate);
-
-                    if (!DateOfBirthDBHelper.isUniqueDateOfBirth(currentDOB)) {
+                    if (updateViewModel.isDOBAvailable(updateViewModel.dateOfBirth)) {
                         //put confirmation here
                         new AlertDialog.Builder(Update.this)
                                 .setIcon(android.R.drawable.ic_dialog_info)
@@ -146,7 +201,7 @@ public class Update extends FragmentActivity {
                                 .show();
                     } else {
                         Log.i("after update", currentDOB.getName());
-                        DateOfBirthDBHelper.updateDOB(currentDOB);
+                        updateViewModel.update();
                         String status = Constants.NOTIFICATION_UPDATE_MEMBER_SUCCESS + ". You will get notified at 12:00am and 12:00pm on " + Util.getStringFromDate(currentDOB.getDobDate(), "dd MMM") + " every year";
                         Toast toast = Toast.makeText(getApplicationContext(), status, Toast.LENGTH_LONG);
                         toast.show();
@@ -156,30 +211,6 @@ public class Update extends FragmentActivity {
                 }
             }
         });
-    }
-
-    public void initLayout() {
-        name = (EditText)findViewById(R.id.personName);
-
-        monthSpinner = (Spinner) findViewById(R.id.monthSpinner);
-        datesSpinner = (Spinner) findViewById(R.id.dateSpinner);
-        yearSpinner = (Spinner) findViewById(R.id.yearSpinner);
-
-        update = (ImageButton) findViewById(R.id.save);
-        update.setBackgroundResource(R.drawable.save_button);
-
-        cancel = (ImageButton)findViewById(R.id.cancel);
-        cancel.setBackgroundResource(R.drawable.cancel_button);
-
-        yearMapper = updateViewModel.getYearsMapper();
-
-        namePreview = (TextView)findViewById(R.id.nameField);
-        desc = (TextView)findViewById(R.id.ageField);
-        dateField = (TextView)findViewById(R.id.dateField);
-        monthField = (TextView)findViewById(R.id.monthField);
-        yearField = (TextView)findViewById(R.id.yearField);
-
-        circle = (LinearLayout)findViewById(R.id.circlebg);
     }
 
     public void addMonthsToSpinner(Spinner spinner) {
@@ -203,11 +234,80 @@ public class Update extends FragmentActivity {
         spinner.setAdapter(dataAdapter);
     }
 
+    public void preview() {
+
+        dayOfYear = Util.getDayOfYear(updateViewModel.dateOfBirth.getDobDate());
+
+        if(dayOfYear == currentDayOfYear) {
+            circle.setBackgroundResource(R.drawable.cirlce_today);
+        }
+        else if(recentDayOfYear < currentDayOfYear) {   //year end case
+            if(dayOfYear > currentDayOfYear || dayOfYear < recentDayOfYear) {
+                circle.setBackgroundResource(R.drawable.cirlce_recent);
+            }
+            else {
+                circle.setBackgroundResource(R.drawable.cirlce_normal);
+            }
+        }
+        else if(dayOfYear <= recentDayOfYear && dayOfYear > currentDayOfYear ){
+            circle.setBackgroundResource(R.drawable.cirlce_recent);
+        }
+        else {
+            circle.setBackgroundResource(R.drawable.cirlce_normal);
+        }
+
+        Util.setDescription(updateViewModel.dateOfBirth, "Age");
+
+        if(updateViewModel.isRemoveYear) {
+            yearField.setVisibility(View.INVISIBLE);
+            desc.setVisibility(View.INVISIBLE);
+        }
+        else {
+            yearField.setVisibility(View.VISIBLE);
+            desc.setVisibility(View.VISIBLE);
+        }
+
+        namePreview.setText(updateViewModel.name);
+        dateField.setText(updateViewModel.date + "");
+        monthField.setText(Util.getStringFromDate(updateViewModel.dateOfBirth.getDobDate(), "MMM"));
+        yearField.setText(updateViewModel.year + "");
+        desc.setText(updateViewModel.dateOfBirth.getDescription());
+    }
+
+    public void initLayout() {
+        name = (EditText)findViewById(R.id.personName);
+
+        monthSpinner = (Spinner) findViewById(R.id.monthSpinner);
+        datesSpinner = (Spinner) findViewById(R.id.dateSpinner);
+        yearSpinner = (Spinner) findViewById(R.id.yearSpinner);
+
+        removeYear = (CheckBox) findViewById(R.id.removeYear);
+
+        update = (ImageButton) findViewById(R.id.save);
+        update.setBackgroundResource(R.drawable.save_button);
+
+        cancel = (ImageButton)findViewById(R.id.cancel);
+        cancel.setBackgroundResource(R.drawable.cancel_button);
+
+        namePreview = (TextView)findViewById(R.id.nameField);
+        desc = (TextView)findViewById(R.id.ageField);
+        dateField = (TextView)findViewById(R.id.dateField);
+        monthField = (TextView)findViewById(R.id.monthField);
+        yearField = (TextView)findViewById(R.id.yearField);
+
+        circle = (LinearLayout)findViewById(R.id.circlebg);
+
+        delete = (ImageButton)findViewById(R.id.delete);
+        delete.setBackgroundResource(R.drawable.delete_button);
+
+        cancel = (ImageButton)findViewById(R.id.cancel);
+        cancel.setBackgroundResource(R.drawable.cancel_button);
+
+        update = (ImageButton)findViewById(R.id.save);
+        update.setBackgroundResource(R.drawable.save_button);
+    }
+
     public void clearInputs() {
         name.setText("");
-        cal = Calendar.getInstance();
-        cal.setTime(new Date());
-        datePicker.updateDate(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DATE));
-        selectedDate.setText(Util.getStringFromDate(new Date(), Constants.ADD_NEW_DATE_FORMAT));
     }
 }
