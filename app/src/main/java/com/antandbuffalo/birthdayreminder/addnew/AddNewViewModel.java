@@ -32,6 +32,9 @@ public class AddNewViewModel extends ViewModel {
         month = cal.get(Calendar.MONTH);
         year = cal.get(Calendar.YEAR);
 
+        isRemoveYear = false;
+        name = "";
+
         dateOfBirth = new DateOfBirth();
     }
 

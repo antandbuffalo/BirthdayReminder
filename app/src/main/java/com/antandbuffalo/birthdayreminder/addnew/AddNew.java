@@ -35,6 +35,7 @@ public class AddNew extends FragmentActivity {
     TextView namePreview, desc, dateField, monthField, yearField;
     Spinner yearSpinner, monthSpinner, datesSpinner;
     LinearLayout circle;
+    CheckBox removeYear;
 
     ImageButton save, cancel;
 
@@ -116,7 +117,6 @@ public class AddNew extends FragmentActivity {
             }
         });
 
-        CheckBox removeYear = (CheckBox) findViewById(R.id.removeYear);
         removeYear.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -262,6 +262,8 @@ public class AddNew extends FragmentActivity {
     public void initLayout() {
         name = (EditText)findViewById(R.id.personName);
 
+        removeYear = (CheckBox) findViewById(R.id.removeYear);
+
         monthSpinner = (Spinner) findViewById(R.id.monthSpinner);
         datesSpinner = (Spinner) findViewById(R.id.dateSpinner);
         yearSpinner = (Spinner) findViewById(R.id.yearSpinner);
@@ -282,6 +284,12 @@ public class AddNew extends FragmentActivity {
     }
 
     public void clearInputs() {
-        name.setText("");
+        addNewViewModel.initDefaults();
+        name.setText(addNewViewModel.name);
+        removeYear.setChecked(addNewViewModel.isRemoveYear);
+
+        yearSpinner.setSelection(addNewViewModel.getSelectedYearPosition());
+        monthSpinner.setSelection(addNewViewModel.getSelectedMonthPosition());
+        datesSpinner.setSelection(addNewViewModel.getSelectedDatePosition());
     }
 }

@@ -154,6 +154,7 @@ public class Util {
             while ((strLine = br.readLine()) != null) {
                 // Print the content on the console
                 DateOfBirth dob = new DateOfBirth();
+                dob.setRemoveYear(false);
                 String[] lineComponents = strLine.split(" ");
 
                 n1 = lineComponents[0];
@@ -161,6 +162,12 @@ public class Util {
                 d1 = lineComponents[1];
                 m1 = lineComponents[2];
                 y1 = lineComponents[3];
+
+                if(lineComponents.length == 5) {
+                     if(lineComponents[4].equals("1")) {
+                         dob.setRemoveYear(true);
+                     }
+                }
 
                 if(!d1.trim().matches(regexStr) || !m1.trim().matches(regexStr) || !y1.trim().matches(regexStr)) {
                     //write code here for failure
@@ -215,11 +222,11 @@ public class Util {
                 String name = dob.getName().replace(" ", Constants.SPACE_REPLACER);
 
                 Calendar cal = getCalendar(dob.getDobDate());
-
                 String dobString = cal.get(Calendar.DATE) + " "
                         + (cal.get(Calendar.MONTH) + 1) + " "
                         + cal.get(Calendar.YEAR);
-                myOutWriter.append(name + " " + dobString);
+                String isRemoveYear = dob.getRemoveYear()? "1" : "0";
+                myOutWriter.append(name + " " + dobString + " " + isRemoveYear);
                 myOutWriter.append("\n");
             }
             myOutWriter.close();
@@ -259,7 +266,8 @@ public class Util {
             String dobString = cal.get(Calendar.DATE) + " "
                     + (cal.get(Calendar.MONTH) + 1) + " "
                     + cal.get(Calendar.YEAR);
-            myOutWriter.append(name + " " + dobString);
+            String isRemoveYear = dob.getRemoveYear()? "1" : "0";
+            myOutWriter.append(name + " " + dobString + " " + isRemoveYear);
             myOutWriter.append("\n");
 
             myOutWriter.close();
@@ -278,8 +286,6 @@ public class Util {
 
     public static String readFromAssetFile(String defaultFileName) {
         try {
-            //DateOfBirthDBHelper.deleteAll();
-
             BufferedReader br;
             DataInputStream in = null;
 
@@ -297,6 +303,7 @@ public class Util {
             while ((strLine = br.readLine()) != null) {
                 // Print the content on the console afdf
                 //System.out.println("in main ac -- " + strLine);
+                dateOfBirth.setRemoveYear(false);
 
                 String[] lineComponents = strLine.split(" ");
                 n1 = lineComponents[0];
@@ -304,6 +311,12 @@ public class Util {
                 d1 = lineComponents[1];
                 m1 = lineComponents[2];
                 y1 = lineComponents[3];
+
+                if(lineComponents.length == 5) {
+                    if(lineComponents[4].equals("1")) {
+                        dateOfBirth.setRemoveYear(true);
+                    }
+                }
 
                 if(!d1.trim().matches(regexStr) || !m1.trim().matches(regexStr) || !y1.trim().matches(regexStr)) {
                     //write code here for failure
