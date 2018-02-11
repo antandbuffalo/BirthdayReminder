@@ -151,7 +151,7 @@ public class AddNewViewModel extends ViewModel {
 
     public void saveToDB() {
         DateOfBirthDBHelper.insertDOB(dateOfBirth);
-        Util.updateFile(dateOfBirth);
+        //Util.updateFile(dateOfBirth);
     }
 
     public void clearInputs() {

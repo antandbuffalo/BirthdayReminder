@@ -235,7 +235,7 @@ public class Update extends FragmentActivity {
     }
 
     public void preview() {
-
+        updateViewModel.setDateOfBirth();
         dayOfYear = Util.getDayOfYear(updateViewModel.dateOfBirth.getDobDate());
 
         if(dayOfYear == currentDayOfYear) {

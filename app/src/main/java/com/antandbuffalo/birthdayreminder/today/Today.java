@@ -12,7 +12,7 @@ import com.antandbuffalo.birthdayreminder.fragments.MyFragment;
 /**
  * Created by i677567 on 28/8/15.
  */
-public class Today extends MyFragment {
+public class  Today extends MyFragment {
     TodayListAdapter todayListAdapter;
 
     public static Today newInstance() {

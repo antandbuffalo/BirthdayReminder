@@ -132,15 +132,6 @@ public class UpdateViewModel extends ViewModel {
         return name.equalsIgnoreCase("");
     }
 
-
-    public String getFileName() {
-        return Util.fileToLoad(name);
-    }
-
-    public String loadFromFileWithName(String fileName) {
-        return Util.readFromAssetFile(fileName);
-    }
-
     public void setDateOfBirth() {
         cal.set(year, month, date);
         Date plainDate = cal.getTime();
@@ -149,11 +140,6 @@ public class UpdateViewModel extends ViewModel {
         dateOfBirth.setDobDate(plainDate);
         dateOfBirth.setRemoveYear(isRemoveYear);
         dateOfBirth.setAge(Util.getAge(dateOfBirth.getDobDate()));
-    }
-
-    public void saveToDB() {
-        DateOfBirthDBHelper.insertDOB(dateOfBirth);
-        Util.updateFile(dateOfBirth);
     }
 
     public void delete(long dobId) {
