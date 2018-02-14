@@ -1,0 +1,2 @@
+- Added option to modify Today's section
+- Minor bug fixes

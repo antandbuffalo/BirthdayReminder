@@ -1,0 +1,4 @@
+- Status message updated while adding and updating the DOB
+- Added link to share the application
+- Added info in "Add" and "Update" screen
+- Minor Bug fixes

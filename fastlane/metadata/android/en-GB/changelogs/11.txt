@@ -1,0 +1,2 @@
+- Settings added to modify Today's section
+- Minor bug fixes
