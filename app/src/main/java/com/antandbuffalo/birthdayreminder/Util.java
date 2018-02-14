@@ -59,6 +59,13 @@ public class Util {
         }
     }
 
+    public static String getTwoDigitsString(int number) {
+        if(number < 10) {
+            return "0" + number;
+        }
+        return number + "";
+    }
+
     public static long getDaysBetweenDates(Date date1, Date date2) {
         //http://stackoverflow.com/questions/3838527/android-java-date-difference-in-days
         Calendar calDate1 = Calendar.getInstance();
@@ -196,9 +203,9 @@ public class Util {
 
     public static String writeToFile() {
         String returnValue = "";
-        String createFolderReturn = Util.createEmptyFolder();
-        if(!createFolderReturn.equalsIgnoreCase(Constants.FLAG_SUCCESS)) {
-            return createFolderReturn;
+        String createFolderResult = Util.createEmptyFolder();
+        if(!createFolderResult.equalsIgnoreCase(Constants.FLAG_SUCCESS)) {
+            return createFolderResult;
         }
         File sdcard = Environment.getExternalStorageDirectory();
         List<DateOfBirth> dobs = DateOfBirthDBHelper.selectAll();
@@ -206,9 +213,11 @@ public class Util {
             //Toast.makeText(DataHolder.getInstance().getAppContext(), Constants.ERROR_READ_WRITE_1005, Toast.LENGTH_LONG).show();
             return Constants.MSG_NOTHING_TO_BACKUP_DATA_EMPTY;
         }
-        long currentMillis = System.currentTimeMillis();
+        Calendar calendar = getCalendar(new Date());
+        String currentDateTime = calendar.get(Calendar.YEAR) + getTwoDigitsString(calendar.get(Calendar.MONTH) + 1) + getTwoDigitsString(calendar.get(Calendar.DATE))
+                + getTwoDigitsString(calendar.get(Calendar.HOUR_OF_DAY)) + getTwoDigitsString(calendar.get(Calendar.MINUTE)) + getTwoDigitsString(calendar.get(Calendar.SECOND));
         String fileName = "/" + Constants.FOLDER_NAME + "/" + Constants.FILE_NAME + Constants.FILE_NAME_SUFFIX;
-        String fileNameBackup = "/" + Constants.FOLDER_NAME + "/" + Constants.FILE_NAME + "_" + currentMillis + Constants.FILE_NAME_SUFFIX;
+        String fileNameBackup = "/" + Constants.FOLDER_NAME + "/" + Constants.FILE_NAME + "_" + currentDateTime + Constants.FILE_NAME_SUFFIX;
 
         File myFile = new File(sdcard, fileName);
         File myFileBackup = new File(sdcard, fileNameBackup);

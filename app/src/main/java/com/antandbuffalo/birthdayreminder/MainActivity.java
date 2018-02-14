@@ -278,6 +278,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         else {
             super.onBackPressed();
         }
-        Log.i("BACK", mTabsAdapter.toString());
+        //Log.i("BACK", mTabsAdapter.toString());
     }
 }
