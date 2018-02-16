@@ -122,7 +122,7 @@ public class AddNewViewModel extends ViewModel {
 
     public void setSelectedDate(Integer selectedDate) {
         date = selectedDate;
-        if(month == MONTH_FEB && date == 29) {
+        if(isRemoveYear && month == MONTH_FEB && date == 29) {
             year = Constants.LEAP_YEAR;
         }
     }
