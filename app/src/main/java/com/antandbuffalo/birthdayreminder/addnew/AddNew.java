@@ -64,7 +64,9 @@ public class AddNew extends FragmentActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 addNewViewModel.setSelectedYear(Integer.parseInt(yearSpinner.getSelectedItem().toString()));
+                addMonthsToSpinner(monthSpinner);
                 addDatesToSpinner(datesSpinner);
+                monthSpinner.setSelection(addNewViewModel.getSelectedMonthPosition());
                 datesSpinner.setSelection(addNewViewModel.getSelectedDatePosition());
                 preview();
             }
@@ -127,6 +129,11 @@ public class AddNew extends FragmentActivity {
                 else {
                     yearSpinner.setVisibility(View.VISIBLE);
                 }
+                addMonthsToSpinner(monthSpinner);
+                addDatesToSpinner(datesSpinner);
+                monthSpinner.setSelection(addNewViewModel.getSelectedMonthPosition());
+                datesSpinner.setSelection(addNewViewModel.getSelectedDatePosition());
+                yearSpinner.setSelection(addNewViewModel.getSelectedYearPosition());
                 preview();
             }
         });

@@ -14,6 +14,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 
 public class AddNewViewModel extends ViewModel {
@@ -52,6 +53,10 @@ public class AddNewViewModel extends ViewModel {
     }
 
     public Integer getSelectedMonthPosition() {
+        List monthsList = getMonths();
+        if(month > monthsList.size() - 1) {
+            month = monthsList.size() - 1;
+        }
         return month;
     }
 
@@ -65,17 +70,26 @@ public class AddNewViewModel extends ViewModel {
         return (date - 1);
     }
 
-
     public List getDates() {
         List<String> dateList = new ArrayList<String>();
-        Integer maxValue;
-        if(isLeapYear(year) && month == MONTH_FEB) {
-            //leap year
+        Integer maxValue = null;
+        if(isRemoveYear && month == MONTH_FEB) {
+            //month is feb and year removed. So assign max value
             maxValue = 29;
         }
         else {
+            if(Util.isCurrentYear(year) && Util.isCurrentMonth(month)) {
+                maxValue = Util.getCurrentDate();
+            }
+            else if(isLeapYear(year) && month == MONTH_FEB) {
+                //leap year
+                maxValue = 29;
+            }
+        }
+        if(maxValue == null) {
             maxValue = Constants.MONTH_DAYS.get(month);
         }
+
         for (int i = 1; i <= maxValue; i++) {
             dateList.add(i + "");
         }
@@ -83,7 +97,18 @@ public class AddNewViewModel extends ViewModel {
     }
 
     public List getMonths() {
-        return Util.getMonths();
+        List<String> allMonths, filteredMonths;
+        allMonths = Util.getMonths();
+        if(!isRemoveYear && Util.isCurrentYear(year)) {
+            filteredMonths = new ArrayList<String>();
+            for (int i = 0; i <= Util.getCurrentMonth(); i++) {
+                filteredMonths.add(allMonths.get(i));
+            }
+        }
+        else {
+            filteredMonths = allMonths;
+        }
+        return filteredMonths;
     }
 
     public List getYears() {
@@ -97,6 +122,9 @@ public class AddNewViewModel extends ViewModel {
 
     public void setSelectedDate(Integer selectedDate) {
         date = selectedDate;
+        if(month == MONTH_FEB && date == 29) {
+            year = Constants.LEAP_YEAR;
+        }
     }
 
     public void setSelectedMonth(Integer selectedMonth) {

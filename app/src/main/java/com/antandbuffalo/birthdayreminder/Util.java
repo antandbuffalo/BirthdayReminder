@@ -458,5 +458,19 @@ public class Util {
 
         return Integer.parseInt(Util.getStringFromDate(cal.getTime(), Constants.DAY_OF_YEAR));
     }
-
+    public static Boolean isCurrentYear(int year) {
+        Calendar calendar = Util.getCalendar(new Date());
+        return calendar.get(Calendar.YEAR) == year;
+    }
+    public static int getCurrentMonth() {
+        Calendar calendar = Util.getCalendar(new Date());
+        return calendar.get(Calendar.MONTH);
+    }
+    public static Boolean isCurrentMonth(int month) {
+        return month == getCurrentMonth();
+    }
+    public static int getCurrentDate() {
+        Calendar calendar = Util.getCalendar(new Date());
+        return calendar.get(Calendar.DATE);
+    }
 }

@@ -154,5 +154,6 @@ public class Constants {
 
     public static final Integer START_YEAR = 1901;
     public static final Integer NO_YEAR = 1900;
+    public static final Integer LEAP_YEAR = 2016;
 
 }

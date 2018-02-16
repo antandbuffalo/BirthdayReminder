@@ -89,7 +89,8 @@ public class UpdateViewModel extends ViewModel {
     }
 
     public List getYears() {
-        Integer minYear = Constants.START_YEAR, maxYear = cal.get(Calendar.YEAR);
+        Calendar calendar = Util.getCalendar(new Date());
+        Integer minYear = Constants.START_YEAR, maxYear = calendar.get(Calendar.YEAR);
         List<String> yearsList = new ArrayList<String>();
         for (int i = minYear; i <= maxYear; i++) {
             yearsList .add(i + "");
