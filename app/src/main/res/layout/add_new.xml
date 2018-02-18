@@ -70,7 +70,7 @@
         android:layout_alignStart="@+id/personName"
         android:layout_below="@+id/linearLayout"
         android:layout_marginTop="10dp"
-        android:text="Remove Year" />
+        android:text="I don't know year" />
 
     <TextView
         android:id="@+id/textView5"
