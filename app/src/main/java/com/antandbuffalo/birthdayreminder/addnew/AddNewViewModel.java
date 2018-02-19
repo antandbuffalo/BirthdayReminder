@@ -23,7 +23,7 @@ public class AddNewViewModel extends ViewModel {
     String name;
     //months starts from 0 for Jan
     Integer date = 1, month = 0, year = Constants.START_YEAR;
-    boolean isRemoveYear = false;
+    private Boolean isRemoveYear = false;
     private static final int MONTH_FEB = 1;
     DateOfBirth dateOfBirth;
 
@@ -39,9 +39,21 @@ public class AddNewViewModel extends ViewModel {
         dateOfBirth = new DateOfBirth();
     }
 
+    public Boolean getRemoveYear() {
+        return isRemoveYear;
+    }
+
+    public void setRemoveYear(Boolean removeYear) {
+        if(removeYear && Util.isCurrentYear(year)) {
+            year = Constants.LEAP_YEAR;
+        }
+        isRemoveYear = removeYear;
+    }
+
     public void setName(String givenName) {
         name = givenName.trim();
     }
+
 
     public boolean isLeapYear(Integer year) {
         return (year % 4 == 0);

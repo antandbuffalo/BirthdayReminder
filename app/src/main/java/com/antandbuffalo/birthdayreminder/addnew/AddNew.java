@@ -122,7 +122,7 @@ public class AddNew extends FragmentActivity {
         removeYear.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                addNewViewModel.isRemoveYear = isChecked;
+                addNewViewModel.setRemoveYear(isChecked);
                 if(isChecked) {
                     yearSpinner.setVisibility(View.INVISIBLE);
                 }
@@ -250,7 +250,7 @@ public class AddNew extends FragmentActivity {
 
         Util.setDescription(addNewViewModel.dateOfBirth, "Age");
 
-        if(addNewViewModel.isRemoveYear) {
+        if(addNewViewModel.getRemoveYear()) {
             yearField.setVisibility(View.INVISIBLE);
             desc.setVisibility(View.INVISIBLE);
         }
@@ -293,7 +293,7 @@ public class AddNew extends FragmentActivity {
     public void clearInputs() {
         addNewViewModel.initDefaults();
         name.setText(addNewViewModel.name);
-        removeYear.setChecked(addNewViewModel.isRemoveYear);
+        removeYear.setChecked(addNewViewModel.getRemoveYear());
 
         yearSpinner.setSelection(addNewViewModel.getSelectedYearPosition());
         monthSpinner.setSelection(addNewViewModel.getSelectedMonthPosition());

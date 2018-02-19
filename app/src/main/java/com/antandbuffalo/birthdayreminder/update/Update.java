@@ -52,9 +52,9 @@ public class Update extends FragmentActivity {
 
         initLayout();
         name.setText(updateViewModel.name);
-        removeYear.setChecked(updateViewModel.isRemoveYear);
+        removeYear.setChecked(updateViewModel.getRemoveYear());
 
-        if(updateViewModel.isRemoveYear) {
+        if(updateViewModel.getRemoveYear()) {
             yearSpinner.setVisibility(View.INVISIBLE);
         }
         else {
@@ -136,7 +136,7 @@ public class Update extends FragmentActivity {
         removeYear.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                updateViewModel.isRemoveYear = isChecked;
+                updateViewModel.setRemoveYear(isChecked);
                 if(isChecked) {
                     yearSpinner.setVisibility(View.INVISIBLE);
                 }
@@ -266,7 +266,7 @@ public class Update extends FragmentActivity {
 
         Util.setDescription(updateViewModel.dateOfBirth, "Age");
 
-        if(updateViewModel.isRemoveYear) {
+        if(updateViewModel.getRemoveYear()) {
             yearField.setVisibility(View.INVISIBLE);
             desc.setVisibility(View.INVISIBLE);
         }

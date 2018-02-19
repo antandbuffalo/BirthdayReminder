@@ -8,6 +8,7 @@ import com.antandbuffalo.birthdayreminder.DateOfBirth;
 import com.antandbuffalo.birthdayreminder.Util;
 import com.antandbuffalo.birthdayreminder.database.DateOfBirthDBHelper;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -22,7 +23,7 @@ public class UpdateViewModel extends ViewModel {
     String name;
     //months starts from 0 for Jan
     Integer date = 1, month = 0, year = Constants.START_YEAR;
-    boolean isRemoveYear = false;
+    private Boolean isRemoveYear = false;
     private static final int MONTH_FEB = 1;
     DateOfBirth dateOfBirth;
 
@@ -43,6 +44,18 @@ public class UpdateViewModel extends ViewModel {
     public void setName(String givenName) {
         name = givenName.trim();
     }
+
+    public Boolean getRemoveYear() {
+        return isRemoveYear;
+    }
+
+    public void setRemoveYear(Boolean removeYear) {
+        if(removeYear && Util.isCurrentYear(year)) {
+            year = Constants.LEAP_YEAR;
+        }
+        isRemoveYear = removeYear;
+    }
+
 
     public boolean isLeapYear(Integer year) {
         return (year % 4 == 0);
