@@ -1,7 +1,11 @@
 package com.antandbuffalo.birthdayreminder;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -12,7 +16,8 @@ public class Constants {
 
     // Database Name
     public static final String DATABASE_NAME = "BirthdayReminder";
-    public static final int DATABASE_VERSION = 2;
+    public static final int DATABASE_VERSION = 3;
+    //version - 3 adding optional year column
 
     // Contacts table name
     public static final String TABLE_DATE_OF_BIRTH = "DATE_OF_BIRTH";
@@ -23,6 +28,7 @@ public class Constants {
     public static final String COLUMN_DOB_NAME = "NAME";
     public static final String COLUMN_DOB_DATE = "DOB_DATE";
     public static final String COLUMN_DOB_EXTRA = "EXTRA";
+    public static final String COLUMN_DOB_OPTIONAL_YEAR = "OPTIONAL_YEAR";
 
     public static final String COLUMN_OPTION_CODE = "OPTION_CODE";
     public static final String COLUMN_OPTION_TITLE = "TITLE";
@@ -71,6 +77,20 @@ public class Constants {
         put(SETTINGS_ABOUT, 5);
     }};
 
+    public static final Map<Integer, Integer> MONTH_DAYS = new HashMap<Integer, Integer>() {{
+        put(0, 31);
+        put(1, 28);
+        put(2, 31);
+        put(3, 30);
+        put(4, 31);
+        put(5, 30);
+        put(6, 31);
+        put(7, 31);
+        put(8, 30);
+        put(9, 31);
+        put(10, 30);
+        put(11, 31);
+    }};
 
     public static final int SETTINGS_CELL_TYPE_DATE = 0;
     public static final int SETTINGS_CELL_TYPE_1_LETTER = 1;
@@ -131,4 +151,9 @@ public class Constants {
     public static final String FEEDBACK_EMAIL_POPUP_MESSAGE = "Send email using...";
 
     public static final String STATUS_FILE_APPEND_SUCCESS = "STATUS_FILE_APPEND_SUCCESS";
+
+    public static final Integer START_YEAR = 1901;
+    public static final Integer NO_YEAR = 1900;
+    public static final Integer LEAP_YEAR = 2016;
+
 }

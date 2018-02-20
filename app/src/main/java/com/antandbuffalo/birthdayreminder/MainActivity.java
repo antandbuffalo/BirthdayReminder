@@ -15,6 +15,7 @@ import android.app.FragmentTransaction;
 import android.app.ActionBar;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -44,6 +45,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     Animation animFadeOut, animFadeIn;
     RelativeLayout mainContainer;
     AlarmManager alarmManager;
+    int currentTabPosition;
 
 /*    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -191,16 +193,12 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         }
     }
 
-    @Override
-    public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
-        // When the given tab is selected, switch to the corresponding page in the ViewPager.
-
+    public void selectTab() {
         int pixelsToMove = Util.convertDPtoPixel(65, getResources());
-
         //getting the fragment reference
         //http://stackoverflow.com/questions/18609261/getting-the-current-fragment-instance-in-the-viewpager
-        mViewPager.setCurrentItem(tab.getPosition());
-        if (tab.getPosition() == 0) {
+        mViewPager.setCurrentItem(currentTabPosition);
+        if (currentTabPosition == 0) {
             if (addNew.getVisibility() == View.GONE) {
                 addNew.setVisibility(View.VISIBLE);
                 addNew.animate().translationXBy(-pixelsToMove).setListener(new AnimatorListenerAdapter() {
@@ -211,7 +209,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                     }
                 });
             }
-        } else if (tab.getPosition() == 1) {
+        } else if (currentTabPosition == 1) {
             if (addNew.getVisibility() == View.GONE) {
                 addNew.setVisibility(View.VISIBLE);
                 addNew.animate().translationXBy(-pixelsToMove).setListener(new AnimatorListenerAdapter() {
@@ -222,7 +220,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                     }
                 });
             }
-        } else if (tab.getPosition() == 2) {
+        } else if (currentTabPosition == 2) {
             if (addNew.getVisibility() == View.VISIBLE) {
                 addNew.animate().translationXBy(pixelsToMove).setListener(new AnimatorListenerAdapter() {
                     @Override
@@ -240,13 +238,20 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 //        System.out.println(lp.rightMargin);
 //        System.out.println(Util.convertDPtoPixel(15, getResources()));
 
-        if (DataHolder.getInstance().refreshTracker.get(tab.getPosition())) {
-            MyFragment fragment = (MyFragment) mTabsAdapter.getFragment((tab.getPosition()));
+        if (DataHolder.getInstance().refreshTracker.get(currentTabPosition)) {
+            MyFragment fragment = (MyFragment) mTabsAdapter.getFragment(currentTabPosition);
             if(fragment != null) {
                 fragment.refreshData();
             }
-            DataHolder.getInstance().refreshTracker.set(tab.getPosition(), false);
+            DataHolder.getInstance().refreshTracker.set(currentTabPosition, false);
         }
+    }
+
+    @Override
+    public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
+        // When the given tab is selected, switch to the corresponding page in the ViewPager.
+        currentTabPosition = tab.getPosition();
+        selectTab();
     }
 
     @Override
@@ -262,5 +267,17 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     public void initValues() {
         DBHelper.createInstance(this);
         DataHolder.getInstance().setAppContext(getApplicationContext());
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(currentTabPosition == 1 || currentTabPosition == 2) {
+            currentTabPosition = 0;
+            selectTab();
+        }
+        else {
+            super.onBackPressed();
+        }
+        //Log.i("BACK", mTabsAdapter.toString());
     }
 }
