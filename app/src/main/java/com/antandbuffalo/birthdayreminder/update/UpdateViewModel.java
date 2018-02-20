@@ -50,7 +50,13 @@ public class UpdateViewModel extends ViewModel {
     }
 
     public void setRemoveYear(Boolean removeYear) {
-        if(removeYear && Util.isCurrentYear(year)) {
+        Calendar calendar = Util.getCalendar();
+        calendar.set(year, month, date);
+        Date plainDate = calendar.getTime();
+
+        long diff = Util.getDaysBetweenDates(plainDate);
+        if(diff < 0) {
+            //if(removeYear && Util.isCurrentYear(year)) {
             year = Constants.LEAP_YEAR;
         }
         isRemoveYear = removeYear;
