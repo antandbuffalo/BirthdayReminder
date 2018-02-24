@@ -156,4 +156,7 @@ public class Constants {
     public static final Integer NO_YEAR = 1900;
     public static final Integer LEAP_YEAR = 2016;
 
+    public static final int MY_PERMISSIONS_WRITE_EXTERNAL_STORAGE = 1;
+    public static final int MY_PERMISSIONS_READ_EXTERNAL_STORAGE = 2;
+
 }

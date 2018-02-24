@@ -7,9 +7,9 @@ android {
 
     defaultConfig {
         applicationId "com.antandbuffalo.birthdayreminder"
-        minSdkVersion 18
+        minSdkVersion 19
         targetSdkVersion 26
-        versionCode 15
+        versionCode 16
         versionName "2.0.1"
         multiDexEnabled true
     }

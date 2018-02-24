@@ -123,7 +123,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         Boolean isSecondTime = settings.getBoolean(Constants.PREFERENCE_IS_SECONDTIME, false);
         if(!isSecondTime) {
             if(Util.isBackupFileFound()) {
-                Intent intent = new Intent(getApplicationContext(), RestoreBackup.class);
+                Intent intent = new Intent(this, RestoreBackup.class);
                 startActivityForResult(intent, Constants.ADD_NEW_MEMBER);
                 //loadBackupFile();
             }
