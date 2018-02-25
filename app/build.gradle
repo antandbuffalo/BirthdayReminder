@@ -9,7 +9,7 @@ android {
         applicationId "com.antandbuffalo.birthdayreminder"
         minSdkVersion 19
         targetSdkVersion 26
-        versionCode 17
+        versionCode 18
         versionName "2.0.2"
         multiDexEnabled true
     }
