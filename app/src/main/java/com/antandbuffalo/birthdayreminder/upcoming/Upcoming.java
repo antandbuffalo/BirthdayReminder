@@ -1,5 +1,7 @@
 package com.antandbuffalo.birthdayreminder.upcoming;
 
+import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -34,6 +36,7 @@ import java.util.List;
  */
 public class Upcoming extends MyFragment {
     UpcomingListAdapter upcomingListAdapter;
+    UpcomingViewModel upcomingViewModel;
     public static Upcoming newInstance() {
         Upcoming fragment = new Upcoming();
         return fragment;
@@ -42,6 +45,7 @@ public class Upcoming extends MyFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        upcomingViewModel = ViewModelProviders.of(this).get(UpcomingViewModel.class);
 
         View rootView = inflater.inflate(R.layout.upcoming, container, false);
 
@@ -67,6 +71,7 @@ public class Upcoming extends MyFragment {
             @Override
             public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
                 // When user changed the Text
+                upcomingViewModel.setFilter(cs.toString());
                 upcomingListAdapter.getFilter().filter(cs);
             }
 
@@ -76,12 +81,11 @@ public class Upcoming extends MyFragment {
             @Override
             public void afterTextChanged(Editable arg0) {}
         });
-
         return rootView;
     }
 
 //    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
 //        if (requestCode == Constants.ADD_NEW_MEMBER) {
 //            if (resultCode == RESULT_OK) {
 //                if (data.getStringExtra(Constants.IS_USER_ADDED).equalsIgnoreCase(Constants.FLAG_SUCCESS)) {
@@ -102,5 +106,8 @@ public class Upcoming extends MyFragment {
     @Override
     public void refreshData() {
         upcomingListAdapter.refreshData();
+        if(!upcomingViewModel.getFilter().equalsIgnoreCase("")) {
+            upcomingListAdapter.getFilter().filter(upcomingViewModel.getFilter());
+        }
     }
 }

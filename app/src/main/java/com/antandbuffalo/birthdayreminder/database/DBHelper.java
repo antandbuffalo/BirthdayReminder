@@ -50,10 +50,11 @@ public final class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         // TODO Auto-generated method stub
         String CREATE_DOB_TABLE = "CREATE TABLE " + Constants.TABLE_DATE_OF_BIRTH
-                + "(" + Constants.COLUMN_DOB_ID + " INTEGER PRIMARY KEY autoincrement,"
-                + Constants.COLUMN_DOB_NAME + " TEXT NOT NULL,"
-                + Constants.COLUMN_DOB_DATE + " DATE NOT NULL,"
-                + Constants.COLUMN_DOB_EXTRA + " TEXT"
+                + "(" + Constants.COLUMN_DOB_ID + " INTEGER PRIMARY KEY autoincrement, "
+                + Constants.COLUMN_DOB_NAME + " TEXT NOT NULL, "
+                + Constants.COLUMN_DOB_DATE + " DATE NOT NULL, "
+                + Constants.COLUMN_DOB_EXTRA + " TEXT, "
+                + Constants.COLUMN_DOB_OPTIONAL_YEAR + " INTEGER"
                 +")";
         System.out.println("create query -- " + CREATE_DOB_TABLE);
 
@@ -78,11 +79,28 @@ public final class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // TODO Auto-generated method stub
-        String addSNOColumn = "ALTER TABLE " + Constants.TABLE_OPTIONS + " ADD COLUMN " + Constants.COLUMN_OPTION_SNO + " INTEGER";
-        if(oldVersion == 1 && newVersion == Constants.DATABASE_VERSION) {
-            db.execSQL(addSNOColumn);
-            OptionsDBHelper.updateSNO(db);
+
+        switch (oldVersion) {
+            case 1: {
+                String addSNOColumn = "ALTER TABLE " + Constants.TABLE_OPTIONS + " ADD COLUMN " + Constants.COLUMN_OPTION_SNO + " INTEGER";
+                db.execSQL(addSNOColumn);
+                OptionsDBHelper.updateSNO(db);
+            }
+            case 2: {
+                String addOptionalYearQuery = "ALTER TABLE " + Constants.TABLE_DATE_OF_BIRTH + " ADD COLUMN " + Constants.COLUMN_DOB_OPTIONAL_YEAR + " INTEGER";
+                db.execSQL(addOptionalYearQuery);
+            }
         }
+
+//        if(oldVersion == 1 && newVersion == Constants.DATABASE_VERSION) {
+//            String addSNOColumn = "ALTER TABLE " + Constants.TABLE_OPTIONS + " ADD COLUMN " + Constants.COLUMN_OPTION_SNO + " INTEGER";
+//            db.execSQL(addSNOColumn);
+//            OptionsDBHelper.updateSNO(db);
+//        }
+//        if(oldVersion == 2 && newVersion == Constants.DATABASE_VERSION) {
+//            String addOptionalYearQuery = "ALTER TABLE " + Constants.TABLE_DATE_OF_BIRTH + " ADD COLUMN " + Constants.COLUMN_DOB_OPTIONAL_YEAR + " INTEGER";
+//            db.execSQL(addOptionalYearQuery);
+//        }
 
         // Drop older table if existed
 //        db.execSQL("DROP TABLE IF EXISTS " + Constants.TABLE_DATE_OF_BIRTH);

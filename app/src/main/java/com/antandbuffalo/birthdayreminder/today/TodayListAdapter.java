@@ -87,7 +87,6 @@ public class TodayListAdapter extends BaseAdapter {
         Date date = dob.getDobDate();
         cal.setTime(date);
 
-
         dateField.setText(cal.get(Calendar.DATE) + "");
         monthField.setText(dateFormatter.format(cal.getTime()));
         yearField.setText(cal.get(Calendar.YEAR) + "");
@@ -103,6 +102,15 @@ public class TodayListAdapter extends BaseAdapter {
         }
         Util.setDescription(dob, "Completed");
         desc.setText(dob.getDescription());
+
+        if(dob.getRemoveYear()) {
+            desc.setVisibility(View.INVISIBLE);
+            yearField.setVisibility(View.INVISIBLE);
+        }
+        else {
+            desc.setVisibility(View.VISIBLE);
+            yearField.setVisibility(View.VISIBLE);
+        }
 
         return convertView;
     }

@@ -14,6 +14,7 @@ public class DateOfBirth implements Serializable {
     private String name;
     private Date dobDate;
     private String description;
+    private Boolean isRemoveYear;
     private int age;
 
     public long getDobId() {
@@ -54,6 +55,14 @@ public class DateOfBirth implements Serializable {
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    public Boolean getRemoveYear() {
+        return isRemoveYear;
+    }
+
+    public void setRemoveYear(Boolean removeYear) {
+        isRemoveYear = removeYear;
     }
 
     public static DateOfBirth getInstance() {

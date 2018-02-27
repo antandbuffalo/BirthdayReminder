@@ -55,23 +55,12 @@ public class DateOfBirthDBHelper {
     //returns true is the given values is not available in DB
     //returns false if the entry is available already
     public static boolean isUniqueDateOfBirth(DateOfBirth dob) {
-        java.sql.Date sampleDate = new java.sql.Date(dob.getDobDate().getTime());
-        String selectionQuery = "";
-        selectionQuery = "select " + Constants.COLUMN_DOB_ID + ", "
-                + Constants.COLUMN_DOB_NAME + ", "
-                + Constants.COLUMN_DOB_DATE + " from "
-                + Constants.TABLE_DATE_OF_BIRTH + " where "
-                + Constants.COLUMN_DOB_NAME + " = '"
-                + dob.getName() + "' AND "
-                + Constants.COLUMN_DOB_DATE + " = '"
-                + sampleDate + "'";
-
-        //System.out.println("query -- is unique --- " + selectionQuery);
         SQLiteDatabase db = DBHelper.getInstace().getReadableDatabase();
 
-        String[] columns = {Constants.COLUMN_DOB_ID, Constants.COLUMN_DOB_NAME, Constants.COLUMN_DOB_DATE};
-        String selection = Constants.COLUMN_DOB_NAME + " =? AND " + Constants.COLUMN_DOB_DATE + " =?";
-        String[] selectionArgs = {dob.getName(), Util.getStringFromDate(dob.getDobDate())};
+        String[] columns = {Constants.COLUMN_DOB_ID, Constants.COLUMN_DOB_NAME, Constants.COLUMN_DOB_DATE, Constants.COLUMN_DOB_OPTIONAL_YEAR};
+        String selection = Constants.COLUMN_DOB_NAME + " =? AND " + Constants.COLUMN_DOB_DATE + " =? AND " + Constants.COLUMN_DOB_OPTIONAL_YEAR + " =?";
+        String optionalYear = dob.getRemoveYear()? "1" : "0";
+        String[] selectionArgs = {dob.getName(), Util.getStringFromDate(dob.getDobDate()), optionalYear};
         String groupBy = null;
         String having = null;
         String orderBy = null;
@@ -89,23 +78,12 @@ public class DateOfBirthDBHelper {
     }
 
     public static boolean isUniqueDateOfBirthIgnoreCase(DateOfBirth dob) {
-        java.sql.Date sampleDate = new java.sql.Date(dob.getDobDate().getTime());
-        String selectionQuery = "";
-        selectionQuery = "select " + Constants.COLUMN_DOB_ID + ", "
-                + Constants.COLUMN_DOB_NAME + ", "
-                + Constants.COLUMN_DOB_DATE + " from "
-                + Constants.TABLE_DATE_OF_BIRTH + " where "
-                + Constants.COLUMN_DOB_NAME + " = '"
-                + dob.getName() + "' COLLATE NOCASE AND "
-                + Constants.COLUMN_DOB_DATE + " = '"
-                + sampleDate + "'";
-
-        //System.out.println("query -- is unique --- " + selectionQuery);
         SQLiteDatabase db = DBHelper.getInstace().getReadableDatabase();
 
-        String[] columns = {Constants.COLUMN_DOB_ID, Constants.COLUMN_DOB_NAME, Constants.COLUMN_DOB_DATE};
-        String selection = Constants.COLUMN_DOB_NAME + " =? COLLATE NOCASE AND " + Constants.COLUMN_DOB_DATE + " =?";
-        String[] selectionArgs = {dob.getName(), Util.getStringFromDate(dob.getDobDate())};
+        String[] columns = {Constants.COLUMN_DOB_ID, Constants.COLUMN_DOB_NAME, Constants.COLUMN_DOB_DATE, Constants.COLUMN_DOB_OPTIONAL_YEAR};
+        String selection = Constants.COLUMN_DOB_NAME + " =? COLLATE NOCASE AND " + Constants.COLUMN_DOB_DATE + " =? AND " + Constants.COLUMN_DOB_OPTIONAL_YEAR + " =?";
+        String optionalYear = dob.getRemoveYear()? "1" : "0";
+        String[] selectionArgs = {dob.getName(), Util.getStringFromDate(dob.getDobDate()), optionalYear};
         String groupBy = null;
         String having = null;
         String orderBy = null;
@@ -128,6 +106,7 @@ public class DateOfBirthDBHelper {
         ContentValues values = new ContentValues();
         values.put(Constants.COLUMN_DOB_NAME, dateOfBirth.getName()); // Contact Name
         values.put(Constants.COLUMN_DOB_DATE, Util.getStringFromDate(dateOfBirth.getDobDate())); // date of birth - 2000
+        values.put(Constants.COLUMN_DOB_OPTIONAL_YEAR, dateOfBirth.getRemoveYear());
         long returnValue = db.insert(Constants.TABLE_DATE_OF_BIRTH, null, values); // Inserting Row
         db.close();
         return returnValue;
@@ -149,6 +128,7 @@ public class DateOfBirthDBHelper {
         ContentValues values = new ContentValues();
         values.put(Constants.COLUMN_DOB_NAME, dateOfBirth.getName()); // Contact Name
         values.put(Constants.COLUMN_DOB_DATE, Util.getStringFromDate(dateOfBirth.getDobDate())); // date of birth - 2000
+        values.put(Constants.COLUMN_DOB_OPTIONAL_YEAR, dateOfBirth.getRemoveYear());
         // update Row
         String dobId = Constants.COLUMN_DOB_ID + "=" + dateOfBirth.getDobId();
         long returnValue = db.update(Constants.TABLE_DATE_OF_BIRTH, values, dobId, null);
@@ -171,6 +151,7 @@ public class DateOfBirthDBHelper {
         selectionQuery = "select " + Constants.COLUMN_DOB_ID + ", "
                 + Constants.COLUMN_DOB_NAME + ", "
                 + Constants.COLUMN_DOB_DATE + ", "
+                + Constants.COLUMN_DOB_OPTIONAL_YEAR + ", "
                 + "case when day < cast(strftime('%m%d','"
                 + today
                 + "') as int) then priority + 1 else priority end cp from"
@@ -178,6 +159,7 @@ public class DateOfBirthDBHelper {
                 + Constants.COLUMN_DOB_ID + ", "
                 + Constants.COLUMN_DOB_NAME + ", "
                 + Constants.COLUMN_DOB_DATE + ", "
+                + Constants.COLUMN_DOB_OPTIONAL_YEAR + ", "
                 + "cast(strftime('%m%d', "
                 + Constants.COLUMN_DOB_DATE + ") as int) as day, 0 as priority from "
                 + Constants.TABLE_DATE_OF_BIRTH + ") order by cp, day";
@@ -228,6 +210,7 @@ public class DateOfBirthDBHelper {
             selectionQuery = "select " + Constants.COLUMN_DOB_ID + ", "
                     + Constants.COLUMN_DOB_NAME + ", "
                     + Constants.COLUMN_DOB_DATE + ", "
+                    + Constants.COLUMN_DOB_OPTIONAL_YEAR + ", "
                     + "0 as TYPE, "
                     + "cast(strftime('%m%d', "
                     + Constants.COLUMN_DOB_DATE + ") as int) as day from "
@@ -252,6 +235,7 @@ public class DateOfBirthDBHelper {
             selectionQuery = "select " + Constants.COLUMN_DOB_ID + ", "
                     + Constants.COLUMN_DOB_NAME + ", "
                     + Constants.COLUMN_DOB_DATE + ", "
+                    + Constants.COLUMN_DOB_OPTIONAL_YEAR + ", "
                     + "cast(strftime('%m%d', "
                     + Constants.COLUMN_DOB_DATE + ") as int) as day from "
                     + Constants.TABLE_DATE_OF_BIRTH + " where day >= cast(strftime('%m%d', '"
@@ -329,6 +313,12 @@ public class DateOfBirthDBHelper {
                 dateOfBirth.setName(cursor.getString(1));
                 dateOfBirth.setDobDate(Util.getDateFromString(cursor.getString(2)));
                 dateOfBirth.setAge(Util.getAge(dateOfBirth.getDobDate()));
+                if(cursor.getInt(3) == 1) {
+                    dateOfBirth.setRemoveYear(true);
+                }
+                else {
+                    dateOfBirth.setRemoveYear(false);
+                }
                 dobList.add(dateOfBirth);
             } while (cursor.moveToNext());
         }

@@ -30,9 +30,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.text.DateFormat;
+import java.text.DateFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -55,6 +57,13 @@ public class Util {
         else {
             return 1;
         }
+    }
+
+    public static String getTwoDigitsString(int number) {
+        if(number < 10) {
+            return "0" + number;
+        }
+        return number + "";
     }
 
     public static long getDaysBetweenDates(Date date1, Date date2) {
@@ -152,6 +161,7 @@ public class Util {
             while ((strLine = br.readLine()) != null) {
                 // Print the content on the console
                 DateOfBirth dob = new DateOfBirth();
+                dob.setRemoveYear(false);
                 String[] lineComponents = strLine.split(" ");
 
                 n1 = lineComponents[0];
@@ -159,6 +169,12 @@ public class Util {
                 d1 = lineComponents[1];
                 m1 = lineComponents[2];
                 y1 = lineComponents[3];
+
+                if(lineComponents.length == 5) {
+                     if(lineComponents[4].equals("1")) {
+                         dob.setRemoveYear(true);
+                     }
+                }
 
                 if(!d1.trim().matches(regexStr) || !m1.trim().matches(regexStr) || !y1.trim().matches(regexStr)) {
                     //write code here for failure
@@ -187,9 +203,9 @@ public class Util {
 
     public static String writeToFile() {
         String returnValue = "";
-        String createFolderReturn = Util.createEmptyFolder();
-        if(!createFolderReturn.equalsIgnoreCase(Constants.FLAG_SUCCESS)) {
-            return createFolderReturn;
+        String createFolderResult = Util.createEmptyFolder();
+        if(!createFolderResult.equalsIgnoreCase(Constants.FLAG_SUCCESS)) {
+            return createFolderResult;
         }
         File sdcard = Environment.getExternalStorageDirectory();
         List<DateOfBirth> dobs = DateOfBirthDBHelper.selectAll();
@@ -197,9 +213,11 @@ public class Util {
             //Toast.makeText(DataHolder.getInstance().getAppContext(), Constants.ERROR_READ_WRITE_1005, Toast.LENGTH_LONG).show();
             return Constants.MSG_NOTHING_TO_BACKUP_DATA_EMPTY;
         }
-        long currentMillis = System.currentTimeMillis();
+        Calendar calendar = getCalendar(new Date());
+        String currentDateTime = calendar.get(Calendar.YEAR) + getTwoDigitsString(calendar.get(Calendar.MONTH) + 1) + getTwoDigitsString(calendar.get(Calendar.DATE))
+                + getTwoDigitsString(calendar.get(Calendar.HOUR_OF_DAY)) + getTwoDigitsString(calendar.get(Calendar.MINUTE)) + getTwoDigitsString(calendar.get(Calendar.SECOND));
         String fileName = "/" + Constants.FOLDER_NAME + "/" + Constants.FILE_NAME + Constants.FILE_NAME_SUFFIX;
-        String fileNameBackup = "/" + Constants.FOLDER_NAME + "/" + Constants.FILE_NAME + "_" + currentMillis + Constants.FILE_NAME_SUFFIX;
+        String fileNameBackup = "/" + Constants.FOLDER_NAME + "/" + Constants.FILE_NAME + "_" + currentDateTime + Constants.FILE_NAME_SUFFIX;
 
         File myFile = new File(sdcard, fileName);
         File myFileBackup = new File(sdcard, fileNameBackup);
@@ -213,11 +231,11 @@ public class Util {
                 String name = dob.getName().replace(" ", Constants.SPACE_REPLACER);
 
                 Calendar cal = getCalendar(dob.getDobDate());
-
                 String dobString = cal.get(Calendar.DATE) + " "
                         + (cal.get(Calendar.MONTH) + 1) + " "
                         + cal.get(Calendar.YEAR);
-                myOutWriter.append(name + " " + dobString);
+                String isRemoveYear = dob.getRemoveYear()? "1" : "0";
+                myOutWriter.append(name + " " + dobString + " " + isRemoveYear);
                 myOutWriter.append("\n");
             }
             myOutWriter.close();
@@ -257,7 +275,8 @@ public class Util {
             String dobString = cal.get(Calendar.DATE) + " "
                     + (cal.get(Calendar.MONTH) + 1) + " "
                     + cal.get(Calendar.YEAR);
-            myOutWriter.append(name + " " + dobString);
+            String isRemoveYear = dob.getRemoveYear()? "1" : "0";
+            myOutWriter.append(name + " " + dobString + " " + isRemoveYear);
             myOutWriter.append("\n");
 
             myOutWriter.close();
@@ -276,8 +295,6 @@ public class Util {
 
     public static String readFromAssetFile(String defaultFileName) {
         try {
-            //DateOfBirthDBHelper.deleteAll();
-
             BufferedReader br;
             DataInputStream in = null;
 
@@ -295,6 +312,7 @@ public class Util {
             while ((strLine = br.readLine()) != null) {
                 // Print the content on the console afdf
                 //System.out.println("in main ac -- " + strLine);
+                dateOfBirth.setRemoveYear(false);
 
                 String[] lineComponents = strLine.split(" ");
                 n1 = lineComponents[0];
@@ -302,6 +320,12 @@ public class Util {
                 d1 = lineComponents[1];
                 m1 = lineComponents[2];
                 y1 = lineComponents[3];
+
+                if(lineComponents.length == 5) {
+                    if(lineComponents[4].equals("1")) {
+                        dateOfBirth.setRemoveYear(true);
+                    }
+                }
 
                 if(!d1.trim().matches(regexStr) || !m1.trim().matches(regexStr) || !y1.trim().matches(regexStr)) {
                     //write code here for failure
@@ -410,5 +434,43 @@ public class Util {
         else {
             dob.setDescription(info + ": " + dob.getAge() + " years");
         }
+    }
+
+    public static List<String> getMonths() {
+        String[] months = new DateFormatSymbols().getShortMonths();
+        List<String> monthsList = Arrays.asList(months);
+
+        return monthsList;
+    }
+
+    public static Integer getDayOfYear(Date date) {
+        return Integer.parseInt(Util.getStringFromDate(date, Constants.DAY_OF_YEAR));
+    }
+
+    public static Integer getCurrentDayOfYear() {
+        return Integer.parseInt(Util.getStringFromDate(new Date(), Constants.DAY_OF_YEAR));
+    }
+
+    public static Integer getRecentDayOfYear() {
+        Calendar cal = Util.getCalendar();
+        cal.setTime(new Date());
+        cal.add(Calendar.DATE, Constants.RECENT_DURATION);
+
+        return Integer.parseInt(Util.getStringFromDate(cal.getTime(), Constants.DAY_OF_YEAR));
+    }
+    public static Boolean isCurrentYear(int year) {
+        Calendar calendar = Util.getCalendar(new Date());
+        return calendar.get(Calendar.YEAR) == year;
+    }
+    public static int getCurrentMonth() {
+        Calendar calendar = Util.getCalendar(new Date());
+        return calendar.get(Calendar.MONTH);
+    }
+    public static Boolean isCurrentMonth(int month) {
+        return month == getCurrentMonth();
+    }
+    public static int getCurrentDate() {
+        Calendar calendar = Util.getCalendar(new Date());
+        return calendar.get(Calendar.DATE);
     }
 }

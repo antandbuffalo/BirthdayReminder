@@ -1,0 +1,10 @@
+A reminder application for all your needs. Birthday, Anniversary etc. 
+- Add new reminder
+- Update or Delete existing reminders
+- Get push notification twice a day
+- Backup to storage file
+- Restore backup
+- Search your reminder
+
+The source code of the app is available in github. Any issues or bugs, please report.
+https://github.com/antandbuffalo/BirthdayReminder
