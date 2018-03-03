@@ -202,6 +202,8 @@ public class AddNew extends FragmentActivity {
                 finish();
             }
         });
+
+        removeYear.setChecked(addNewViewModel.getRemoveYear());
     }
 
     public void addMonthsToSpinner(Spinner spinner) {
