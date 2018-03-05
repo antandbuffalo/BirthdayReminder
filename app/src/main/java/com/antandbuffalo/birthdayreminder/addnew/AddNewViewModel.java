@@ -33,7 +33,7 @@ public class AddNewViewModel extends ViewModel {
         month = cal.get(Calendar.MONTH);
         year = cal.get(Calendar.YEAR);
 
-        isRemoveYear = false;
+        isRemoveYear = true;
         name = "";
 
         dateOfBirth = new DateOfBirth();
@@ -91,9 +91,11 @@ public class AddNewViewModel extends ViewModel {
     public List getDates() {
         List<String> dateList = new ArrayList<String>();
         Integer maxValue = null;
-        if(isRemoveYear && month == MONTH_FEB) {
-            //month is feb and year removed. So assign max value
-            maxValue = 29;
+        if(isRemoveYear) {
+            if(month == MONTH_FEB) {
+                //month is feb and year removed. So assign max value
+                maxValue = 29;
+            }
         }
         else {
             if(Util.isCurrentYear(year) && Util.isCurrentMonth(month)) {
