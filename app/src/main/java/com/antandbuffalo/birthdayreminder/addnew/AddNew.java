@@ -72,7 +72,6 @@ public class AddNew extends FragmentActivity {
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
 
@@ -102,7 +101,6 @@ public class AddNew extends FragmentActivity {
                 Log.i("Item select", "" + parent);
             }
         });
-
         name.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -204,6 +202,92 @@ public class AddNew extends FragmentActivity {
         });
 
         removeYear.setChecked(addNewViewModel.getRemoveYear());
+    }
+
+    public void addMonthsToSpinner(Spinner spinner) {
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, addNewViewModel.getMonths());
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(dataAdapter);
+    }
+
+    public void addDatesToSpinner(Spinner spinner) {
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, addNewViewModel.getDates());
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(dataAdapter);
+    }
+
+    public void addYearsToSpinner(Spinner spinner) {
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, addNewViewModel.getYears());
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(dataAdapter);
+    }
+
+    public void preview() {
+        addNewViewModel.setDateOfBirth();
+
+        dayOfYear = Util.getDayOfYear(addNewViewModel.dateOfBirth.getDobDate());
+
+        if(dayOfYear == currentDayOfYear) {
+            circle.setBackgroundResource(R.drawable.cirlce_today);
+        }
+        else if(recentDayOfYear < currentDayOfYear) {   //year end case
+            if(dayOfYear > currentDayOfYear || dayOfYear < recentDayOfYear) {
+                circle.setBackgroundResource(R.drawable.cirlce_recent);
+            }
+            else {
+                circle.setBackgroundResource(R.drawable.cirlce_normal);
+            }
+        }
+        else if(dayOfYear <= recentDayOfYear && dayOfYear > currentDayOfYear ){
+            circle.setBackgroundResource(R.drawable.cirlce_recent);
+        }
+        else {
+            circle.setBackgroundResource(R.drawable.cirlce_normal);
+        }
+
+        Util.setDescription(addNewViewModel.dateOfBirth, "Age");
+
+        if(addNewViewModel.getRemoveYear()) {
+            yearField.setVisibility(View.INVISIBLE);
+            desc.setVisibility(View.INVISIBLE);
+        }
+        else {
+            yearField.setVisibility(View.VISIBLE);
+            desc.setVisibility(View.VISIBLE);
+        }
+
+        namePreview.setText(addNewViewModel.name);
+        dateField.setText(addNewViewModel.date + "");
+        monthField.setText(Util.getStringFromDate(addNewViewModel.dateOfBirth.getDobDate(), "MMM"));
+        yearField.setText(addNewViewModel.year + "");
+        desc.setText(addNewViewModel.dateOfBirth.getDescription());
+    }
+
+    public void initLayout() {
+        name = (EditText)findViewById(R.id.personName);
+
+        removeYear = (CheckBox) findViewById(R.id.removeYear);
+
+        monthSpinner = (Spinner) findViewById(R.id.monthSpinner);
+        datesSpinner = (Spinner) findViewById(R.id.dateSpinner);
+        yearSpinner = (Spinner) findViewById(R.id.yearSpinner);
+
+        save = (ImageButton) findViewById(R.id.save);
+        save.setBackgroundResource(R.drawable.save_button);
+
+        cancel = (ImageButton)findViewById(R.id.cancel);
+        cancel.setBackgroundResource(R.drawable.cancel_button);
+
+        namePreview = (TextView)findViewById(R.id.nameField);
+        desc = (TextView)findViewById(R.id.ageField);
+        dateField = (TextView)findViewById(R.id.dateField);
+        monthField = (TextView)findViewById(R.id.monthField);
+        yearField = (TextView)findViewById(R.id.yearField);
+
+        circle = (LinearLayout)findViewById(R.id.circlebg);
     }
 
     public void addMonthsToSpinner(Spinner spinner) {
