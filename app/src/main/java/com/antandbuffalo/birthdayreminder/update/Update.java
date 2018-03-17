@@ -160,7 +160,8 @@ public class Update extends FragmentActivity {
             public void onClick(View v) {
 
             new AlertDialog.Builder(Update.this)
-                .setIcon(android.R.drawable.ic_dialog_alert)
+                //.setIcon(android.R.drawable.ic_dialog_alert)
+                    .setIconAttribute(android.R.attr.alertDialogIcon)
                 .setTitle("Confirmation")
                 .setMessage("Are you sure you want to delete " + currentDOB.getName() + "?")
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener()
@@ -202,7 +203,8 @@ public class Update extends FragmentActivity {
                     if (updateViewModel.isDOBAvailable(updateViewModel.dateOfBirth)) {
                         //put confirmation here
                         new AlertDialog.Builder(Update.this)
-                                .setIcon(android.R.drawable.ic_dialog_info)
+                                //.setIcon(android.R.drawable.ic_dialog_info)
+                                .setIconAttribute(android.R.attr.alertDialogIcon)
                                 .setTitle(Constants.ERROR)
                                 .setMessage(Constants.USER_EXIST)
                                 .setPositiveButton(Constants.OK, null)

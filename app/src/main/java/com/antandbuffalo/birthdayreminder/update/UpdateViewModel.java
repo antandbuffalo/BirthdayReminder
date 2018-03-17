@@ -39,6 +39,9 @@ public class UpdateViewModel extends ViewModel {
         year = cal.get(Calendar.YEAR);
 
         isRemoveYear = givenDateOfBirth.getRemoveYear();
+        if(isRemoveYear) {
+            year = Constants.REMOVE_YEAR_VALUE;
+        }
     }
 
     public void setName(String givenName) {
@@ -50,14 +53,8 @@ public class UpdateViewModel extends ViewModel {
     }
 
     public void setRemoveYear(Boolean removeYear) {
-        Calendar calendar = Util.getCalendar();
-        calendar.set(year, month, date);
-        Date plainDate = calendar.getTime();
-
-        long diff = Util.getDaysBetweenDates(plainDate);
-        if(diff < 0) {
-            //if(removeYear && Util.isCurrentYear(year)) {
-            year = Constants.LEAP_YEAR;
+        if(removeYear) {
+            year = Constants.REMOVE_YEAR_VALUE;
         }
         isRemoveYear = removeYear;
     }

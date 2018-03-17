@@ -56,10 +56,15 @@ public class DateOfBirthDBHelper {
     //returns false if the entry is available already
     public static boolean isUniqueDateOfBirth(DateOfBirth dob) {
         SQLiteDatabase db = DBHelper.getInstace().getReadableDatabase();
+        String optionalYear = dob.getRemoveYear()? "1" : "0";
 
         String[] columns = {Constants.COLUMN_DOB_ID, Constants.COLUMN_DOB_NAME, Constants.COLUMN_DOB_DATE, Constants.COLUMN_DOB_OPTIONAL_YEAR};
+
         String selection = Constants.COLUMN_DOB_NAME + " =? AND " + Constants.COLUMN_DOB_DATE + " =? AND " + Constants.COLUMN_DOB_OPTIONAL_YEAR + " =?";
-        String optionalYear = dob.getRemoveYear()? "1" : "0";
+        if(optionalYear.equalsIgnoreCase("0")) {
+            selection = Constants.COLUMN_DOB_NAME + " =? AND " + Constants.COLUMN_DOB_DATE + " =? AND (" + Constants.COLUMN_DOB_OPTIONAL_YEAR + " =? OR " + Constants.COLUMN_DOB_OPTIONAL_YEAR + " is NULL)";
+        }
+
         String[] selectionArgs = {dob.getName(), Util.getStringFromDate(dob.getDobDate()), optionalYear};
         String groupBy = null;
         String having = null;
@@ -81,8 +86,14 @@ public class DateOfBirthDBHelper {
         SQLiteDatabase db = DBHelper.getInstace().getReadableDatabase();
 
         String[] columns = {Constants.COLUMN_DOB_ID, Constants.COLUMN_DOB_NAME, Constants.COLUMN_DOB_DATE, Constants.COLUMN_DOB_OPTIONAL_YEAR};
-        String selection = Constants.COLUMN_DOB_NAME + " =? COLLATE NOCASE AND " + Constants.COLUMN_DOB_DATE + " =? AND " + Constants.COLUMN_DOB_OPTIONAL_YEAR + " =?";
+
         String optionalYear = dob.getRemoveYear()? "1" : "0";
+
+        String selection = Constants.COLUMN_DOB_NAME + " =? COLLATE NOCASE AND " + Constants.COLUMN_DOB_DATE + " =? AND " + Constants.COLUMN_DOB_OPTIONAL_YEAR + " =?";
+        if(optionalYear.equalsIgnoreCase("0")) {
+            selection = Constants.COLUMN_DOB_NAME + " =? COLLATE NOCASE AND " + Constants.COLUMN_DOB_DATE + " =? AND (" + Constants.COLUMN_DOB_OPTIONAL_YEAR + " =? OR " + Constants.COLUMN_DOB_OPTIONAL_YEAR + " is NULL)";
+        }
+
         String[] selectionArgs = {dob.getName(), Util.getStringFromDate(dob.getDobDate()), optionalYear};
         String groupBy = null;
         String having = null;

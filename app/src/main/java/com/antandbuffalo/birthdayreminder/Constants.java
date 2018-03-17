@@ -153,7 +153,7 @@ public class Constants {
     public static final String STATUS_FILE_APPEND_SUCCESS = "STATUS_FILE_APPEND_SUCCESS";
 
     public static final Integer START_YEAR = 1901;
-    public static final Integer NO_YEAR = 1900;
+    public static final Integer REMOVE_YEAR_VALUE = 2016;
     public static final Integer LEAP_YEAR = 2016;
 
     public static final int MY_PERMISSIONS_WRITE_EXTERNAL_STORAGE = 1;
