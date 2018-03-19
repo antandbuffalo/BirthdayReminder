@@ -68,6 +68,7 @@ public class Constants {
     public static final String SETTINGS_DELETE_ALL = "DELETE_ALL";
     public static final String SETTINGS_ABOUT = "ABOUT";
     public static final String SETTINGS_MODIFY_TODAY = "SETTINGS_MODIFY_TODAY";
+    public static final String SETTINGS_NOTIFICATION = "SETTINGS_NOTIFICATION";
 
     public static final Map<String, Integer> OPIONS_SNO_MAPPER = new HashMap<String, Integer>() {{
         put(SETTINGS_WRITE_FILE, 1);
@@ -142,7 +143,7 @@ public class Constants {
 
     public static final String TYPE_ADD_NEW = "AddNew";
 
-    public static final long OPTIONS_TABLE_NUMBER_OF_ROWS = 5;
+    public static final long OPTIONS_TABLE_NUMBER_OF_ROWS = 6;
 
     public static final String SETTINGS_ICON_LETTER = "SETTINGS_ICON_LETTER";
 
