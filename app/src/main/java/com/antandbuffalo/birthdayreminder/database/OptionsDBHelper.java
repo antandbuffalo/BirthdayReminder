@@ -12,12 +12,16 @@ import com.antandbuffalo.birthdayreminder.DateOfBirth;
 import com.antandbuffalo.birthdayreminder.Util;
 import com.antandbuffalo.birthdayreminder.settings.Settings;
 import com.antandbuffalo.birthdayreminder.settings.SettingsModel;
+import com.antandbuffalo.birthdayreminder.settings.SettingsViewModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -85,7 +89,6 @@ public class OptionsDBHelper {
         datum.setKey(Constants.SETTINGS_ABOUT);
         datum.setTitle("About");
         datum.setSubTitle("");
-        //datum.setUpdatedOn(new Date());
         extraFields = new JSONObject();
         Util.validateAndSetExtra(extraFields, Constants.SETTINGS_ICON_LETTER, "A");
         datum.setExtra(extraFields.toString());
@@ -147,6 +150,7 @@ public class OptionsDBHelper {
         SQLiteDatabase db = DBHelper.getInstace().getReadableDatabase();
         Cursor cursor = db.rawQuery(selectionQuery, null);
         List<SettingsModel> options = getOptionsFromCursor(cursor);
+        Collections.sort(options, (settingsModel, t1) -> Integer.compare(settingsModel.getSno(), t1.getSno()));
         cursor.close();
         db.close();
         return options;
@@ -162,6 +166,7 @@ public class OptionsDBHelper {
                 settingsModel.setSubTitle(cursor.getString(2));
                 settingsModel.setUpdatedOn(Util.getDateFromString(cursor.getString(3)));
                 settingsModel.setExtra(cursor.getString(4));
+                settingsModel.setSno(cursor.getInt(5));
                 //settingsModel.setExtraJson(Util.parseJSON(settingsModel.getExtra()));
 
                 // Adding contact to list
@@ -203,7 +208,7 @@ public class OptionsDBHelper {
         //Log.i("before return ", returnValue);
         return returnValue;
     }
-    public static void updateSNO(SQLiteDatabase db) {
+    public static void initSNO(SQLiteDatabase db) {
         List<SettingsModel> data = getDefatultValues();
         for(SettingsModel option : data) {
             ContentValues values = new ContentValues();
@@ -213,24 +218,46 @@ public class OptionsDBHelper {
         }
     }
 
+    public static long updateSNO(SettingsModel newOption) {
+        DBHelper dbHelper = DBHelper.getInstace();
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(Constants.COLUMN_OPTION_SNO, newOption.getSno()); //update sno to new one
+        // update Row
+        String optionCode = Constants.COLUMN_OPTION_CODE + "='" + newOption.getKey() + "'";
+        long returnValue = db.update(Constants.TABLE_OPTIONS, values, optionCode, null);
+
+        Log.i("after update", returnValue + "");
+        db.close();
+        return returnValue;
+    }
+
     public static void populatePage() {
-        List<SettingsModel> data = getDefatultValues();
+        List<SettingsModel> defaultData = getDefatultValues();
         long totalRows = OptionsDBHelper.getNumberOfRows();
         if(totalRows == 0) {
             OptionsDBHelper.insertDefaultValues();
         }
         else {
             if(totalRows != Constants.OPTIONS_TABLE_NUMBER_OF_ROWS) {
-                List<SettingsModel> options = selectAll();
-                for(SettingsModel defaultOption : data) {
+                List<SettingsModel> optionsDbData = selectAll();
+                for(SettingsModel defaultOption : defaultData) {
                     boolean isAlreadyInDB = false;
-                    for(SettingsModel option : options) {
-                        if(defaultOption.getKey().equalsIgnoreCase(option.getKey())) {
+                    boolean needToUpdateSno = false;
+                    for(SettingsModel currentOption : optionsDbData) {
+                        if(defaultOption.getKey().equalsIgnoreCase(currentOption.getKey())) {
                             isAlreadyInDB = true;
+                            if(defaultOption.getSno() != currentOption.getSno()) {
+                                needToUpdateSno = true;
+                            }
                         }
                     }
                     if(!isAlreadyInDB) {
                         insertOption(defaultOption);
+                    }
+                    if(needToUpdateSno) {
+                        updateSNO(defaultOption);
                     }
                 }
             }

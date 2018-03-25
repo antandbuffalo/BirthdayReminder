@@ -84,7 +84,7 @@ public final class DBHelper extends SQLiteOpenHelper {
             case 1: {
                 String addSNOColumn = "ALTER TABLE " + Constants.TABLE_OPTIONS + " ADD COLUMN " + Constants.COLUMN_OPTION_SNO + " INTEGER";
                 db.execSQL(addSNOColumn);
-                OptionsDBHelper.updateSNO(db);
+                OptionsDBHelper.initSNO(db);
             }
             case 2: {
                 String addOptionalYearQuery = "ALTER TABLE " + Constants.TABLE_DATE_OF_BIRTH + " ADD COLUMN " + Constants.COLUMN_DOB_OPTIONAL_YEAR + " INTEGER DEFAULT 0";

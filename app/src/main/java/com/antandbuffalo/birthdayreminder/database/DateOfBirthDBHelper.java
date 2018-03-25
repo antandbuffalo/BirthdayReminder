@@ -127,15 +127,6 @@ public class DateOfBirthDBHelper {
         DBHelper dbHelper = DBHelper.getInstace();
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
-        String updateQuery = "UPDATE " + Constants.TABLE_DATE_OF_BIRTH + " SET "
-                + Constants.COLUMN_DOB_NAME + " = " + dateOfBirth.getName() + ", "
-                + Constants.COLUMN_DOB_DATE + " = " + Util.getStringFromDate(dateOfBirth.getDobDate())
-                + " WHERE "
-                + Constants.COLUMN_DOB_ID + " = " + dateOfBirth.getDobId();
-
-        System.out.println("query -- update dob --- " + updateQuery);
-        //Cursor cursor = db.rawQuery(updateQuery, null);
-
         ContentValues values = new ContentValues();
         values.put(Constants.COLUMN_DOB_NAME, dateOfBirth.getName()); // Contact Name
         values.put(Constants.COLUMN_DOB_DATE, Util.getStringFromDate(dateOfBirth.getDobDate())); // date of birth - 2000
