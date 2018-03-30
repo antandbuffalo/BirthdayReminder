@@ -49,6 +49,9 @@
         <activity
             android:name=".modifytoday.ModifyToday"
             android:label="@string/title_activity_modify_today"></activity>
+        <activity
+            android:name=".notificationsettings.NotificationSettings"
+            android:label="@string/title_activity_notification_settings"></activity>
     </application>
 
 </manifest>

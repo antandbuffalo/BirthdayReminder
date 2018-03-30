@@ -2,6 +2,7 @@ package com.antandbuffalo.birthdayreminder.settings;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.Notification;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -31,6 +32,7 @@ import com.antandbuffalo.birthdayreminder.database.DateOfBirthDBHelper;
 import com.antandbuffalo.birthdayreminder.database.OptionsDBHelper;
 import com.antandbuffalo.birthdayreminder.fragments.MyFragment;
 import com.antandbuffalo.birthdayreminder.modifytoday.ModifyToday;
+import com.antandbuffalo.birthdayreminder.notificationsettings.NotificationSettings;
 
 import java.util.Date;
 import java.util.List;
@@ -96,6 +98,9 @@ public class Settings extends MyFragment {
                     startActivity(intent);
                 } else if (selectedOption.getKey().equalsIgnoreCase(Constants.SETTINGS_ABOUT)) {
                     Intent intent = new Intent(view.getContext(), About.class);
+                    startActivity(intent);
+                } else if (selectedOption.getKey().equalsIgnoreCase(Constants.SETTINGS_NOTIFICATION)) {
+                    Intent intent = new Intent(view.getContext(), NotificationSettings.class);
                     startActivity(intent);
                 }
             }

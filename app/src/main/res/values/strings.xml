@@ -10,4 +10,5 @@
     <string name="contact_us"><u>Contact Us</u></string>
     <string name="share"><u>Share</u></string>
     <string name="title_activity_modify_today">Modify Today Section</string>
+    <string name="title_activity_notification_settings">Notification Settings</string>
 </resources>

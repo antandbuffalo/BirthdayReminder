@@ -473,4 +473,11 @@ public class Util {
         Calendar calendar = Util.getCalendar(new Date());
         return calendar.get(Calendar.DATE);
     }
+
+    public static Date addDays(int days) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date());
+        cal.add(Calendar.DATE, days);
+        return cal.getTime();
+    }
 }

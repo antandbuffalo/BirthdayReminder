@@ -127,15 +127,6 @@ public class DateOfBirthDBHelper {
         DBHelper dbHelper = DBHelper.getInstace();
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
-        String updateQuery = "UPDATE " + Constants.TABLE_DATE_OF_BIRTH + " SET "
-                + Constants.COLUMN_DOB_NAME + " = " + dateOfBirth.getName() + ", "
-                + Constants.COLUMN_DOB_DATE + " = " + Util.getStringFromDate(dateOfBirth.getDobDate())
-                + " WHERE "
-                + Constants.COLUMN_DOB_ID + " = " + dateOfBirth.getDobId();
-
-        System.out.println("query -- update dob --- " + updateQuery);
-        //Cursor cursor = db.rawQuery(updateQuery, null);
-
         ContentValues values = new ContentValues();
         values.put(Constants.COLUMN_DOB_NAME, dateOfBirth.getName()); // Contact Name
         values.put(Constants.COLUMN_DOB_DATE, Util.getStringFromDate(dateOfBirth.getDobDate())); // date of birth - 2000
@@ -282,6 +273,28 @@ public class DateOfBirthDBHelper {
                 + "') as int) "
                 + ") order by day desc";
 
+
+        System.out.println("query today -- " + selectionQuery);
+        SQLiteDatabase db = DBHelper.createInstance(context).getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectionQuery, null);
+        List<DateOfBirth> dobList = getDateOfBirthsFromCursor(cursor);
+        cursor.close();
+        db.close();
+        return dobList;
+    }
+
+    public static List selectForTheDate(Context context, Date date) {
+        String selectionQuery;
+        java.sql.Date givenDate = new java.sql.Date(date.getTime());
+        selectionQuery = "select " + Constants.COLUMN_DOB_ID + ", "
+                + Constants.COLUMN_DOB_NAME + ", "
+                + Constants.COLUMN_DOB_DATE + ", "
+                + "cast(strftime('%m%d', "
+                + Constants.COLUMN_DOB_DATE + ") as int) as day from "
+                + Constants.TABLE_DATE_OF_BIRTH + " where day = (cast(strftime('%m%d', '"
+                + givenDate
+                + "') as int) "
+                + ") order by day desc";
 
         System.out.println("query today -- " + selectionQuery);
         SQLiteDatabase db = DBHelper.createInstance(context).getReadableDatabase();
