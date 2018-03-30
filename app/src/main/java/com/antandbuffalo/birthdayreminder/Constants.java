@@ -140,6 +140,7 @@ public class Constants {
     public static final String PREFERENCE_NAME = "BirthdayReminder";
     public static final String PREFERENCE_IS_SECONDTIME = "isSecondTime";
     public static final String PREFERENCE_RECENT_DAYS_TODAY = "PREFERENCE_RECENT_DAYS_TODAY";
+    public static final String PREFERENCE_PRE_NOTIFICATION_DAYS = "PREFERENCE_PRE_NOTIFICATION_DAYS";
 
     public static final String TYPE_ADD_NEW = "AddNew";
 

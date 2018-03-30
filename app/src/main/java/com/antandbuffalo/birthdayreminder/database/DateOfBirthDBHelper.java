@@ -283,6 +283,28 @@ public class DateOfBirthDBHelper {
         return dobList;
     }
 
+    public static List selectForTheDate(Context context, Date date) {
+        String selectionQuery;
+        java.sql.Date givenDate = new java.sql.Date(date.getTime());
+        selectionQuery = "select " + Constants.COLUMN_DOB_ID + ", "
+                + Constants.COLUMN_DOB_NAME + ", "
+                + Constants.COLUMN_DOB_DATE + ", "
+                + "cast(strftime('%m%d', "
+                + Constants.COLUMN_DOB_DATE + ") as int) as day from "
+                + Constants.TABLE_DATE_OF_BIRTH + " where day = (cast(strftime('%m%d', '"
+                + givenDate
+                + "') as int) "
+                + ") order by day desc";
+
+        System.out.println("query today -- " + selectionQuery);
+        SQLiteDatabase db = DBHelper.createInstance(context).getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectionQuery, null);
+        List<DateOfBirth> dobList = getDateOfBirthsFromCursor(cursor);
+        cursor.close();
+        db.close();
+        return dobList;
+    }
+
     public static int getCountTodayAndBelated() {
         String selectionQuery;
         java.sql.Date today = new java.sql.Date(new Date().getTime());
