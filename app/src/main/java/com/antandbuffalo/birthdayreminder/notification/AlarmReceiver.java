@@ -66,6 +66,7 @@ public class AlarmReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         // TODO: This method is called when the BroadcastReceiver is receiving
         System.out.println("inside schedule receiver");
+        showPreNotifications(context);
         List<DateOfBirth> todayList = DateOfBirthDBHelper.selectToday(context);
         if(todayList == null || todayList.size() == 0) {
             return;
@@ -92,6 +93,5 @@ public class AlarmReceiver extends BroadcastReceiver {
         notificationManager.notify(notificationId, mBuilder.build());
         // an Intent broadcast.
         //throw new UnsupportedOperationException("Not yet implemented");
-        showPreNotifications(context);
     }
 }
