@@ -22,8 +22,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.antandbuffalo.birthdayreminder.Constants;
+import com.antandbuffalo.birthdayreminder.DataHolder;
 import com.antandbuffalo.birthdayreminder.R;
 import com.antandbuffalo.birthdayreminder.Util;
+import com.antandbuffalo.birthdayreminder.database.DBHelper;
+
 import java.util.Map;
 
 public class AddNew extends FragmentActivity {
@@ -43,6 +46,8 @@ public class AddNew extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_new);
+
+        DBHelper.createInstance(this);
 
         addNewViewModel = ViewModelProviders.of(this).get(AddNewViewModel.class);
         addNewViewModel.initDefaults();
@@ -153,7 +158,8 @@ public class AddNew extends FragmentActivity {
                     if (addNewViewModel.isDOBAvailable(addNewViewModel.dateOfBirth)) {
                         //put confirmation here
                         new AlertDialog.Builder(AddNew.this)
-                                .setIcon(android.R.drawable.ic_dialog_info)
+                                //.setIcon(android.R.drawable.ic_dialog_info)
+                                .setIconAttribute(android.R.attr.alertDialogIcon)
                                 .setTitle(Constants.ERROR)
                                 .setMessage(Constants.USER_EXIST)
                                 .setPositiveButton(Constants.OK, null)

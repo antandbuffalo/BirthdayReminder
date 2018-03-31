@@ -79,7 +79,8 @@ public class Settings extends MyFragment {
                 } else if (selectedOption.getKey().equalsIgnoreCase(Constants.SETTINGS_DELETE_ALL)) {
                     //put confirmation here
                     new AlertDialog.Builder(getActivity())
-                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            //.setIcon(android.R.drawable.ic_dialog_alert)
+                            .setIconAttribute(android.R.attr.alertDialogIcon)
                             .setTitle("Confirmation")
                             .setMessage("Are you sure you want to delete all?")
                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {

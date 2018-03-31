@@ -10,23 +10,11 @@
     tools:context="com.antandbuffalo.birthdayreminder.modifytoday.ModifyToday">
 
     <TextView
-        android:id="@+id/mtLable1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:text="You will get notified on the day of the Birthday"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textSize="16sp" />
-
-    <TextView
         android:id="@+id/mtLable2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/mtLable1"
-        android:layout_marginTop="20dp"
-        android:text="Please select the number of days to get notified before"
+        android:text="Please select the number of days, to get notified, before the actual birthday"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="16sp" />
@@ -39,6 +27,17 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:orientation="vertical" />
+    <TextView
+        android:id="@+id/mtLable3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/recentDaysToday"
+        android:layout_marginTop="20dp"
+        android:text="You will also get notified on the day of the actual birthday"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"

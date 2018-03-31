@@ -25,6 +25,8 @@ import com.antandbuffalo.birthdayreminder.Constants;
 import com.antandbuffalo.birthdayreminder.DateOfBirth;
 import com.antandbuffalo.birthdayreminder.R;
 import com.antandbuffalo.birthdayreminder.Util;
+import com.antandbuffalo.birthdayreminder.database.DBHelper;
+
 import java.util.Map;
 
 public class Update extends FragmentActivity {
@@ -44,6 +46,8 @@ public class Update extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update);
+
+        DBHelper.createInstance(this);
 
         updateViewModel = ViewModelProviders.of(this).get(UpdateViewModel.class);
 
