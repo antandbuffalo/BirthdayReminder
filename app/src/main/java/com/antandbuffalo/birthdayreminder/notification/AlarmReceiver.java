@@ -24,7 +24,7 @@ public class AlarmReceiver extends BroadcastReceiver {
     NotificationManager notificationManager;
     public AlarmReceiver() {
     }
-
+  
     public void showPreNotifications(Context context, int preNotifDays) {
         Date futureDate = Util.addDays(preNotifDays);
         List<DateOfBirth> preNotifList = DateOfBirthDBHelper.selectForTheDate(context, futureDate);
