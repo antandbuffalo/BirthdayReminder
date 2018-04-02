@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.support.v4.app.NotificationCompat;
 
 import com.antandbuffalo.birthdayreminder.Constants;
+import com.antandbuffalo.birthdayreminder.DataHolder;
 import com.antandbuffalo.birthdayreminder.DateOfBirth;
 import com.antandbuffalo.birthdayreminder.MainActivity;
 import com.antandbuffalo.birthdayreminder.R;
@@ -23,14 +24,8 @@ public class AlarmReceiver extends BroadcastReceiver {
     NotificationManager notificationManager;
     public AlarmReceiver() {
     }
-
-    public void showPreNotifications(Context context) {
-        final SharedPreferences settings = Util.getSharedPreference();
-        int preNotifDays = settings.getInt(Constants.PREFERENCE_PRE_NOTIFICATION_DAYS, 0);
-
-        if(preNotifDays == 0) {
-            return;
-        }
+  
+    public void showPreNotifications(Context context, int preNotifDays) {
         Date futureDate = Util.addDays(preNotifDays);
         List<DateOfBirth> preNotifList = DateOfBirthDBHelper.selectForTheDate(context, futureDate);
         if(preNotifList == null || preNotifList.size() == 0) {
@@ -65,8 +60,13 @@ public class AlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         // TODO: This method is called when the BroadcastReceiver is receiving
+        DataHolder.getInstance().setAppContext(context);
         System.out.println("inside schedule receiver");
-        showPreNotifications(context);
+        final SharedPreferences settings = Util.getSharedPreference();
+        int preNotifDays = settings.getInt(Constants.PREFERENCE_PRE_NOTIFICATION_DAYS, 0);
+        if(preNotifDays > 0) {
+            showPreNotifications(context, preNotifDays);
+        }
         List<DateOfBirth> todayList = DateOfBirthDBHelper.selectToday(context);
         if(todayList == null || todayList.size() == 0) {
             return;
