@@ -95,14 +95,15 @@ public class Settings extends MyFragment {
                             .setNegativeButton("No", null)
                             .show();
                 } else if (selectedOption.getKey().equalsIgnoreCase(Constants.SETTINGS_MODIFY_TODAY)) {
+
                     Intent intent = new Intent(view.getContext(), ModifyToday.class);
-                    startActivity(intent);
+                    getActivity().startActivityForResult(intent, Constants.REFRESH_SETTINGS);
                 } else if (selectedOption.getKey().equalsIgnoreCase(Constants.SETTINGS_ABOUT)) {
                     Intent intent = new Intent(view.getContext(), About.class);
                     startActivity(intent);
                 } else if (selectedOption.getKey().equalsIgnoreCase(Constants.SETTINGS_NOTIFICATION)) {
                     Intent intent = new Intent(view.getContext(), NotificationSettings.class);
-                    startActivity(intent);
+                    getActivity().startActivityForResult(intent, Constants.REFRESH_SETTINGS);
                 }
             }
         });
@@ -207,5 +208,9 @@ public class Settings extends MyFragment {
             // other 'case' lines to check for other
             // permissions this app might request.
         }
+    }
+    @Override
+    public void refreshData() {
+        settingsListAdapter.notifyDataSetChanged();
     }
 }

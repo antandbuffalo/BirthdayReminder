@@ -1,6 +1,7 @@
 package com.antandbuffalo.birthdayreminder.notificationsettings;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -19,12 +20,14 @@ import com.antandbuffalo.birthdayreminder.Util;
 import java.lang.reflect.Field;
 
 public class NotificationSettings extends Activity {
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.notification_settings);
         final SharedPreferences settings = Util.getSharedPreference();
+        intent = new Intent();
 
         final NumberPicker numberPicker = (NumberPicker) findViewById(R.id.recentDaysToday);
         setNumberPickerTextColor(numberPicker, Color.WHITE);
@@ -52,6 +55,7 @@ public class NotificationSettings extends Activity {
                 editor.commit();
                 Toast toast = Toast.makeText(getApplicationContext(), Constants.NOTIFICATION_SUCCESSFULLY_UPDATED, Toast.LENGTH_SHORT);
                 toast.show();
+                setResult(RESULT_OK, intent);
                 finish();
             }
         });
@@ -59,6 +63,7 @@ public class NotificationSettings extends Activity {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                setResult(RESULT_CANCELED, intent);
                 finish();
             }
         });
