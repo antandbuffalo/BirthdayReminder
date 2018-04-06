@@ -7,6 +7,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -19,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
@@ -45,6 +47,7 @@ public class Settings extends MyFragment {
     private SettingsViewModel settingsViewModel;
     LayoutInflater layoutInflater;
     SettingsModel selectedOption;
+    ProgressBar progressSpinner;
     public static Settings newInstance() {
         Settings fragment = new Settings();
         return fragment;
@@ -60,6 +63,9 @@ public class Settings extends MyFragment {
 
         final ListView settingsList = (ListView)rootView.findViewById(R.id.settingsList);
 
+        progressSpinner = (ProgressBar)rootView.findViewById(R.id.progressBar);
+        progressSpinner.setVisibility(View.GONE);
+
         settingsListAdapter = new SettingsListAdapter();
         //http://stackoverflow.com/questions/6495898/findviewbyid-in-fragment
         settingsList.setAdapter(settingsListAdapter);
@@ -69,13 +75,17 @@ public class Settings extends MyFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 selectedOption = settingsListAdapter.listData.get(position);
                 if (selectedOption.getKey().equalsIgnoreCase(Constants.SETTINGS_WRITE_FILE)) {
+                    progressSpinner.setVisibility(View.VISIBLE);
                     if(getStoragePermission(Constants.MY_PERMISSIONS_WRITE_EXTERNAL_STORAGE)) {
                         createBackup(true);
                     }
+                    progressSpinner.setVisibility(View.GONE);
                 } else if (selectedOption.getKey().equalsIgnoreCase(Constants.SETTINGS_READ_FILE)) {
+                    progressSpinner.setVisibility(View.VISIBLE);
                     if(getStoragePermission(Constants.MY_PERMISSIONS_READ_EXTERNAL_STORAGE)) {
                         restoreBackup(true);
                     }
+                    progressSpinner.setVisibility(View.GONE);
                 } else if (selectedOption.getKey().equalsIgnoreCase(Constants.SETTINGS_DELETE_ALL)) {
                     //put confirmation here
                     new AlertDialog.Builder(getActivity())
@@ -109,6 +119,43 @@ public class Settings extends MyFragment {
         });
 
         return rootView;
+    }
+
+    public class URLFetchTask extends AsyncTask<String, Void, String>{
+
+        Settings container;
+        public URLFetchTask(Settings f) {
+            this.container = f;
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                // Emulate a long running process
+                // In this case we are pretending to fetch the URL content
+                Thread.sleep(3000); // This takes 3 seconds
+
+                // If you are implementing actual fetch API, the call would be something like this,
+                // API.fetchURL(params[0]);
+            }catch(Exception ex) {}
+            return "Content from the URL "+params[0];
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            container.progressSpinner.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            // The activity can be null if it is thrown out by Android while task is running!
+            if(container!=null && container.getActivity()!=null) {
+                container.progressSpinner.setVisibility(View.GONE);
+                this.container = null;
+            }
+        }
     }
 
     public void createBackup(Boolean isGranted) {
