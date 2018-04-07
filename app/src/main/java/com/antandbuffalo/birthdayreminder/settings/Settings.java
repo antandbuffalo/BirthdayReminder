@@ -13,6 +13,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SimpleAdapter;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.antandbuffalo.birthdayreminder.Constants;
@@ -38,6 +40,7 @@ import com.antandbuffalo.birthdayreminder.notificationsettings.NotificationSetti
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by i677567 on 28/8/15.
@@ -48,6 +51,7 @@ public class Settings extends MyFragment {
     LayoutInflater layoutInflater;
     SettingsModel selectedOption;
     ProgressBar progressSpinner;
+    Settings mySettings = this;
     public static Settings newInstance() {
         Settings fragment = new Settings();
         return fragment;
@@ -75,17 +79,13 @@ public class Settings extends MyFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 selectedOption = settingsListAdapter.listData.get(position);
                 if (selectedOption.getKey().equalsIgnoreCase(Constants.SETTINGS_WRITE_FILE)) {
-                    progressSpinner.setVisibility(View.VISIBLE);
                     if(getStoragePermission(Constants.MY_PERMISSIONS_WRITE_EXTERNAL_STORAGE)) {
                         createBackup(true);
                     }
-                    progressSpinner.setVisibility(View.GONE);
                 } else if (selectedOption.getKey().equalsIgnoreCase(Constants.SETTINGS_READ_FILE)) {
-                    progressSpinner.setVisibility(View.VISIBLE);
                     if(getStoragePermission(Constants.MY_PERMISSIONS_READ_EXTERNAL_STORAGE)) {
                         restoreBackup(true);
                     }
-                    progressSpinner.setVisibility(View.GONE);
                 } else if (selectedOption.getKey().equalsIgnoreCase(Constants.SETTINGS_DELETE_ALL)) {
                     //put confirmation here
                     new AlertDialog.Builder(getActivity())
@@ -121,45 +121,19 @@ public class Settings extends MyFragment {
         return rootView;
     }
 
-    public class URLFetchTask extends AsyncTask<String, Void, String>{
+    public void showSpinner() {
+        Log.i("show spinner", "show spinner");
+        progressSpinner.setVisibility(View.VISIBLE);
+    }
 
-        Settings container;
-        public URLFetchTask(Settings f) {
-            this.container = f;
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-            try {
-                // Emulate a long running process
-                // In this case we are pretending to fetch the URL content
-                Thread.sleep(3000); // This takes 3 seconds
-
-                // If you are implementing actual fetch API, the call would be something like this,
-                // API.fetchURL(params[0]);
-            }catch(Exception ex) {}
-            return "Content from the URL "+params[0];
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            container.progressSpinner.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-            // The activity can be null if it is thrown out by Android while task is running!
-            if(container!=null && container.getActivity()!=null) {
-                container.progressSpinner.setVisibility(View.GONE);
-                this.container = null;
-            }
-        }
+    public void hideSpinner() {
+        Log.i("hide spinner", "hide spinner");
+        progressSpinner.setVisibility(View.GONE);
     }
 
     public void createBackup(Boolean isGranted) {
         if(isGranted) {
+            new UISpinner(mySettings).execute("backup");
             Util.writeToFile();
             Toast.makeText(layoutInflater.getContext(), "Backup file is created and stored in the location " + Constants.FOLDER_NAME + "/" + Constants.FILE_NAME + Constants.FILE_NAME_SUFFIX, Toast.LENGTH_LONG).show();
             Util.updateBackupTime(selectedOption);
@@ -259,5 +233,52 @@ public class Settings extends MyFragment {
     @Override
     public void refreshData() {
         settingsListAdapter.notifyDataSetChanged();
+    }
+
+    public class UISpinner extends AsyncTask<String, String, String> {
+
+        Settings container;
+        public UISpinner(Settings f) {
+            this.container = f;
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                if(params.length > 0) {
+                    String type = params[0];
+                    switch (type) {
+                        case "backup": {
+                            //Util.writeToFile();
+                            break;
+                        }
+                    }
+                }
+
+                // Emulate a long running process
+                // In this case we are pretending to fetch the URL content
+                Thread.sleep(3000); // This takes 3 seconds
+
+                // If you are implementing actual fetch API, the call would be something like this,
+                // API.fetchURL(params[0]);
+            }catch(Exception ex) {}
+            return "Content from the URL "+params[0];
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            container.showSpinner();
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            // The activity can be null if it is thrown out by Android while task is running!
+            if(container != null && container.getActivity() != null) {
+                container.hideSpinner();
+                this.container = null;
+            }
+        }
     }
 }
