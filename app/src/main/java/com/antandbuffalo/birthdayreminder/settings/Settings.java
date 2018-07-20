@@ -7,6 +7,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -24,6 +25,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SimpleAdapter;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.antandbuffalo.birthdayreminder.Constants;
@@ -52,6 +54,7 @@ public class Settings extends MyFragment {
     SettingsModel selectedOption;
     ProgressBar progressSpinner;
     Settings mySettings = this;
+
     public static Settings newInstance() {
         Settings fragment = new Settings();
         return fragment;
@@ -69,6 +72,7 @@ public class Settings extends MyFragment {
 
         progressSpinner = (ProgressBar)rootView.findViewById(R.id.progressBar);
         progressSpinner.setVisibility(View.GONE);
+        progressSpinner.setBackgroundColor(this.getResources().getColor(R.color.spinner));
 
         settingsListAdapter = new SettingsListAdapter();
         //http://stackoverflow.com/questions/6495898/findviewbyid-in-fragment
@@ -129,6 +133,10 @@ public class Settings extends MyFragment {
     public void hideSpinner() {
         Log.i("hide spinner", "hide spinner");
         progressSpinner.setVisibility(View.GONE);
+    }
+
+    public void showToast(String message) {
+        Toast.makeText(layoutInflater.getContext(), message, Toast.LENGTH_LONG).show();
     }
 
     public void createBackup(Boolean isGranted) {
@@ -262,7 +270,7 @@ public class Settings extends MyFragment {
                 // If you are implementing actual fetch API, the call would be something like this,
                 // API.fetchURL(params[0]);
             }catch(Exception ex) {}
-            return "Content from the URL "+params[0];
+            return params[0];
         }
 
         @Override
@@ -274,8 +282,12 @@ public class Settings extends MyFragment {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
+            Log.i("ASYNC", result);
             // The activity can be null if it is thrown out by Android while task is running!
             if(container != null && container.getActivity() != null) {
+                if(result.equalsIgnoreCase("backup")) {
+                    container.showToast("Backup file is created and stored in the location " + Constants.FOLDER_NAME + "/" + Constants.FILE_NAME + Constants.FILE_NAME_SUFFIX);
+                }
                 container.hideSpinner();
                 this.container = null;
             }

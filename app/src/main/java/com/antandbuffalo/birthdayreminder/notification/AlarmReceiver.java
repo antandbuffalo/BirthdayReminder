@@ -45,16 +45,18 @@ public class AlarmReceiver extends BroadcastReceiver {
             sep = ", ";
         }
 
+        notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        String CHANNEL_ID = setChannel(notificationManager);
+
         //notification opening intent
         Intent resultingIntent = new Intent(context, MainActivity.class);
         PendingIntent contentIntent = PendingIntent.getActivity(context, 0, resultingIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context).setSmallIcon(R.mipmap.ic_notification).setContentTitle(from).setContentText(message);
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, CHANNEL_ID).setSmallIcon(R.mipmap.ic_notification).setContentTitle(from).setContentText(message);
         mBuilder.setColor(Color.argb(255, 121, 85, 72));
         mBuilder.setAutoCancel(true);
 
         mBuilder.setContentIntent(contentIntent);
         int notificationId = 102;
-        notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(notificationId, mBuilder.build());
     }
 
@@ -82,7 +84,22 @@ public class AlarmReceiver extends BroadcastReceiver {
         }
 
         notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        String CHANNEL_ID = setChannel(notificationManager);
+        //notification opening intent
+        Intent resultingIntent = new Intent(context, MainActivity.class);
+        PendingIntent contentIntent = PendingIntent.getActivity(context, 0, resultingIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, CHANNEL_ID).setSmallIcon(R.mipmap.ic_notification).setContentTitle(from).setContentText(message);
+        mBuilder.setColor(Color.argb(255, 121, 85, 72));
+        mBuilder.setAutoCancel(true);
 
+        mBuilder.setContentIntent(contentIntent);
+        int notificationId = 101;
+        notificationManager.notify(notificationId, mBuilder.build());
+        // an Intent broadcast.
+        //throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    public String setChannel(NotificationManager notificationManager) {
         String CHANNEL_ID = "aandb_br_1";
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             CharSequence name = "BirthdayReminder";
@@ -96,18 +113,6 @@ public class AlarmReceiver extends BroadcastReceiver {
             //mChannel.setShowBadge(false);
             notificationManager.createNotificationChannel(mChannel);
         }
-
-        //notification opening intent
-        Intent resultingIntent = new Intent(context, MainActivity.class);
-        PendingIntent contentIntent = PendingIntent.getActivity(context, 0, resultingIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, CHANNEL_ID).setSmallIcon(R.mipmap.ic_notification).setContentTitle(from).setContentText(message);
-        mBuilder.setColor(Color.argb(255, 121, 85, 72));
-        mBuilder.setAutoCancel(true);
-
-        mBuilder.setContentIntent(contentIntent);
-        int notificationId = 101;
-        notificationManager.notify(notificationId, mBuilder.build());
-        // an Intent broadcast.
-        //throw new UnsupportedOperationException("Not yet implemented");
+        return CHANNEL_ID;
     }
 }

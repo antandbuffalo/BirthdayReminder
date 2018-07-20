@@ -30,4 +30,5 @@
 
     <color name="sub_text_color">#888888</color>
 
+    <color name="spinner">#88000000</color>
 </resources>
