@@ -142,10 +142,10 @@ public class Settings extends MyFragment {
     public void createBackup(Boolean isGranted) {
         if(isGranted) {
             new UISpinner(mySettings).execute("backup");
-            Util.writeToFile();
-            Toast.makeText(layoutInflater.getContext(), "Backup file is created and stored in the location " + Constants.FOLDER_NAME + "/" + Constants.FILE_NAME + Constants.FILE_NAME_SUFFIX, Toast.LENGTH_LONG).show();
-            Util.updateBackupTime(selectedOption);
-            settingsListAdapter.refreshData();
+            //Util.writeToFile();
+//            Toast.makeText(layoutInflater.getContext(), Constants.SETTINGS_MSG.get("backup"), Toast.LENGTH_LONG).show();
+//            Util.updateBackupTime(selectedOption);
+//            settingsListAdapter.refreshData();
         }
         else {
             Toast.makeText(layoutInflater.getContext(), "Please provide storage access to save the backup file", Toast.LENGTH_LONG).show();
@@ -154,13 +154,14 @@ public class Settings extends MyFragment {
 
     public void restoreBackup(Boolean isGranted) {
         if(isGranted) {
-            String returnValue = Util.readFromFile(Constants.FILE_NAME);
-            Toast.makeText(layoutInflater.getContext(), returnValue, Toast.LENGTH_SHORT).show();
-            Util.updateRestoreTime(selectedOption);
-            settingsListAdapter.refreshData();
-            for (int i = 0; i < DataHolder.getInstance().refreshTracker.size(); i++) {
-                DataHolder.getInstance().refreshTracker.set(i, true);
-            }
+//            String returnValue = Util.readFromFile(Constants.FILE_NAME);
+//            Toast.makeText(layoutInflater.getContext(), returnValue, Toast.LENGTH_SHORT).show();
+//            Util.updateRestoreTime(selectedOption);
+//            settingsListAdapter.refreshData();
+//            for (int i = 0; i < DataHolder.getInstance().refreshTracker.size(); i++) {
+//                DataHolder.getInstance().refreshTracker.set(i, true);
+//            }
+            new UISpinner(mySettings).execute("restore");
         }
         else {
             Toast.makeText(layoutInflater.getContext(), "Please provide storage access to read the backup file", Toast.LENGTH_LONG).show();
@@ -257,7 +258,20 @@ public class Settings extends MyFragment {
                     String type = params[0];
                     switch (type) {
                         case "backup": {
-                            //Util.writeToFile();
+                            Util.writeToFile();
+                            Toast.makeText(layoutInflater.getContext(), Constants.SETTINGS_MSG.get("backup"), Toast.LENGTH_LONG).show();
+                            Util.updateBackupTime(selectedOption);
+                            settingsListAdapter.refreshData();
+                            break;
+                        }
+                        case "restore": {
+                            String returnValue = Util.readFromFile(Constants.FILE_NAME);
+                            Toast.makeText(layoutInflater.getContext(), returnValue, Toast.LENGTH_SHORT).show();
+                            Util.updateRestoreTime(selectedOption);
+                            settingsListAdapter.refreshData();
+                            for (int i = 0; i < DataHolder.getInstance().refreshTracker.size(); i++) {
+                                DataHolder.getInstance().refreshTracker.set(i, true);
+                            }
                             break;
                         }
                     }

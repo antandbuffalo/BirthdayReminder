@@ -94,6 +94,10 @@ public class Constants {
         put(11, 31);
     }};
 
+    public static final Map<String, String> SETTINGS_MSG = new HashMap<String, String>() {{
+        put("backup", "Backup file is created and stored in the location " + Constants.FOLDER_NAME + "/" + Constants.FILE_NAME + Constants.FILE_NAME_SUFFIX);
+    }};
+
     public static final int SETTINGS_CELL_TYPE_DATE = 0;
     public static final int SETTINGS_CELL_TYPE_1_LETTER = 1;
     public static final int SETTINGS_CELL_TYPE_NA = 2;
