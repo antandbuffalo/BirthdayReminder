@@ -259,19 +259,10 @@ public class Settings extends MyFragment {
                     switch (type) {
                         case "backup": {
                             Util.writeToFile();
-                            Toast.makeText(layoutInflater.getContext(), Constants.SETTINGS_MSG.get("backup"), Toast.LENGTH_LONG).show();
-                            Util.updateBackupTime(selectedOption);
-                            settingsListAdapter.refreshData();
                             break;
                         }
                         case "restore": {
-                            String returnValue = Util.readFromFile(Constants.FILE_NAME);
-                            Toast.makeText(layoutInflater.getContext(), returnValue, Toast.LENGTH_SHORT).show();
-                            Util.updateRestoreTime(selectedOption);
-                            settingsListAdapter.refreshData();
-                            for (int i = 0; i < DataHolder.getInstance().refreshTracker.size(); i++) {
-                                DataHolder.getInstance().refreshTracker.set(i, true);
-                            }
+                            Util.readFromFile(Constants.FILE_NAME);
                             break;
                         }
                     }
@@ -279,7 +270,7 @@ public class Settings extends MyFragment {
 
                 // Emulate a long running process
                 // In this case we are pretending to fetch the URL content
-                Thread.sleep(3000); // This takes 3 seconds
+                //Thread.sleep(3000); // This takes 3 seconds
 
                 // If you are implementing actual fetch API, the call would be something like this,
                 // API.fetchURL(params[0]);
@@ -300,7 +291,17 @@ public class Settings extends MyFragment {
             // The activity can be null if it is thrown out by Android while task is running!
             if(container != null && container.getActivity() != null) {
                 if(result.equalsIgnoreCase("backup")) {
-                    container.showToast("Backup file is created and stored in the location " + Constants.FOLDER_NAME + "/" + Constants.FILE_NAME + Constants.FILE_NAME_SUFFIX);
+                    container.showToast(Constants.SETTINGS_MSG.get(result));
+                    Util.updateBackupTime(selectedOption);
+                    container.refreshData();
+                }
+                else if(result.equalsIgnoreCase("restore")) {
+                    container.showToast(Constants.NOTIFICATION_SUCCESS_DATA_LOAD);
+                    Util.updateRestoreTime(selectedOption);
+                    for (int i = 0; i < DataHolder.getInstance().refreshTracker.size(); i++) {
+                        DataHolder.getInstance().refreshTracker.set(i, true);
+                    }
+                    container.refreshData();
                 }
                 container.hideSpinner();
                 this.container = null;
