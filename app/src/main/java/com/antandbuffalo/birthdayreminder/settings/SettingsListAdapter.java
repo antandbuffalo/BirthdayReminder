@@ -2,6 +2,7 @@ package com.antandbuffalo.birthdayreminder.settings;
 
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,12 +35,14 @@ public class SettingsListAdapter extends BaseAdapter {
     int currentDayOfYear, dayOfYear;
     Calendar cal;
     SimpleDateFormat dateFormatter;
+    SharedPreferences settingsPref;
 
     SettingsListAdapter() {
         listData = OptionsDBHelper.selectAll();
         currentDayOfYear = Integer.parseInt(Util.getStringFromDate(new Date(), Constants.DAY_OF_YEAR));
         cal = Calendar.getInstance();
         dateFormatter = new SimpleDateFormat("MMM");
+        settingsPref = Util.getSharedPreference();
     }
 
     @Override
@@ -150,6 +153,22 @@ public class SettingsListAdapter extends BaseAdapter {
             else {
                 circle.setBackgroundResource(R.drawable.cirlce_normal);
             }
+
+            TextView currentValue = (TextView)convertView.findViewById(R.id.currentValue);
+            if(option.getKey().equalsIgnoreCase(Constants.SETTINGS_MODIFY_TODAY) || option.getKey().equalsIgnoreCase(Constants.SETTINGS_NOTIFICATION)) {
+                currentValue.setVisibility(View.VISIBLE);
+                int currVal = getSelectedValueForKey(option.getKey());
+                if(currVal == 1) {
+                    currentValue.setText(currVal + " day");
+                }
+                else {
+                    currentValue.setText(currVal + " days");
+                }
+
+            }
+            else {
+                currentValue.setVisibility(View.INVISIBLE);
+            }
         }
         else {
             dateField.setText("NA");
@@ -159,6 +178,17 @@ public class SettingsListAdapter extends BaseAdapter {
         }
 
         return convertView;
+    }
+
+    public int getSelectedValueForKey(String givenKey) {
+        int preNotifDays = 0;
+        if(givenKey.equalsIgnoreCase(Constants.SETTINGS_MODIFY_TODAY)) {
+            preNotifDays = settingsPref.getInt(Constants.PREFERENCE_RECENT_DAYS_TODAY, 0);
+        }
+        else if(givenKey.equalsIgnoreCase(Constants.SETTINGS_NOTIFICATION)) {
+            preNotifDays = settingsPref.getInt(Constants.PREFERENCE_PRE_NOTIFICATION_DAYS, 0);
+        }
+        return preNotifDays;
     }
 
 

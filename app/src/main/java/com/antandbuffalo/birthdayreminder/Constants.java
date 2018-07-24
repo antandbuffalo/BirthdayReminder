@@ -57,6 +57,7 @@ public class Constants {
 
     public static final int ADD_NEW_MEMBER = 1;
     public static final int DELETE_MEMBER = 2;
+    public static final int REFRESH_SETTINGS = 3;
 
     public static final String IS_USER_ADDED = "IS_USER_ADDED";
 
@@ -91,6 +92,10 @@ public class Constants {
         put(9, 31);
         put(10, 30);
         put(11, 31);
+    }};
+
+    public static final Map<String, String> SETTINGS_MSG = new HashMap<String, String>() {{
+        put("backup", "Backup file is created and stored in the location " + Constants.FOLDER_NAME + "/" + Constants.FILE_NAME + Constants.FILE_NAME_SUFFIX);
     }};
 
     public static final int SETTINGS_CELL_TYPE_DATE = 0;

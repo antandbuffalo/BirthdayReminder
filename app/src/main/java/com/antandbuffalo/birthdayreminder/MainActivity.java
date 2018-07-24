@@ -21,6 +21,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.antandbuffalo.birthdayreminder.addnew.AddNew;
@@ -159,9 +160,27 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         System.out.println("In main activity");
-        if (requestCode == Constants.ADD_NEW_MEMBER) {
-            if (resultCode == RESULT_OK) {
-                if (data.getStringExtra(Constants.IS_USER_ADDED).equalsIgnoreCase(Constants.FLAG_SUCCESS)) {
+        switch (requestCode) {
+            case Constants.ADD_NEW_MEMBER: {
+                if (resultCode == RESULT_OK) {
+                    if (data.getStringExtra(Constants.IS_USER_ADDED).equalsIgnoreCase(Constants.FLAG_SUCCESS)) {
+                        int index = mViewPager.getCurrentItem();
+                        TabsAdapter adapter = (TabsAdapter) mViewPager.getAdapter();
+                        MyFragment fragment = (MyFragment) adapter.getFragment(index);
+                        fragment.refreshData();
+                        //mTabsAdapter.notifyDataSetChanged();
+                        for (int i = 0; i < DataHolder.getInstance().refreshTracker.size(); i++) {
+                            if (i != index) {
+                                DataHolder.getInstance().refreshTracker.set(i, true);
+                            }
+                        }
+                    }
+                }
+                break;
+            }
+            case Constants.DELETE_MEMBER: {
+                System.out.println("after delete activity");
+                if(resultCode == RESULT_OK) {
                     int index = mViewPager.getCurrentItem();
                     TabsAdapter adapter = (TabsAdapter) mViewPager.getAdapter();
                     MyFragment fragment = (MyFragment) adapter.getFragment(index);
@@ -173,22 +192,18 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                         }
                     }
                 }
+                break;
             }
-        }
-        else if(requestCode == Constants.DELETE_MEMBER) {
-            System.out.println("after delete activity");
-            if(resultCode == RESULT_OK) {
-                int index = mViewPager.getCurrentItem();
-                TabsAdapter adapter = (TabsAdapter) mViewPager.getAdapter();
-                MyFragment fragment = (MyFragment) adapter.getFragment(index);
-                fragment.refreshData();
-                //mTabsAdapter.notifyDataSetChanged();
-                for (int i = 0; i < DataHolder.getInstance().refreshTracker.size(); i++) {
-                    if (i != index) {
-                        DataHolder.getInstance().refreshTracker.set(i, true);
-                    }
+            case Constants.REFRESH_SETTINGS: {
+                if(resultCode == RESULT_OK) {
+                    int index = mViewPager.getCurrentItem();
+                    TabsAdapter adapter = (TabsAdapter) mViewPager.getAdapter();
+                    MyFragment fragment = (MyFragment) adapter.getFragment(index);
+                    fragment.refreshData();
                 }
+                break;
             }
+
         }
     }
 

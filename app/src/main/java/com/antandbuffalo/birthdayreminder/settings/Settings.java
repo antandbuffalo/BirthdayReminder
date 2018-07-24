@@ -7,11 +7,14 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +22,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.SimpleAdapter;
+import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.antandbuffalo.birthdayreminder.Constants;
@@ -36,6 +42,7 @@ import com.antandbuffalo.birthdayreminder.notificationsettings.NotificationSetti
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by i677567 on 28/8/15.
@@ -45,6 +52,9 @@ public class Settings extends MyFragment {
     private SettingsViewModel settingsViewModel;
     LayoutInflater layoutInflater;
     SettingsModel selectedOption;
+    ProgressBar progressSpinner;
+    Settings mySettings = this;
+
     public static Settings newInstance() {
         Settings fragment = new Settings();
         return fragment;
@@ -59,6 +69,10 @@ public class Settings extends MyFragment {
         View rootView = inflater.inflate(R.layout.settings, container, false);
 
         final ListView settingsList = (ListView)rootView.findViewById(R.id.settingsList);
+
+        progressSpinner = (ProgressBar)rootView.findViewById(R.id.progressBar);
+        progressSpinner.setVisibility(View.GONE);
+        progressSpinner.setBackgroundColor(this.getResources().getColor(R.color.spinner));
 
         settingsListAdapter = new SettingsListAdapter();
         //http://stackoverflow.com/questions/6495898/findviewbyid-in-fragment
@@ -95,14 +109,15 @@ public class Settings extends MyFragment {
                             .setNegativeButton("No", null)
                             .show();
                 } else if (selectedOption.getKey().equalsIgnoreCase(Constants.SETTINGS_MODIFY_TODAY)) {
+
                     Intent intent = new Intent(view.getContext(), ModifyToday.class);
-                    startActivity(intent);
+                    getActivity().startActivityForResult(intent, Constants.REFRESH_SETTINGS);
                 } else if (selectedOption.getKey().equalsIgnoreCase(Constants.SETTINGS_ABOUT)) {
                     Intent intent = new Intent(view.getContext(), About.class);
                     startActivity(intent);
                 } else if (selectedOption.getKey().equalsIgnoreCase(Constants.SETTINGS_NOTIFICATION)) {
                     Intent intent = new Intent(view.getContext(), NotificationSettings.class);
-                    startActivity(intent);
+                    getActivity().startActivityForResult(intent, Constants.REFRESH_SETTINGS);
                 }
             }
         });
@@ -110,12 +125,27 @@ public class Settings extends MyFragment {
         return rootView;
     }
 
+    public void showSpinner() {
+        Log.i("show spinner", "show spinner");
+        progressSpinner.setVisibility(View.VISIBLE);
+    }
+
+    public void hideSpinner() {
+        Log.i("hide spinner", "hide spinner");
+        progressSpinner.setVisibility(View.GONE);
+    }
+
+    public void showToast(String message) {
+        Toast.makeText(layoutInflater.getContext(), message, Toast.LENGTH_LONG).show();
+    }
+
     public void createBackup(Boolean isGranted) {
         if(isGranted) {
-            Util.writeToFile();
-            Toast.makeText(layoutInflater.getContext(), "Backup file is created and stored in the location " + Constants.FOLDER_NAME + "/" + Constants.FILE_NAME + Constants.FILE_NAME_SUFFIX, Toast.LENGTH_LONG).show();
-            Util.updateBackupTime(selectedOption);
-            settingsListAdapter.refreshData();
+            new UISpinner(mySettings).execute("backup");
+            //Util.writeToFile();
+//            Toast.makeText(layoutInflater.getContext(), Constants.SETTINGS_MSG.get("backup"), Toast.LENGTH_LONG).show();
+//            Util.updateBackupTime(selectedOption);
+//            settingsListAdapter.refreshData();
         }
         else {
             Toast.makeText(layoutInflater.getContext(), "Please provide storage access to save the backup file", Toast.LENGTH_LONG).show();
@@ -124,13 +154,14 @@ public class Settings extends MyFragment {
 
     public void restoreBackup(Boolean isGranted) {
         if(isGranted) {
-            String returnValue = Util.readFromFile(Constants.FILE_NAME);
-            Toast.makeText(layoutInflater.getContext(), returnValue, Toast.LENGTH_SHORT).show();
-            Util.updateRestoreTime(selectedOption);
-            settingsListAdapter.refreshData();
-            for (int i = 0; i < DataHolder.getInstance().refreshTracker.size(); i++) {
-                DataHolder.getInstance().refreshTracker.set(i, true);
-            }
+//            String returnValue = Util.readFromFile(Constants.FILE_NAME);
+//            Toast.makeText(layoutInflater.getContext(), returnValue, Toast.LENGTH_SHORT).show();
+//            Util.updateRestoreTime(selectedOption);
+//            settingsListAdapter.refreshData();
+//            for (int i = 0; i < DataHolder.getInstance().refreshTracker.size(); i++) {
+//                DataHolder.getInstance().refreshTracker.set(i, true);
+//            }
+            new UISpinner(mySettings).execute("restore");
         }
         else {
             Toast.makeText(layoutInflater.getContext(), "Please provide storage access to read the backup file", Toast.LENGTH_LONG).show();
@@ -206,6 +237,75 @@ public class Settings extends MyFragment {
 
             // other 'case' lines to check for other
             // permissions this app might request.
+        }
+    }
+    @Override
+    public void refreshData() {
+        settingsListAdapter.notifyDataSetChanged();
+    }
+
+    public class UISpinner extends AsyncTask<String, String, String> {
+
+        Settings container;
+        public UISpinner(Settings f) {
+            this.container = f;
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                if(params.length > 0) {
+                    String type = params[0];
+                    switch (type) {
+                        case "backup": {
+                            Util.writeToFile();
+                            break;
+                        }
+                        case "restore": {
+                            Util.readFromFile(Constants.FILE_NAME);
+                            break;
+                        }
+                    }
+                }
+
+                // Emulate a long running process
+                // In this case we are pretending to fetch the URL content
+                //Thread.sleep(3000); // This takes 3 seconds
+
+                // If you are implementing actual fetch API, the call would be something like this,
+                // API.fetchURL(params[0]);
+            }catch(Exception ex) {}
+            return params[0];
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            container.showSpinner();
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            Log.i("ASYNC", result);
+            // The activity can be null if it is thrown out by Android while task is running!
+            if(container != null && container.getActivity() != null) {
+                if(result.equalsIgnoreCase("backup")) {
+                    container.showToast(Constants.SETTINGS_MSG.get(result));
+                    Util.updateBackupTime(selectedOption);
+                    container.refreshData();
+                }
+                else if(result.equalsIgnoreCase("restore")) {
+                    container.showToast(Constants.NOTIFICATION_SUCCESS_DATA_LOAD);
+                    Util.updateRestoreTime(selectedOption);
+                    for (int i = 0; i < DataHolder.getInstance().refreshTracker.size(); i++) {
+                        DataHolder.getInstance().refreshTracker.set(i, true);
+                    }
+                    container.refreshData();
+                }
+                container.hideSpinner();
+                this.container = null;
+            }
         }
     }
 }

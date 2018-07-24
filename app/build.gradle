@@ -3,14 +3,14 @@ apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion '26.0.2'
+    buildToolsVersion '27.0.3'
 
     defaultConfig {
         applicationId "com.antandbuffalo.birthdayreminder"
         minSdkVersion 19
         targetSdkVersion 26
-        versionCode 23
-        versionName "2.1.1"
+        versionCode 25
+        versionName "2.2.0"
         multiDexEnabled true
     }
     buildTypes {
