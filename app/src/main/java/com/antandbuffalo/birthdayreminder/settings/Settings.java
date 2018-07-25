@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -151,6 +152,16 @@ public class Settings extends MyFragment {
             Toast.makeText(layoutInflater.getContext(), "Please provide storage access to save the backup file", Toast.LENGTH_LONG).show();
         }
     }
+
+    public void disableUserInteraction() {
+        getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+    }
+
+    public void enableUserInteraction() {
+        getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+    }
+
 
     public void restoreBackup(Boolean isGranted) {
         if(isGranted) {
