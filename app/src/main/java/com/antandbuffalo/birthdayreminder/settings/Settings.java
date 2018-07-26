@@ -143,10 +143,6 @@ public class Settings extends MyFragment {
     public void createBackup(Boolean isGranted) {
         if(isGranted) {
             new UISpinner(mySettings).execute("backup");
-            //Util.writeToFile();
-//            Toast.makeText(layoutInflater.getContext(), Constants.SETTINGS_MSG.get("backup"), Toast.LENGTH_LONG).show();
-//            Util.updateBackupTime(selectedOption);
-//            settingsListAdapter.refreshData();
         }
         else {
             Toast.makeText(layoutInflater.getContext(), "Please provide storage access to save the backup file", Toast.LENGTH_LONG).show();
@@ -165,13 +161,6 @@ public class Settings extends MyFragment {
 
     public void restoreBackup(Boolean isGranted) {
         if(isGranted) {
-//            String returnValue = Util.readFromFile(Constants.FILE_NAME);
-//            Toast.makeText(layoutInflater.getContext(), returnValue, Toast.LENGTH_SHORT).show();
-//            Util.updateRestoreTime(selectedOption);
-//            settingsListAdapter.refreshData();
-//            for (int i = 0; i < DataHolder.getInstance().refreshTracker.size(); i++) {
-//                DataHolder.getInstance().refreshTracker.set(i, true);
-//            }
             new UISpinner(mySettings).execute("restore");
         }
         else {
@@ -293,6 +282,7 @@ public class Settings extends MyFragment {
         protected void onPreExecute() {
             super.onPreExecute();
             container.showSpinner();
+            container.disableUserInteraction();
         }
 
         @Override
@@ -315,6 +305,7 @@ public class Settings extends MyFragment {
                     container.refreshData();
                 }
                 container.hideSpinner();
+                container.enableUserInteraction();
                 this.container = null;
             }
         }
