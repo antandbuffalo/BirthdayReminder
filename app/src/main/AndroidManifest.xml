@@ -48,10 +48,12 @@
             android:label="@string/title_activity_about" />
         <activity
             android:name=".modifytoday.ModifyToday"
-            android:label="@string/title_activity_modify_today"></activity>
+            android:label="@string/title_activity_modify_today" />
         <activity
             android:name=".notificationsettings.NotificationSettings"
-            android:label="@string/title_activity_notification_settings"></activity>
+            android:label="@string/title_activity_notification_settings" />
+        <activity android:name=".WishTemplate" />
+        <activity android:name=".wishtemplate.WishTemplate" />
     </application>
 
 </manifest>
