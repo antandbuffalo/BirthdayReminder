@@ -147,6 +147,7 @@ public class Constants {
     public static final String PREFERENCE_IS_SECONDTIME = "isSecondTime";
     public static final String PREFERENCE_RECENT_DAYS_TODAY = "PREFERENCE_RECENT_DAYS_TODAY";
     public static final String PREFERENCE_PRE_NOTIFICATION_DAYS = "PREFERENCE_PRE_NOTIFICATION_DAYS";
+    public static final String PREFERENCE_WISH_TEMPLATE = "PREFERENCE_WISH_TEMPLATE";
 
     public static final String TYPE_ADD_NEW = "AddNew";
 
@@ -167,4 +168,5 @@ public class Constants {
     public static final int MY_PERMISSIONS_WRITE_EXTERNAL_STORAGE = 1;
     public static final int MY_PERMISSIONS_READ_EXTERNAL_STORAGE = 2;
 
+    public static final String WISH_TEMPLATE_DEFAULT = "Wish you many more happy returns of the day";
 }

@@ -90,7 +90,7 @@ public class OptionsDBHelper {
         datum.setTitle("Wish Template");
         datum.setSubTitle("");
         extraFields = new JSONObject();
-        Util.validateAndSetExtra(extraFields, Constants.SETTINGS_ICON_LETTER, "WT");
+        Util.validateAndSetExtra(extraFields, Constants.SETTINGS_ICON_LETTER, "W");
         datum.setExtra(extraFields.toString());
         datum.setSno(6);
         data.add(datum);

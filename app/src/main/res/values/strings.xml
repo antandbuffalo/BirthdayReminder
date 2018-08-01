@@ -11,4 +11,5 @@
     <string name="share"><u>Share</u></string>
     <string name="title_activity_modify_today">Modify Today Section</string>
     <string name="title_activity_notification_settings">Notification Settings</string>
+    <string name="title_wish_template">Wish Template</string>
 </resources>
