@@ -12,6 +12,17 @@
         <item name="android:colorPrimary" tools:targetApi="21">@color/bg_minimized_tab</item>
     </style>
 
+    <style name="MyActionBar1" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="android:background" tools:ignore="NewApi">@color/tab_unselected</item>
+        <item name="background">@color/tab_unselected</item>
+    </style>
+
+    <style name="CustomActionBarTheme1" parent="@style/Theme.AppCompat.Light">
+        <item name="android:actionBarStyle" tools:ignore="NewApi">@style/MyActionBar1</item>
+        <item name="actionBarStyle">@style/MyActionBar1</item>
+
+    </style>
+
     <!-- ActionBar styles -->
     <style name="MyActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.TabView">
         <item name="android:background">@drawable/actionbar_tab_indicator</item>

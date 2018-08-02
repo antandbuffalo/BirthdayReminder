@@ -12,6 +12,7 @@ import com.antandbuffalo.birthdayreminder.Constants;
 import com.antandbuffalo.birthdayreminder.DateOfBirth;
 import com.antandbuffalo.birthdayreminder.R;
 import com.antandbuffalo.birthdayreminder.fragments.MyFragment;
+import com.antandbuffalo.birthdayreminder.sharewish.ShareWish;
 import com.antandbuffalo.birthdayreminder.update.Update;
 
 /**
@@ -41,6 +42,9 @@ public class  Today extends MyFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 DateOfBirth dateOfBirth = todayListAdapter.getItem(position);
+                Intent intent = new Intent(view.getContext(), ShareWish.class);
+                intent.putExtra("currentDOB", dateOfBirth);
+                getActivity().startActivityForResult(intent, Constants.DELETE_MEMBER);
             }
         });
 

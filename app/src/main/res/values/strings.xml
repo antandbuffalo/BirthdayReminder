@@ -12,4 +12,5 @@
     <string name="title_activity_modify_today">Modify Today Section</string>
     <string name="title_activity_notification_settings">Notification Settings</string>
     <string name="title_wish_template">Wish Template</string>
+    <string name="title_share_wish">Share Wish</string>
 </resources>
