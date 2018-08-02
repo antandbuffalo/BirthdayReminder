@@ -1,13 +1,18 @@
 package com.antandbuffalo.birthdayreminder.today;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.antandbuffalo.birthdayreminder.Constants;
+import com.antandbuffalo.birthdayreminder.DateOfBirth;
 import com.antandbuffalo.birthdayreminder.R;
 import com.antandbuffalo.birthdayreminder.fragments.MyFragment;
+import com.antandbuffalo.birthdayreminder.update.Update;
 
 /**
  * Created by i677567 on 28/8/15.
@@ -31,6 +36,14 @@ public class  Today extends MyFragment {
         //http://stackoverflow.com/questions/6495898/findviewbyid-in-fragment
         ListView todayList = (ListView)rootView.findViewById(R.id.listView1);
         todayList.setAdapter(todayListAdapter);
+
+        todayList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                DateOfBirth dateOfBirth = todayListAdapter.getItem(position);
+            }
+        });
+
         return rootView;
     }
 
