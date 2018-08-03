@@ -32,6 +32,7 @@ import com.antandbuffalo.birthdayreminder.database.OptionsDBHelper;
 import com.antandbuffalo.birthdayreminder.fragments.MyFragment;
 import com.antandbuffalo.birthdayreminder.notification.AlarmReceiver;
 import com.antandbuffalo.birthdayreminder.restore.RestoreBackup;
+import com.antandbuffalo.birthdayreminder.sharewish.ShareWish;
 
 import java.util.Calendar;
 
@@ -135,7 +136,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         }
         OptionsDBHelper.populatePage();
         Util.createEmptyFolder();
-
     }
 
     public void setRepeatingAlarm() {

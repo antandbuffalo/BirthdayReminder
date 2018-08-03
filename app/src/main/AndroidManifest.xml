@@ -58,7 +58,6 @@
             android:theme="@style/CustomActionBarTheme" />
         <activity android:name=".sharewish.ShareWish"
             android:label="@string/title_share_wish"
-            android:theme="@style/CustomActionBarTheme1"
         />
     </application>
 

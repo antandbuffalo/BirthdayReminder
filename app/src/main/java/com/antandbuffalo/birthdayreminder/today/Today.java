@@ -44,7 +44,7 @@ public class  Today extends MyFragment {
                 DateOfBirth dateOfBirth = todayListAdapter.getItem(position);
                 Intent intent = new Intent(view.getContext(), ShareWish.class);
                 intent.putExtra("currentDOB", dateOfBirth);
-                getActivity().startActivityForResult(intent, Constants.DELETE_MEMBER);
+                getActivity().startActivity(intent);
             }
         });
 
