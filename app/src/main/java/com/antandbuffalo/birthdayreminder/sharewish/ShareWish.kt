@@ -1,6 +1,7 @@
 package com.antandbuffalo.birthdayreminder.sharewish
 
 import android.app.Activity
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -27,6 +28,19 @@ class ShareWish : Activity() {
 
         val btnCancel = findViewById<View>(R.id.cancel) as ImageButton
         btnCancel.setBackgroundResource(R.drawable.cancel_button)
+
+        btnSend.setOnClickListener(View.OnClickListener {
+            //create the sharing intent
+            val sharingIntent = Intent(Intent.ACTION_SEND)
+            sharingIntent.type = "text/plain"
+            val shareBody = editText.text.toString();
+            sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody)
+            startActivity(Intent.createChooser(sharingIntent, "Send via..."))
+        })
+
+        btnCancel.setOnClickListener(View.OnClickListener {
+            finish()
+        })
 
 
         //this is for App Compat activity
