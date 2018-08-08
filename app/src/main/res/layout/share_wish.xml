@@ -61,7 +61,7 @@
         android:layout_marginEnd="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="20dp"
-        android:background="#5D4037"
+        android:background="@color/bg_edit_text"
         android:ems="10"
         android:inputType="textMultiLine"
         android:paddingBottom="5dp"

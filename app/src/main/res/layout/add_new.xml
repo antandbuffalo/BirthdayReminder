@@ -5,28 +5,28 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    android:background="@color/white"
     tools:context="com.antandbuffalo.birthdayreminder.addnew.AddNew">
 
     <EditText
+        android:id="@+id/personName"
         android:layout_width="wrap_content"
         android:layout_height="30sp"
-        android:inputType="textPersonName"
-        android:hint="Enter Name"
-        android:ems="10"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="2sp"
+        android:layout_marginRight="2sp"
         android:background="@drawable/addnew_edittext"
         android:elevation="2dp"
+        android:ems="10"
+        android:hint="Enter Name"
+        android:inputType="textPersonName"
         android:paddingLeft="2dp"
-        android:id="@+id/personName"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginLeft="2sp"
-        android:layout_marginRight="2sp" />
+        android:textColor="@color/addnew_font" />
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:layout_below="@+id/personName"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
@@ -42,21 +42,29 @@
                 android:id="@+id/monthSpinner"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:background="@color/bg_edit_text"
                 android:dropDownWidth="80dp"
+                android:paddingLeft="3dp"
                 android:minWidth="80dp" />
 
             <Spinner
                 android:id="@+id/dateSpinner"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:background="@color/bg_edit_text"
                 android:dropDownWidth="80dp"
+                android:layout_marginLeft="10dp"
+                android:paddingLeft="3dp"
                 android:minWidth="80dp" />
 
             <Spinner
                 android:id="@+id/yearSpinner"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:background="@color/bg_edit_text"
                 android:dropDownWidth="80dp"
+                android:layout_marginLeft="10dp"
+                android:paddingLeft="3dp"
                 android:minWidth="80dp" />
 
         </LinearLayout>
@@ -70,7 +78,9 @@
         android:layout_alignStart="@+id/personName"
         android:layout_below="@+id/linearLayout"
         android:layout_marginTop="10dp"
-        android:text="I don't know year" />
+        android:text="I don't know year"
+        android:buttonTint="@color/white"
+        android:textColor="@color/addnew_font" />
 
     <TextView
         android:id="@+id/textView5"

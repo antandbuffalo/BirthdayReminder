@@ -22,12 +22,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.antandbuffalo.birthdayreminder.Constants;
-import com.antandbuffalo.birthdayreminder.DataHolder;
 import com.antandbuffalo.birthdayreminder.R;
 import com.antandbuffalo.birthdayreminder.Util;
 import com.antandbuffalo.birthdayreminder.database.DBHelper;
-
-import java.util.Map;
 
 public class AddNew extends FragmentActivity {
     EditText name;
@@ -212,21 +209,22 @@ public class AddNew extends FragmentActivity {
 
     public void addMonthsToSpinner(Spinner spinner) {
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, addNewViewModel.getMonths());
+                R.layout.spinner_item, addNewViewModel.getMonths());
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(dataAdapter);
     }
 
     public void addDatesToSpinner(Spinner spinner) {
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, addNewViewModel.getDates());
+                R.layout.spinner_item, addNewViewModel.getDates());
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(dataAdapter);
     }
 
     public void addYearsToSpinner(Spinner spinner) {
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, addNewViewModel.getYears());
+                R.layout.spinner_item, addNewViewModel.getYears());
+        //ArrayAdapter
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(dataAdapter);
     }
