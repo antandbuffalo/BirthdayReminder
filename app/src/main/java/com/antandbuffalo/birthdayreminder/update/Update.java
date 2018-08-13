@@ -229,21 +229,21 @@ public class Update extends FragmentActivity {
 
     public void addMonthsToSpinner(Spinner spinner) {
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, updateViewModel.getMonths());
+                R.layout.spinner_item, updateViewModel.getMonths());
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(dataAdapter);
     }
 
     public void addDatesToSpinner(Spinner spinner) {
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, updateViewModel.getDates());
+                R.layout.spinner_item, updateViewModel.getDates());
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(dataAdapter);
     }
 
     public void addYearsToSpinner(Spinner spinner) {
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, updateViewModel.getYears());
+                R.layout.spinner_item, updateViewModel.getYears());
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(dataAdapter);
     }
