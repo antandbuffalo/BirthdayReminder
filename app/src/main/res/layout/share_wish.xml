@@ -68,6 +68,7 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:paddingTop="5dp"
+        android:maxHeight="250dp"
         android:text="With you many more happy returns of the day"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
