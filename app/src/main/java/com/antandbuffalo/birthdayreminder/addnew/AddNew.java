@@ -33,7 +33,7 @@ public class AddNew extends FragmentActivity {
     AddNewViewModel addNewViewModel;
 
     TextView namePreview, desc, dateField, monthField, yearField;
-    Spinner yearSpinner, monthSpinner, datesSpinner;
+    EditText dateInput, monthInput, yearInput;
     LinearLayout circle;
     CheckBox removeYear;
 
@@ -54,55 +54,10 @@ public class AddNew extends FragmentActivity {
         currentDayOfYear = Util.getCurrentDayOfYear();
         recentDayOfYear = Util.getRecentDayOfYear();
 
-        addYearsToSpinner(yearSpinner);
-        addMonthsToSpinner(monthSpinner);
-        addDatesToSpinner(datesSpinner);
+        dateInput.setText(addNewViewModel.getSelectedDate() + "");
+        monthInput.setText(addNewViewModel.getSelectedMonth() + "");
+        yearInput.setText(addNewViewModel.getSelectedYear() + "");
 
-        yearSpinner.setSelection(addNewViewModel.getSelectedYearPosition());
-        monthSpinner.setSelection(addNewViewModel.getSelectedMonthPosition());
-        datesSpinner.setSelection(addNewViewModel.getSelectedDatePosition());
-
-        yearSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                addNewViewModel.setSelectedYear(Integer.parseInt(yearSpinner.getSelectedItem().toString()));
-                addMonthsToSpinner(monthSpinner);
-                addDatesToSpinner(datesSpinner);
-                monthSpinner.setSelection(addNewViewModel.getSelectedMonthPosition());
-                datesSpinner.setSelection(addNewViewModel.getSelectedDatePosition());
-                preview();
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-
-        monthSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Log.i("Item select", "" + position);
-                addNewViewModel.setSelectedMonth(monthSpinner.getSelectedItemPosition());
-                addDatesToSpinner(datesSpinner);
-                datesSpinner.setSelection(addNewViewModel.getSelectedDatePosition());
-                preview();
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                Log.i("Item select", "" + parent);
-            }
-        });
-
-        datesSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                addNewViewModel.setSelectedDate(Integer.parseInt(datesSpinner.getSelectedItem().toString()));
-                preview();
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                Log.i("Item select", "" + parent);
-            }
-        });
         name.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -124,16 +79,11 @@ public class AddNew extends FragmentActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 addNewViewModel.setRemoveYear(isChecked);
                 if(isChecked) {
-                    yearSpinner.setVisibility(View.INVISIBLE);
+                    yearInput.setVisibility(View.INVISIBLE);
                 }
                 else {
-                    yearSpinner.setVisibility(View.VISIBLE);
+                    yearInput.setVisibility(View.VISIBLE);
                 }
-                addMonthsToSpinner(monthSpinner);
-                addDatesToSpinner(datesSpinner);
-                monthSpinner.setSelection(addNewViewModel.getSelectedMonthPosition());
-                datesSpinner.setSelection(addNewViewModel.getSelectedDatePosition());
-                yearSpinner.setSelection(addNewViewModel.getSelectedYearPosition());
                 preview();
             }
         });
@@ -207,28 +157,6 @@ public class AddNew extends FragmentActivity {
         removeYear.setChecked(addNewViewModel.getRemoveYear());
     }
 
-    public void addMonthsToSpinner(Spinner spinner) {
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
-                R.layout.spinner_item, addNewViewModel.getMonths());
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(dataAdapter);
-    }
-
-    public void addDatesToSpinner(Spinner spinner) {
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
-                R.layout.spinner_item, addNewViewModel.getDates());
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(dataAdapter);
-    }
-
-    public void addYearsToSpinner(Spinner spinner) {
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
-                R.layout.spinner_item, addNewViewModel.getYears());
-        //ArrayAdapter
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(dataAdapter);
-    }
-
     public void preview() {
         addNewViewModel.setDateOfBirth();
 
@@ -273,11 +201,11 @@ public class AddNew extends FragmentActivity {
     public void initLayout() {
         name = (EditText)findViewById(R.id.personName);
 
-        removeYear = (CheckBox) findViewById(R.id.removeYear);
+        dateInput = (EditText) findViewById(R.id.date);
+        monthInput = (EditText)findViewById(R.id.month);
+        yearInput = findViewById(R.id.year);
 
-        monthSpinner = (Spinner) findViewById(R.id.monthSpinner);
-        datesSpinner = (Spinner) findViewById(R.id.dateSpinner);
-        yearSpinner = (Spinner) findViewById(R.id.yearSpinner);
+        removeYear = (CheckBox) findViewById(R.id.removeYear);
 
         save = (ImageButton) findViewById(R.id.save);
         save.setBackgroundResource(R.drawable.save_button);
@@ -299,8 +227,8 @@ public class AddNew extends FragmentActivity {
         name.setText(addNewViewModel.name);
         removeYear.setChecked(addNewViewModel.getRemoveYear());
 
-        yearSpinner.setSelection(addNewViewModel.getSelectedYearPosition());
-        monthSpinner.setSelection(addNewViewModel.getSelectedMonthPosition());
-        datesSpinner.setSelection(addNewViewModel.getSelectedDatePosition());
+        yearInput.setText("");
+        monthInput.setText("");
+        dateInput.setText("");
     }
 }

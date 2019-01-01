@@ -31,7 +31,8 @@ public class AddNewViewModel extends ViewModel {
         cal.setTime(new Date());
         date = cal.get(Calendar.DATE);
         month = cal.get(Calendar.MONTH);
-        year = Constants.REMOVE_YEAR_VALUE;
+        year = cal.get(Calendar.YEAR);
+        //year = Constants.REMOVE_YEAR_VALUE;
 
         isRemoveYear = true;
         name = "";
@@ -45,7 +46,7 @@ public class AddNewViewModel extends ViewModel {
 
     public void setRemoveYear(Boolean removeYear) {
         if(removeYear) {
-            year = Constants.REMOVE_YEAR_VALUE;
+            //year = Constants.REMOVE_YEAR_VALUE;
         }
         isRemoveYear = removeYear;
     }
@@ -59,27 +60,16 @@ public class AddNewViewModel extends ViewModel {
         return (year % 4 == 0);
     }
 
-    public Integer getSelectedYearPosition() {
-        Map<Integer, Integer> yearsMap = getYearsMapper();
-        return yearsMap.get(year);
+    public Integer getSelectedYear() {
+        return year;
     }
 
-    public Integer getSelectedMonthPosition() {
-        List monthsList = getMonths();
-        if(month > monthsList.size() - 1) {
-            month = monthsList.size() - 1;
-        }
-        return month;
+    public Integer getSelectedMonth() {
+        return month + 1;
     }
 
-    public Integer getSelectedDatePosition() {
-        List dateList = getDates();
-        //need to check the max value. Because of different values of month like 28, 29, 30 and 31 days.
-        if(date > dateList.size()) {
-            date = dateList.size();
-        }
-        //date starts from 1. So for the position substract 1
-        return (date - 1);
+    public Integer getSelectedDate() {
+        return date;
     }
 
     public List getDates() {
