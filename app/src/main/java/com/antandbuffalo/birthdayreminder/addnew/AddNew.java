@@ -25,6 +25,7 @@ import com.antandbuffalo.birthdayreminder.Constants;
 import com.antandbuffalo.birthdayreminder.R;
 import com.antandbuffalo.birthdayreminder.Util;
 import com.antandbuffalo.birthdayreminder.database.DBHelper;
+import com.antandbuffalo.birthdayreminder.model.BirthdayInfo;
 
 public class AddNew extends FragmentActivity {
     EditText name;
@@ -54,9 +55,9 @@ public class AddNew extends FragmentActivity {
         currentDayOfYear = Util.getCurrentDayOfYear();
         recentDayOfYear = Util.getRecentDayOfYear();
 
-        dateInput.setText(addNewViewModel.getSelectedDate() + "");
-        monthInput.setText(addNewViewModel.getSelectedMonth() + "");
-        yearInput.setText(addNewViewModel.getSelectedYear() + "");
+        dateInput.setText("");
+        monthInput.setText("");
+        yearInput.setText("");
 
         name.addTextChangedListener(new TextWatcher() {
             @Override
@@ -70,6 +71,46 @@ public class AddNew extends FragmentActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 addNewViewModel.setName(name.getText().toString());
+                preview();
+            }
+        });
+
+        dateInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(addNewViewModel.canMoveToMonth(dateInput.getText().toString())) {
+                    monthInput.requestFocus();
+                }
+                preview();
+            }
+        });
+
+        monthInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(addNewViewModel.canMoveToYear(monthInput.getText().toString())) {
+                    yearInput.requestFocus();
+                }
                 preview();
             }
         });
@@ -96,7 +137,14 @@ public class AddNew extends FragmentActivity {
             @Override
             public void onClick(View v) {
                 addNewViewModel.setName(name.getText().toString());
-                addNewViewModel.setDateOfBirth();
+                BirthdayInfo birthdayInfo = new BirthdayInfo();
+
+                birthdayInfo.name = name.getText().toString();
+                birthdayInfo.date = dateInput.getText().toString();
+                birthdayInfo.month = monthInput.getText().toString();
+                birthdayInfo.year = yearInput.getText().toString();
+                birthdayInfo.isRemoveYear = removeYear.isSelected();
+                addNewViewModel.setDateOfBirth(birthdayInfo);
 
                 if (addNewViewModel.isNameEmpty()) {
                     //show error
@@ -158,7 +206,18 @@ public class AddNew extends FragmentActivity {
     }
 
     public void preview() {
-        addNewViewModel.setDateOfBirth();
+        namePreview.setText(addNewViewModel.name);
+
+        if(!addNewViewModel.isValidDateOfBirth(dateInput.getText().toString(), monthInput.getText().toString(), yearInput.getText().toString())) {
+            return;
+        }
+        BirthdayInfo birthdayInfo = new BirthdayInfo();
+        birthdayInfo.name = name.getText().toString();
+        birthdayInfo.date = dateInput.getText().toString();
+        birthdayInfo.month = monthInput.getText().toString();
+        birthdayInfo.year = yearInput.getText().toString();
+        birthdayInfo.isRemoveYear = removeYear.isSelected();
+        addNewViewModel.setDateOfBirth(birthdayInfo);
 
         dayOfYear = Util.getDayOfYear(addNewViewModel.dateOfBirth.getDobDate());
 
@@ -191,7 +250,6 @@ public class AddNew extends FragmentActivity {
             desc.setVisibility(View.VISIBLE);
         }
 
-        namePreview.setText(addNewViewModel.name);
         dateField.setText(addNewViewModel.date + "");
         monthField.setText(Util.getStringFromDate(addNewViewModel.dateOfBirth.getDobDate(), "MMM"));
         yearField.setText(addNewViewModel.year + "");

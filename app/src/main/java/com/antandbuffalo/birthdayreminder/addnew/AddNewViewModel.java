@@ -7,6 +7,7 @@ import com.antandbuffalo.birthdayreminder.Constants;
 import com.antandbuffalo.birthdayreminder.DateOfBirth;
 import com.antandbuffalo.birthdayreminder.Util;
 import com.antandbuffalo.birthdayreminder.database.DateOfBirthDBHelper;
+import com.antandbuffalo.birthdayreminder.model.BirthdayInfo;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -28,16 +29,24 @@ public class AddNewViewModel extends ViewModel {
     DateOfBirth dateOfBirth;
 
     public void initDefaults() {
-        cal.setTime(new Date());
-        date = cal.get(Calendar.DATE);
-        month = cal.get(Calendar.MONTH);
-        year = cal.get(Calendar.YEAR);
+//        cal.setTime(new Date());
+//        date = cal.get(Calendar.DATE);
+//        month = cal.get(Calendar.MONTH);
+//        year = cal.get(Calendar.YEAR);
         //year = Constants.REMOVE_YEAR_VALUE;
 
         isRemoveYear = true;
         name = "";
 
         dateOfBirth = new DateOfBirth();
+    }
+
+    public boolean canMoveToMonth(String date) {
+        return date.length() == 2;
+    }
+
+    public boolean canMoveToYear(String month) {
+        return month.length() == 2;
     }
 
     public Boolean getRemoveYear() {
@@ -171,19 +180,47 @@ public class AddNewViewModel extends ViewModel {
         return Util.readFromAssetFile(fileName);
     }
 
-    public void setDateOfBirth() {
-        cal.set(year, month, date);
-        Date plainDate = cal.getTime();
+    public void setDateOfBirth(BirthdayInfo birthdayInfo) {
+        int intDate, intMonth, intYear;
 
-        dateOfBirth.setName(name);
-        dateOfBirth.setDobDate(plainDate);
-        dateOfBirth.setRemoveYear(isRemoveYear);
-        dateOfBirth.setAge(Util.getAge(dateOfBirth.getDobDate()));
+        try {
+            intDate = Integer.parseInt(birthdayInfo.date);
+            intMonth = Integer.parseInt(birthdayInfo.month);
+            intYear = Integer.parseInt(birthdayInfo.year);
+            cal.set(intYear, intMonth, intDate);
+            Date plainDate = cal.getTime();
+
+            dateOfBirth.setName(name);
+            dateOfBirth.setDobDate(plainDate);
+            dateOfBirth.setRemoveYear(isRemoveYear);
+            dateOfBirth.setAge(Util.getAge(dateOfBirth.getDobDate()));
+
+        }
+        catch (Exception e) {
+            Log.e("PARSE_INT", e.getLocalizedMessage());
+        }
     }
 
     public void saveToDB() {
         DateOfBirthDBHelper.insertDOB(dateOfBirth);
         //Util.updateFile(dateOfBirth);
+    }
+
+    public boolean isValidDateOfBirth(String date, String month, String year) {
+        int intDate, intMonth, intYear;
+        try {
+            intDate = Integer.parseInt(date);
+            intMonth = Integer.parseInt(month);
+            intYear = Integer.parseInt(year);
+            cal.set(intYear, intMonth, intDate);
+            Date plainDate = cal.getTime();
+
+            return  true;
+        }
+        catch (Exception e) {
+            Log.e("PARSE_INT", e.getLocalizedMessage());
+            return false;
+        }
     }
 
     public void clearInputs() {
