@@ -1,30 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
+<selector xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_pressed="true"> <!-- pressed -->
         <shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
             <solid android:color="@color/save_button_pressed" />
-            <corners android:bottomRightRadius="25sp"
-                android:bottomLeftRadius="25sp"
-                android:topRightRadius="25sp"
-                android:topLeftRadius="25sp"/>
+            <corners android:bottomLeftRadius="30sp" android:bottomRightRadius="30sp" android:topLeftRadius="30sp" android:topRightRadius="30sp" />
         </shape>
     </item>
     <item android:state_focused="true"> <!-- focused test for git-->
         <shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
             <solid android:color="@color/save_button_pressed" />
-            <corners android:bottomRightRadius="25sp"
-                android:bottomLeftRadius="25sp"
-                android:topRightRadius="25sp"
-                android:topLeftRadius="25sp"/>
+            <corners android:bottomLeftRadius="30sp" android:bottomRightRadius="30sp" android:topLeftRadius="30sp" android:topRightRadius="30sp" />
         </shape>
     </item>
     <item>
         <shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
-            <solid android:color="@color/save_button_default" />
-            <corners android:bottomRightRadius="25sp"
-                android:bottomLeftRadius="25sp"
-                android:topRightRadius="25sp"
-                android:topLeftRadius="25sp"/>
+            <solid android:color="@color/save_button_light" />
+            <corners android:bottomLeftRadius="30sp" android:bottomRightRadius="30sp" android:topLeftRadius="30sp" android:topRightRadius="30sp" />
         </shape>
     </item>
 </selector>

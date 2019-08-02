@@ -15,7 +15,7 @@
 
     <color name="addnew_button_default">#FF5722</color>
     <color name="addnew_button_pressed">#BF360C</color>
-    <color name="addnew_font">#FFFFFF</color>
+    <color name="addnew_font">#ffffff</color>
 
     <color name="delete_button_default">#E64A19</color>
     <color name="delete_button_pressed">#BF360C</color>
@@ -26,9 +26,14 @@
     <color name="save_button_default">#388E3C</color>
     <color name="save_button_pressed">#1B5E20</color>
 
+    <color name="save_button_light">#41c300</color>
+
     <color name="light_green">#689F38</color>
 
-    <color name="sub_text_color">#888888</color>
+    <color name="sub_text_color">#cccccc</color>
 
     <color name="spinner">#88000000</color>
+
+    <color name="bg_edit_text">#5D4037</color>
+
 </resources>

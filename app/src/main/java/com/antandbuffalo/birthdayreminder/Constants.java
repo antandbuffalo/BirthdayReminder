@@ -70,6 +70,7 @@ public class Constants {
     public static final String SETTINGS_ABOUT = "ABOUT";
     public static final String SETTINGS_MODIFY_TODAY = "SETTINGS_MODIFY_TODAY";
     public static final String SETTINGS_NOTIFICATION = "SETTINGS_NOTIFICATION";
+    public static final String SETTINGS_WISH_TEMPLATE = "SETTINGS_WISH_TEMPLATE";
 
     public static final Map<String, Integer> OPIONS_SNO_MAPPER = new HashMap<String, Integer>() {{
         put(SETTINGS_WRITE_FILE, 1);
@@ -146,10 +147,11 @@ public class Constants {
     public static final String PREFERENCE_IS_SECONDTIME = "isSecondTime";
     public static final String PREFERENCE_RECENT_DAYS_TODAY = "PREFERENCE_RECENT_DAYS_TODAY";
     public static final String PREFERENCE_PRE_NOTIFICATION_DAYS = "PREFERENCE_PRE_NOTIFICATION_DAYS";
+    public static final String PREFERENCE_WISH_TEMPLATE = "PREFERENCE_WISH_TEMPLATE";
 
     public static final String TYPE_ADD_NEW = "AddNew";
 
-    public static final long OPTIONS_TABLE_NUMBER_OF_ROWS = 6;
+    public static final long OPTIONS_TABLE_NUMBER_OF_ROWS = 7;
 
     public static final String SETTINGS_ICON_LETTER = "SETTINGS_ICON_LETTER";
 
@@ -166,4 +168,5 @@ public class Constants {
     public static final int MY_PERMISSIONS_WRITE_EXTERNAL_STORAGE = 1;
     public static final int MY_PERMISSIONS_READ_EXTERNAL_STORAGE = 2;
 
+    public static final String WISH_TEMPLATE_DEFAULT = "Wish you many more happy returns of the day";
 }

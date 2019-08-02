@@ -48,10 +48,17 @@
             android:label="@string/title_activity_about" />
         <activity
             android:name=".modifytoday.ModifyToday"
-            android:label="@string/title_activity_modify_today"></activity>
+            android:label="@string/title_activity_modify_today" />
         <activity
             android:name=".notificationsettings.NotificationSettings"
-            android:label="@string/title_activity_notification_settings"></activity>
+            android:label="@string/title_activity_notification_settings" />
+        <activity
+            android:name=".wishtemplate.WishTemplate"
+            android:label="@string/title_wish_template"
+            android:theme="@style/CustomActionBarTheme" />
+        <activity android:name=".sharewish.ShareWish"
+            android:label="@string/title_share_wish"
+        />
     </application>
 
 </manifest>
