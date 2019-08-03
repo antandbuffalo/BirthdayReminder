@@ -34,9 +34,10 @@ public class AddNew extends FragmentActivity {
     AddNewViewModel addNewViewModel;
 
     TextView namePreview, desc, dateField, monthField, yearField;
-    EditText dateInput, monthInput, yearInput;
+    EditText dateInput, yearInput;
     LinearLayout circle;
     CheckBox removeYear;
+    Spinner monthSpinner;
 
     ImageButton save, cancel;
 
@@ -55,9 +56,7 @@ public class AddNew extends FragmentActivity {
         currentDayOfYear = Util.getCurrentDayOfYear();
         recentDayOfYear = Util.getRecentDayOfYear();
 
-        dateInput.setText("");
-        monthInput.setText("");
-        yearInput.setText("");
+        initViewValues();
 
         name.addTextChangedListener(new TextWatcher() {
             @Override
@@ -70,7 +69,7 @@ public class AddNew extends FragmentActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                addNewViewModel.setName(name.getText().toString());
+                addNewViewModel.setBirthdayInfoName(name.getText().toString());
                 preview();
             }
         });
@@ -88,14 +87,25 @@ public class AddNew extends FragmentActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if(addNewViewModel.canMoveToMonth(dateInput.getText().toString())) {
-                    monthInput.requestFocus();
-                }
+                addNewViewModel.setBirthdayInfoDate(dateInput.getText().toString());
                 preview();
             }
         });
 
-        monthInput.addTextChangedListener(new TextWatcher() {
+        monthSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.i("Item select", "" + position);
+                addNewViewModel.setBirthdayInfoMonth(position);
+                preview();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                Log.i("Item select", "" + parent);
+            }
+        });
+
+        yearInput.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -108,9 +118,7 @@ public class AddNew extends FragmentActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if(addNewViewModel.canMoveToYear(monthInput.getText().toString())) {
-                    yearInput.requestFocus();
-                }
+                addNewViewModel.setBirthdayInfoYear(yearInput.getText().toString());
                 preview();
             }
         });
@@ -118,7 +126,7 @@ public class AddNew extends FragmentActivity {
         removeYear.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                addNewViewModel.setRemoveYear(isChecked);
+                addNewViewModel.setBirthdayInfoRemoveYear(isChecked);
                 if(isChecked) {
                     yearInput.setVisibility(View.INVISIBLE);
                 }
@@ -136,61 +144,66 @@ public class AddNew extends FragmentActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addNewViewModel.setName(name.getText().toString());
-                BirthdayInfo birthdayInfo = new BirthdayInfo();
+                populateBirthdayInfo();
 
-                birthdayInfo.name = name.getText().toString();
-                birthdayInfo.date = dateInput.getText().toString();
-                birthdayInfo.month = monthInput.getText().toString();
-                birthdayInfo.year = yearInput.getText().toString();
-                birthdayInfo.isRemoveYear = removeYear.isSelected();
-                addNewViewModel.setDateOfBirth(birthdayInfo);
+                addNewViewModel.setDateOfBirth(addNewViewModel.birthdayInfo);
 
                 if (addNewViewModel.isNameEmpty()) {
                     //show error
                     Toast.makeText(getApplicationContext(), Constants.NAME_EMPTY, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if(!addNewViewModel.isValidDateOfBirth(addNewViewModel.birthdayInfo)) {
+                    Toast.makeText(getApplicationContext(), "Please enter valid date", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (addNewViewModel.isDOBAvailable(addNewViewModel.dateOfBirth)) {
+                    //put confirmation here
+                    new AlertDialog.Builder(AddNew.this)
+                            //.setIcon(android.R.drawable.ic_dialog_info)
+                            .setIconAttribute(android.R.attr.alertDialogIcon)
+                            .setTitle(Constants.ERROR)
+                            .setMessage(Constants.USER_EXIST)
+                            .setPositiveButton(Constants.OK, null)
+                            .show();
                 } else {
-                    if (addNewViewModel.isDOBAvailable(addNewViewModel.dateOfBirth)) {
-                        //put confirmation here
-                        new AlertDialog.Builder(AddNew.this)
-                                //.setIcon(android.R.drawable.ic_dialog_info)
-                                .setIconAttribute(android.R.attr.alertDialogIcon)
-                                .setTitle(Constants.ERROR)
-                                .setMessage(Constants.USER_EXIST)
-                                .setPositiveButton(Constants.OK, null)
-                                .show();
+                    final String fileName = addNewViewModel.getFileName();
+                    if (fileName != null) {
+                        //if(plainName.equalsIgnoreCase("csea")) {
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(AddNew.this);
+                        alertDialogBuilder.setTitle("Confirmation");
+                        alertDialogBuilder.setMessage("Are you sure want to merge current data with " + addNewViewModel.birthdayInfo.name + " data?");
+                        alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                addNewViewModel.loadFromFileWithName(fileName);
+                                Toast toast = Toast.makeText(getApplicationContext(), Constants.NOTIFICATION_SUCCESS_DATA_LOAD, Toast.LENGTH_SHORT);
+                                toast.show();
+                                intent.putExtra(Constants.IS_USER_ADDED, Constants.FLAG_SUCCESS.toString());
+                                setResult(RESULT_OK, intent);
+                                finish();
+                            }
+                        });
+                        alertDialogBuilder.setNegativeButton("No", null);
+                        alertDialogBuilder.show();
                     } else {
-                        final String fileName = addNewViewModel.getFileName();
-                        if (fileName != null) {
-                            //if(plainName.equalsIgnoreCase("csea")) {
-                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(AddNew.this);
-                            alertDialogBuilder.setTitle("Confirmation");
-                            alertDialogBuilder.setMessage("Are you sure want to merge current data with " + addNewViewModel.name + " data?");
-                            alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    addNewViewModel.loadFromFileWithName(fileName);
-                                    Toast toast = Toast.makeText(getApplicationContext(), Constants.NOTIFICATION_SUCCESS_DATA_LOAD, Toast.LENGTH_SHORT);
-                                    toast.show();
-                                    intent.putExtra(Constants.IS_USER_ADDED, Constants.FLAG_SUCCESS.toString());
-                                    setResult(RESULT_OK, intent);
-                                    finish();
-                                }
-                            });
-                            alertDialogBuilder.setNegativeButton("No", null);
-                            alertDialogBuilder.show();
-                        } else {
+                        if(addNewViewModel.isValidDateOfBirth(addNewViewModel.birthdayInfo)) {
                             addNewViewModel.saveToDB();
                             System.out.println("Inserted successfully");
                             String status = Constants.NOTIFICATION_ADD_MEMBER_SUCCESS + ". You will get notified at 12:00am and 12:00pm on " + Util.getStringFromDate(addNewViewModel.dateOfBirth.getDobDate(), "dd MMM") + " every year";
                             Toast toast = Toast.makeText(getApplicationContext(), status, Toast.LENGTH_LONG);
                             toast.show();
-                            addNewViewModel.clearInputs();
                             clearInputs();
                             intent.putExtra(Constants.IS_USER_ADDED, Constants.FLAG_SUCCESS.toString());
                             setResult(RESULT_OK, intent);
                         }
-
+                        else {
+                            Toast toast = Toast.makeText(getApplicationContext(), "Please enter valid date", Toast.LENGTH_LONG);
+                            toast.show();
+                        }
                     }
+
                 }
             }
         });
@@ -202,22 +215,35 @@ public class AddNew extends FragmentActivity {
             }
         });
 
-        removeYear.setChecked(addNewViewModel.getRemoveYear());
+        removeYear.setChecked(addNewViewModel.birthdayInfo.isRemoveYear);
+        yearInput.setVisibility(View.INVISIBLE);
+    }
+
+    public void populateBirthdayInfo() {
+        addNewViewModel.setBirthdayInfoName(name.getText().toString());
+        addNewViewModel.setBirthdayInfoDate(dateInput.getText().toString());
+        addNewViewModel.setBirthdayInfoMonth(monthSpinner.getSelectedItemPosition());
+        addNewViewModel.setBirthdayInfoRemoveYear(removeYear.isChecked());
+
+        addNewViewModel.setBirthdayInfoYear(addNewViewModel.birthdayInfo.isRemoveYear? Constants.REMOVE_YEAR_VALUE.toString() : yearInput.getText().toString());
+    }
+
+    public void addMonthsToSpinner(Spinner spinner) {
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+                R.layout.spinner_item, addNewViewModel.getMonths());
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(dataAdapter);
     }
 
     public void preview() {
-        namePreview.setText(addNewViewModel.name);
-
-        if(!addNewViewModel.isValidDateOfBirth(dateInput.getText().toString(), monthInput.getText().toString(), yearInput.getText().toString())) {
+        if(!addNewViewModel.isValidDateOfBirth(addNewViewModel.birthdayInfo)) {
+            namePreview.setText("Error in birth date");
+            desc.setText("Please Enter valid date");
             return;
         }
-        BirthdayInfo birthdayInfo = new BirthdayInfo();
-        birthdayInfo.name = name.getText().toString();
-        birthdayInfo.date = dateInput.getText().toString();
-        birthdayInfo.month = monthInput.getText().toString();
-        birthdayInfo.year = yearInput.getText().toString();
-        birthdayInfo.isRemoveYear = removeYear.isSelected();
-        addNewViewModel.setDateOfBirth(birthdayInfo);
+        populateBirthdayInfo();
+        namePreview.setText(addNewViewModel.birthdayInfo.name);
+        addNewViewModel.setDateOfBirth(addNewViewModel.birthdayInfo);
 
         dayOfYear = Util.getDayOfYear(addNewViewModel.dateOfBirth.getDobDate());
 
@@ -241,7 +267,7 @@ public class AddNew extends FragmentActivity {
 
         Util.setDescription(addNewViewModel.dateOfBirth, "Age");
 
-        if(addNewViewModel.getRemoveYear()) {
+        if(addNewViewModel.birthdayInfo.isRemoveYear) {
             yearField.setVisibility(View.INVISIBLE);
             desc.setVisibility(View.INVISIBLE);
         }
@@ -250,19 +276,17 @@ public class AddNew extends FragmentActivity {
             desc.setVisibility(View.VISIBLE);
         }
 
-        dateField.setText(addNewViewModel.date + "");
+        dateField.setText(addNewViewModel.birthdayInfo.date + "");
         monthField.setText(Util.getStringFromDate(addNewViewModel.dateOfBirth.getDobDate(), "MMM"));
-        yearField.setText(addNewViewModel.year + "");
+        yearField.setText(addNewViewModel.birthdayInfo.year + "");
         desc.setText(addNewViewModel.dateOfBirth.getDescription());
     }
 
     public void initLayout() {
         name = (EditText)findViewById(R.id.personName);
-
         dateInput = (EditText) findViewById(R.id.date);
-        monthInput = (EditText)findViewById(R.id.month);
+        monthSpinner = (Spinner) findViewById(R.id.monthSpinner);
         yearInput = findViewById(R.id.year);
-
         removeYear = (CheckBox) findViewById(R.id.removeYear);
 
         save = (ImageButton) findViewById(R.id.save);
@@ -280,13 +304,16 @@ public class AddNew extends FragmentActivity {
         circle = (LinearLayout)findViewById(R.id.circlebg);
     }
 
+    public void initViewValues() {
+        name.setText(addNewViewModel.birthdayInfo.name);
+        dateInput.setText(addNewViewModel.birthdayInfo.date);
+        addMonthsToSpinner(monthSpinner);
+        yearInput.setText(addNewViewModel.birthdayInfo.year);
+        removeYear.setChecked(addNewViewModel.birthdayInfo.isRemoveYear);
+    }
+
     public void clearInputs() {
         addNewViewModel.initDefaults();
-        name.setText(addNewViewModel.name);
-        removeYear.setChecked(addNewViewModel.getRemoveYear());
-
-        yearInput.setText("");
-        monthInput.setText("");
-        dateInput.setText("");
+        initViewValues();
     }
 }

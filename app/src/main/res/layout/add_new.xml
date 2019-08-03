@@ -10,7 +10,7 @@
     <EditText
         android:id="@+id/personName"
         android:layout_width="wrap_content"
-        android:layout_height="30sp"
+        android:layout_height="40sp"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_marginLeft="2sp"
@@ -20,13 +20,13 @@
         android:ems="10"
         android:hint="Enter Name"
         android:inputType="textPersonName"
-        android:paddingLeft="2dp"
+        android:paddingLeft="4dp"
         android:textColor="@color/addnew_font" />
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="40dp"
         android:layout_below="@+id/personName"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
@@ -41,7 +41,7 @@
             <EditText
                 android:id="@+id/date"
                 android:layout_width="50dp"
-                android:layout_height="30sp"
+                android:layout_height="40sp"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginLeft="2sp"
@@ -54,30 +54,28 @@
                 android:paddingLeft="2dp"
                 android:textColor="@color/addnew_font" />
 
-            <EditText
-                android:id="@+id/month"
-                android:layout_width="50dp"
-                android:layout_height="30sp"
+            <Spinner
+                android:id="@+id/monthSpinner"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:dropDownWidth="80dp"
+                android:paddingLeft="3dp"
                 android:layout_marginLeft="15sp"
                 android:background="@drawable/addnew_edittext"
-                android:elevation="2dp"
-                android:ems="10"
-                android:hint="MM"
-                android:inputType="date"
-                android:paddingLeft="2dp"
-                android:textColor="@color/addnew_font" />
+                android:minWidth="80dp" />
+
 
             <EditText
                 android:id="@+id/year"
                 android:layout_width="60dp"
-                android:layout_height="30sp"
+                android:layout_height="40sp"
                 android:layout_marginLeft="15sp"
                 android:background="@drawable/addnew_edittext"
                 android:elevation="2dp"
                 android:ems="10"
                 android:hint="YYYY"
                 android:inputType="date"
-                android:paddingLeft="2dp"
+                android:paddingLeft="3dp"
                 android:textColor="@color/addnew_font" />
 
         </LinearLayout>
@@ -88,11 +86,12 @@
         android:id="@+id/removeYear"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/personName"
         android:layout_below="@+id/linearLayout"
+        android:layout_alignStart="@+id/personName"
         android:layout_marginTop="10dp"
-        android:text="I don't know year"
         android:buttonTint="@color/white"
+        android:checked="true"
+        android:text="I don't know year"
         android:textColor="@color/addnew_font" />
 
     <TextView

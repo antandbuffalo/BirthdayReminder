@@ -9,24 +9,19 @@ import com.antandbuffalo.birthdayreminder.Util;
 import com.antandbuffalo.birthdayreminder.database.DateOfBirthDBHelper;
 import com.antandbuffalo.birthdayreminder.model.BirthdayInfo;
 
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.CopyOnWriteArraySet;
 
 
 public class AddNewViewModel extends ViewModel {
 
     Calendar cal = Util.getCalendar();
-    String name;
-    //months starts from 0 for Jan
-    Integer date = 1, month = 0, year = Constants.START_YEAR;
-    private Boolean isRemoveYear = false;
-    private static final int MONTH_FEB = 1;
+
+    // months starts from 0 for Jan
     DateOfBirth dateOfBirth;
+    BirthdayInfo birthdayInfo;
 
     public void initDefaults() {
 //        cal.setTime(new Date());
@@ -35,153 +30,43 @@ public class AddNewViewModel extends ViewModel {
 //        year = cal.get(Calendar.YEAR);
         //year = Constants.REMOVE_YEAR_VALUE;
 
-        isRemoveYear = true;
-        name = "";
-
         dateOfBirth = new DateOfBirth();
-    }
-
-    public boolean canMoveToMonth(String date) {
-        return date.length() == 2;
-    }
-
-    public boolean canMoveToYear(String month) {
-        return month.length() == 2;
-    }
-
-    public Boolean getRemoveYear() {
-        return isRemoveYear;
-    }
-
-    public void setRemoveYear(Boolean removeYear) {
-        if(removeYear) {
-            //year = Constants.REMOVE_YEAR_VALUE;
-        }
-        isRemoveYear = removeYear;
-    }
-
-    public void setName(String givenName) {
-        name = givenName.trim();
-    }
-
-
-    public boolean isLeapYear(Integer year) {
-        return (year % 4 == 0);
-    }
-
-    public Integer getSelectedYear() {
-        return year;
-    }
-
-    public Integer getSelectedMonth() {
-        return month + 1;
-    }
-
-    public Integer getSelectedDate() {
-        return date;
-    }
-
-    public List getDates() {
-        List<String> dateList = new ArrayList<String>();
-        Integer maxValue = null;
-        if(isRemoveYear) {
-            if(month == MONTH_FEB) {
-                //month is feb and year removed. So assign max value
-                maxValue = 29;
-            }
-        }
-        else {
-            if(Util.isCurrentYear(year) && Util.isCurrentMonth(month)) {
-                maxValue = Util.getCurrentDate();
-            }
-            else if(isLeapYear(year) && month == MONTH_FEB) {
-                //leap year
-                maxValue = 29;
-            }
-        }
-        if(maxValue == null) {
-            maxValue = Constants.MONTH_DAYS.get(month);
-        }
-
-        for (int i = 1; i <= maxValue; i++) {
-            dateList.add(i + "");
-        }
-        return dateList;
+        birthdayInfo = new BirthdayInfo();
+        birthdayInfo.name = "";
+        birthdayInfo.date = "";
+        birthdayInfo.month = "0";
+        birthdayInfo.year = Constants.REMOVE_YEAR_VALUE.toString();
+        birthdayInfo.isRemoveYear = true;
     }
 
     public List getMonths() {
-        List<String> allMonths, filteredMonths;
-        allMonths = Util.getMonths();
-        if(!isRemoveYear && Util.isCurrentYear(year)) {
-            filteredMonths = new ArrayList<String>();
-            for (int i = 0; i <= Util.getCurrentMonth(); i++) {
-                filteredMonths.add(allMonths.get(i));
-            }
-        }
-        else {
-            filteredMonths = allMonths;
-        }
-        return filteredMonths;
+        return Util.getMonths();
     }
-
-    public List getYears() {
-        Integer minYear = Constants.START_YEAR, maxYear = cal.get(Calendar.YEAR);
-        List<String> yearsList = new ArrayList<String>();
-        for (int i = minYear; i <= maxYear; i++) {
-            yearsList .add(i + "");
-        }
-        return yearsList;
-    }
-
-    public void setSelectedDate(Integer selectedDate) {
-        date = selectedDate;
-        if(isRemoveYear && month == MONTH_FEB && date == 29) {
-            year = Constants.LEAP_YEAR;
-        }
-    }
-
-    public void setSelectedMonth(Integer selectedMonth) {
-        month = selectedMonth;
-    }
-
-    public void setSelectedYear(Integer selectedYear) {
-        year = selectedYear;
-    }
-
-    public Map<Integer, Integer> getYearsMapper() {
-        cal.setTime(new Date());
-        Integer minYear = Constants.START_YEAR, maxYear = cal.get(Calendar.YEAR);
-        Map<Integer, Integer> yearsMap = new HashMap<Integer, Integer>();
-        Integer counter = maxYear - minYear;
-        int j = minYear;
-        for (int i=0; i<=counter; i++) {
-            Log.i("YEAR", i + " -- " + j);
-            yearsMap.put(j++, i);
-        }
-        return yearsMap;
-    }
-
-    
 
     public Boolean isDOBAvailable(DateOfBirth dob) {
         return !DateOfBirthDBHelper.isUniqueDateOfBirthIgnoreCase(dob);
     }
 
     public Boolean isNameEmpty() {
-        return name.equalsIgnoreCase("");
+        if(dateOfBirth.getName() == null) {
+            return true;
+        }
+        return dateOfBirth.getName().trim().equalsIgnoreCase("");
     }
 
-
     public String getFileName() {
-        return Util.fileToLoad(name);
+        return Util.fileToLoad(dateOfBirth.getName());
     }
 
     public String loadFromFileWithName(String fileName) {
         return Util.readFromAssetFile(fileName);
     }
 
-    public void setDateOfBirth(BirthdayInfo birthdayInfo) {
+    public Boolean setDateOfBirth(BirthdayInfo birthdayInfo) {
         int intDate, intMonth, intYear;
+
+        birthdayInfo.year = birthdayInfo.isRemoveYear? Constants.REMOVE_YEAR_VALUE.toString() : birthdayInfo.year;
+        dateOfBirth.setName(birthdayInfo.name);
 
         try {
             intDate = Integer.parseInt(birthdayInfo.date);
@@ -190,14 +75,15 @@ public class AddNewViewModel extends ViewModel {
             cal.set(intYear, intMonth, intDate);
             Date plainDate = cal.getTime();
 
-            dateOfBirth.setName(name);
             dateOfBirth.setDobDate(plainDate);
-            dateOfBirth.setRemoveYear(isRemoveYear);
+            dateOfBirth.setRemoveYear(birthdayInfo.isRemoveYear);
             dateOfBirth.setAge(Util.getAge(dateOfBirth.getDobDate()));
+            return true;
 
         }
         catch (Exception e) {
             Log.e("PARSE_INT", e.getLocalizedMessage());
+            return false;
         }
     }
 
@@ -206,15 +92,20 @@ public class AddNewViewModel extends ViewModel {
         //Util.updateFile(dateOfBirth);
     }
 
-    public boolean isValidDateOfBirth(String date, String month, String year) {
+    public boolean isValidDateOfBirth(BirthdayInfo birthdayInfo) {
         int intDate, intMonth, intYear;
+        Calendar calendar = Calendar.getInstance();
         try {
-            intDate = Integer.parseInt(date);
-            intMonth = Integer.parseInt(month);
-            intYear = Integer.parseInt(year);
-            cal.set(intYear, intMonth, intDate);
-            Date plainDate = cal.getTime();
+            intDate = Integer.parseInt(birthdayInfo.date);
+            intMonth = Integer.parseInt(birthdayInfo.month);
+            intYear = Integer.parseInt(birthdayInfo.year);
+            calendar.set(intYear, intMonth, intDate);
+            Date plainDate = calendar.getTime();
+            calendar.setTime(plainDate);
 
+            if(calendar.get(Calendar.DATE) != intDate || calendar.get(Calendar.MONTH) != intMonth || calendar.get(Calendar.YEAR) != intYear) {
+                return false;
+            }
             return  true;
         }
         catch (Exception e) {
@@ -222,6 +113,31 @@ public class AddNewViewModel extends ViewModel {
             return false;
         }
     }
+
+    public void setBirthdayInfo(String name, String date, Integer month, String year, Boolean flag) {
+        birthdayInfo.name = (name != null)? name : birthdayInfo.name;
+        birthdayInfo.date = (date != null)? date : birthdayInfo.date;
+        birthdayInfo.month = (month != null)? month.toString() : birthdayInfo.month;
+        birthdayInfo.year = (year != null)? year : birthdayInfo.year;
+        birthdayInfo.isRemoveYear = (flag != null)? flag : birthdayInfo.isRemoveYear;
+    }
+    public void setBirthdayInfoName(String name) {
+        setBirthdayInfo(name, null, null, null, null);
+    }
+    public void setBirthdayInfoDate(String date) {
+        setBirthdayInfo(null, date, null, null, null);
+    }
+    public void setBirthdayInfoMonth(Integer month) {
+        setBirthdayInfo(null, null, month, null, null);
+    }
+    public void setBirthdayInfoYear(String year) {
+        setBirthdayInfo(null, null, null, year, null);
+    }
+    public void setBirthdayInfoRemoveYear(Boolean flag) {
+        setBirthdayInfo(null, null, null, null, flag);
+    }
+
+
 
     public void clearInputs() {
         initDefaults();
