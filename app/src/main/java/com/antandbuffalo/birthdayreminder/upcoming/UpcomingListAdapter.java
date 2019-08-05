@@ -105,12 +105,16 @@ public class UpcomingListAdapter extends BaseAdapter implements Filterable {
             circle.setBackgroundResource(R.drawable.cirlce_normal);
         }
 
-        if(dob.getRemoveYear() || dob.getAge() < 0) {
+        if(dob.getRemoveYear()) {
             desc.setVisibility(View.INVISIBLE);
             yearField.setVisibility(View.INVISIBLE);
         }
         else {
-            desc.setVisibility(View.VISIBLE);
+            if(dob.getAge() < 0) {
+                desc.setVisibility(View.INVISIBLE);
+            } else {
+                desc.setVisibility(View.VISIBLE);
+            }
             yearField.setVisibility(View.VISIBLE);
         }
 

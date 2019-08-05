@@ -237,8 +237,13 @@ public class AddNew extends FragmentActivity {
 
     public void preview() {
         if(!addNewViewModel.isValidDateOfBirth(addNewViewModel.birthdayInfo)) {
-            namePreview.setText("Error in birth date");
-            desc.setText("Please Enter valid date");
+            if(addNewViewModel.birthdayInfo.name == null || ("".equalsIgnoreCase(addNewViewModel.birthdayInfo.name))) {
+                namePreview.setText("Enter Name");
+                desc.setText("Age");
+            } else {
+                namePreview.setText("Error in birthdate");
+                desc.setText("Please enter valid date");
+            }
             return;
         }
         populateBirthdayInfo();
@@ -272,8 +277,12 @@ public class AddNew extends FragmentActivity {
             desc.setVisibility(View.INVISIBLE);
         }
         else {
+            if(addNewViewModel.dateOfBirth.getAge() < 0) {
+                desc.setVisibility(View.INVISIBLE);
+            } else {
+                desc.setVisibility(View.VISIBLE);
+            }
             yearField.setVisibility(View.VISIBLE);
-            desc.setVisibility(View.VISIBLE);
         }
 
         dateField.setText(addNewViewModel.birthdayInfo.date + "");

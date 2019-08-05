@@ -108,7 +108,11 @@ public class TodayListAdapter extends BaseAdapter {
             yearField.setVisibility(View.INVISIBLE);
         }
         else {
-            desc.setVisibility(View.VISIBLE);
+            if(dob.getAge() < 0) {
+                desc.setVisibility(View.INVISIBLE);
+            } else {
+                desc.setVisibility(View.VISIBLE);
+            }
             yearField.setVisibility(View.VISIBLE);
         }
 
