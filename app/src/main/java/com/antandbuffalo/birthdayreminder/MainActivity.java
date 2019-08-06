@@ -33,6 +33,9 @@ import com.antandbuffalo.birthdayreminder.fragments.MyFragment;
 import com.antandbuffalo.birthdayreminder.notification.AlarmReceiver;
 import com.antandbuffalo.birthdayreminder.restore.RestoreBackup;
 import com.antandbuffalo.birthdayreminder.sharewish.ShareWish;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 
 import java.util.Calendar;
 

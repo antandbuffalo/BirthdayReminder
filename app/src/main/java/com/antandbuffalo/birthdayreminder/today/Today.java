@@ -14,12 +14,16 @@ import com.antandbuffalo.birthdayreminder.R;
 import com.antandbuffalo.birthdayreminder.fragments.MyFragment;
 import com.antandbuffalo.birthdayreminder.sharewish.ShareWish;
 import com.antandbuffalo.birthdayreminder.update.Update;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 
 /**
  * Created by i677567 on 28/8/15.
  */
 public class  Today extends MyFragment {
     TodayListAdapter todayListAdapter;
+    private AdView mAdView;
 
     public static Today newInstance() {
         Today fragment = new Today();
@@ -32,11 +36,17 @@ public class  Today extends MyFragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.today, container, false);
 
+        MobileAds.initialize(getActivity(), Constants.ADMOB_APP_ID);
+
         //ArrayAdapter<String> codeLearnArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, codeLearnChapters);
         todayListAdapter = new TodayListAdapter();
         //http://stackoverflow.com/questions/6495898/findviewbyid-in-fragment
         ListView todayList = (ListView)rootView.findViewById(R.id.listView1);
         todayList.setAdapter(todayListAdapter);
+
+        mAdView = rootView.findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
         todayList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

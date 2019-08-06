@@ -14,6 +14,8 @@ import java.util.Set;
  */
 public class Constants {
 
+    public static final String ADMOB_APP_ID = "ca-app-pub-7116389331562728~4210792343";
+
     // Database Name
     public static final String DATABASE_NAME = "BirthdayReminder";
     public static final int DATABASE_VERSION = 3;
