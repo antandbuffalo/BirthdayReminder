@@ -7,6 +7,7 @@ import com.antandbuffalo.birthdayreminder.Constants;
 import com.antandbuffalo.birthdayreminder.DateOfBirth;
 import com.antandbuffalo.birthdayreminder.Util;
 import com.antandbuffalo.birthdayreminder.database.DateOfBirthDBHelper;
+import com.antandbuffalo.birthdayreminder.model.BirthdayInfo;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -19,33 +20,36 @@ import java.util.Map;
 
 public class UpdateViewModel extends ViewModel {
 
-    Calendar cal = Util.getCalendar();
-    String name;
     //months starts from 0 for Jan
-    Integer date = 1, month = 0, year = Constants.START_YEAR;
     private Boolean isRemoveYear = false;
     private static final int MONTH_FEB = 1;
     DateOfBirth dateOfBirth;
+    BirthdayInfo birthdayInfo;
 
     public void initDefaults(DateOfBirth givenDateOfBirth) {
-        cal.setTime(givenDateOfBirth.getDobDate());
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(givenDateOfBirth.getDobDate());
 
         dateOfBirth = givenDateOfBirth;
+        birthdayInfo = new BirthdayInfo();
 
-        name = givenDateOfBirth.getName();
+        birthdayInfo.name = givenDateOfBirth.getName();
+        birthdayInfo.date = new Integer(calendar.get(Calendar.DATE)).toString();
+        birthdayInfo.month = new Integer(calendar.get(Calendar.MONTH)).toString();
+        birthdayInfo.year = new Integer(calendar.get(Calendar.YEAR)).toString();
+        birthdayInfo.isRemoveYear = givenDateOfBirth.getRemoveYear();
 
-        date = cal.get(Calendar.DATE);
-        month = cal.get(Calendar.MONTH);
-        year = cal.get(Calendar.YEAR);
-
-        isRemoveYear = givenDateOfBirth.getRemoveYear();
-        if(isRemoveYear) {
-            year = Constants.REMOVE_YEAR_VALUE;
+        if(givenDateOfBirth.getRemoveYear()) {
+            birthdayInfo.year = Constants.REMOVE_YEAR_VALUE.toString();
         }
     }
 
+    public List getMonths() {
+        return Util.getMonths();
+    }
+
     public void setName(String givenName) {
-        name = givenName.trim();
+        birthdayInfo.name = givenName.trim();
     }
 
     public Boolean getRemoveYear() {
@@ -54,7 +58,7 @@ public class UpdateViewModel extends ViewModel {
 
     public void setRemoveYear(Boolean removeYear) {
         if(removeYear) {
-            year = Constants.REMOVE_YEAR_VALUE;
+            birthdayInfo.year = Constants.REMOVE_YEAR_VALUE.toString();
         }
         isRemoveYear = removeYear;
     }
@@ -64,12 +68,8 @@ public class UpdateViewModel extends ViewModel {
         return (year % 4 == 0);
     }
 
-    public Integer getSelectedYearPosition() {
-        Map<Integer, Integer> yearsMap = getYearsMapper();
-        return yearsMap.get(year);
-    }
-
     public Integer getSelectedMonthPosition() {
+        int month = Integer.parseInt(birthdayInfo.month);
         List monthsList = getMonths();
         if(month > monthsList.size() - 1) {
             month = monthsList.size() - 1;
@@ -77,87 +77,14 @@ public class UpdateViewModel extends ViewModel {
         return month;
     }
 
-    public Integer getSelectedDatePosition() {
-        List dateList = getDates();
-        //need to check the max value. Because of different values of month like 28, 29, 30 and 31 days.
-        if(date > dateList.size()) {
-            date = dateList.size();
-        }
-        //date starts from 1. So for the position substract 1
-        return (date - 1);
-    }
-
-
-    public List getDates() {
-        List<String> dateList = new ArrayList<String>();
-        Integer maxValue = null;
-        if(isRemoveYear) {
-            if(month == MONTH_FEB) {
-                //month is feb and year removed. So assign max value
-                maxValue = 29;
-            }
-        }
-        else {
-            if(Util.isCurrentYear(year) && Util.isCurrentMonth(month)) {
-                maxValue = Util.getCurrentDate();
-            }
-            else if(isLeapYear(year) && month == MONTH_FEB) {
-                //leap year
-                maxValue = 29;
-            }
-        }
-        if(maxValue == null) {
-            maxValue = Constants.MONTH_DAYS.get(month);
-        }
-
-        for (int i = 1; i <= maxValue; i++) {
-            dateList.add(i + "");
-        }
-        return dateList;
-    }
-
-    public List getMonths() {
-        List<String> allMonths, filteredMonths;
-        allMonths = Util.getMonths();
-        if(!isRemoveYear && Util.isCurrentYear(year)) {
-            filteredMonths = new ArrayList<String>();
-            for (int i = 0; i <= Util.getCurrentMonth(); i++) {
-                filteredMonths.add(allMonths.get(i));
-            }
-        }
-        else {
-            filteredMonths = allMonths;
-        }
-        return filteredMonths;
-    }
-    public List getYears() {
-        Calendar calendar = Util.getCalendar(new Date());
-        Integer minYear = Constants.START_YEAR, maxYear = calendar.get(Calendar.YEAR);
-        List<String> yearsList = new ArrayList<String>();
-        for (int i = minYear; i <= maxYear; i++) {
-            yearsList .add(i + "");
-        }
-        return yearsList;
-    }
-
-    public void setSelectedDate(Integer selectedDate) {
-        date = selectedDate;
-        if(isRemoveYear && month == MONTH_FEB && date == 29) {
-            year = Constants.LEAP_YEAR;
-        }
-    }
-
     public void setSelectedMonth(Integer selectedMonth) {
-        month = selectedMonth;
-    }
-
-    public void setSelectedYear(Integer selectedYear) {
-        year = selectedYear;
+        birthdayInfo.month = selectedMonth.toString();
     }
 
     public Map<Integer, Integer> getYearsMapper() {
-        cal.setTime(new Date());
-        Integer minYear = Constants.START_YEAR, maxYear = cal.get(Calendar.YEAR);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        Integer minYear = Constants.START_YEAR, maxYear = calendar.get(Calendar.YEAR);
         Map<Integer, Integer> yearsMap = new HashMap<Integer, Integer>();
         Integer counter = maxYear - minYear;
         int j = minYear;
@@ -175,17 +102,32 @@ public class UpdateViewModel extends ViewModel {
     }
 
     public Boolean isNameEmpty() {
-        return name.equalsIgnoreCase("");
+        return birthdayInfo.name.equalsIgnoreCase("");
     }
 
-    public void setDateOfBirth() {
-        cal.set(year, month, date);
-        Date plainDate = cal.getTime();
+    public Boolean setDateOfBirth() {
+        Calendar calendar = Calendar.getInstance();
+        int intDate, intMonth, intYear;
 
-        dateOfBirth.setName(name);
-        dateOfBirth.setDobDate(plainDate);
-        dateOfBirth.setRemoveYear(isRemoveYear);
-        dateOfBirth.setAge(Util.getAge(dateOfBirth.getDobDate()));
+        birthdayInfo.year = birthdayInfo.isRemoveYear? Constants.REMOVE_YEAR_VALUE.toString() : birthdayInfo.year;
+        dateOfBirth.setName(birthdayInfo.name);
+
+        try {
+            intDate = Integer.parseInt(birthdayInfo.date);
+            intMonth = Integer.parseInt(birthdayInfo.month);
+            intYear = Integer.parseInt(birthdayInfo.year);
+            calendar.set(intYear, intMonth, intDate);
+            Date plainDate = calendar.getTime();
+
+            dateOfBirth.setDobDate(plainDate);
+            dateOfBirth.setRemoveYear(birthdayInfo.isRemoveYear);
+            dateOfBirth.setAge(Util.getAge(dateOfBirth.getDobDate()));
+            return true;
+        }
+        catch (Exception e) {
+            Log.e("PARSE_INT", e.getLocalizedMessage());
+            return false;
+        }
     }
 
     public void delete(long dobId) {

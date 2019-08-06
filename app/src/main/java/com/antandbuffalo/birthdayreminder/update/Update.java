@@ -53,12 +53,12 @@ public class Update extends FragmentActivity {
 
         currentDOB = (DateOfBirth)getIntent().getSerializableExtra("currentDOB");
         updateViewModel.initDefaults(currentDOB);
-
         initLayout();
-        name.setText(updateViewModel.name);
-        removeYear.setChecked(updateViewModel.getRemoveYear());
 
-        if(updateViewModel.getRemoveYear()) {
+        name.setText(updateViewModel.birthdayInfo.name);
+        removeYear.setChecked(updateViewModel.birthdayInfo.isRemoveYear);
+
+        if(updateViewModel.birthdayInfo.isRemoveYear) {
             yearSpinner.setVisibility(View.INVISIBLE);
         }
         else {
@@ -68,51 +68,18 @@ public class Update extends FragmentActivity {
         currentDayOfYear = Util.getCurrentDayOfYear();
         recentDayOfYear = Util.getRecentDayOfYear();
 
-        addYearsToSpinner(yearSpinner);
         addMonthsToSpinner(monthSpinner);
-        addDatesToSpinner(datesSpinner);
 
-        yearSpinner.setSelection(updateViewModel.getSelectedYearPosition());
         monthSpinner.setSelection(updateViewModel.getSelectedMonthPosition());
-        datesSpinner.setSelection(updateViewModel.getSelectedDatePosition());
 
         preview();
 
-        yearSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                updateViewModel.setSelectedYear(Integer.parseInt(yearSpinner.getSelectedItem().toString()));
-                addMonthsToSpinner(monthSpinner);
-                addDatesToSpinner(datesSpinner);
-                monthSpinner.setSelection(updateViewModel.getSelectedMonthPosition());
-                datesSpinner.setSelection(updateViewModel.getSelectedDatePosition());
-                preview();
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
 
         monthSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.i("Item select", "" + position);
                 updateViewModel.setSelectedMonth(monthSpinner.getSelectedItemPosition());
-                addDatesToSpinner(datesSpinner);
-                datesSpinner.setSelection(updateViewModel.getSelectedDatePosition());
-                preview();
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                Log.i("Item select", "" + parent);
-            }
-        });
-
-        datesSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                updateViewModel.setSelectedDate(Integer.parseInt(datesSpinner.getSelectedItem().toString()));
                 preview();
             }
             @Override
@@ -148,11 +115,7 @@ public class Update extends FragmentActivity {
                     yearSpinner.setVisibility(View.VISIBLE);
                 }
                 addMonthsToSpinner(monthSpinner);
-                addDatesToSpinner(datesSpinner);
                 monthSpinner.setSelection(updateViewModel.getSelectedMonthPosition());
-                datesSpinner.setSelection(updateViewModel.getSelectedDatePosition());
-                yearSpinner.setSelection(updateViewModel.getSelectedYearPosition());
-
                 preview();
             }
         });
@@ -234,20 +197,6 @@ public class Update extends FragmentActivity {
         spinner.setAdapter(dataAdapter);
     }
 
-    public void addDatesToSpinner(Spinner spinner) {
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
-                R.layout.spinner_item, updateViewModel.getDates());
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(dataAdapter);
-    }
-
-    public void addYearsToSpinner(Spinner spinner) {
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
-                R.layout.spinner_item, updateViewModel.getYears());
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(dataAdapter);
-    }
-
     public void preview() {
         updateViewModel.setDateOfBirth();
         dayOfYear = Util.getDayOfYear(updateViewModel.dateOfBirth.getDobDate());
@@ -281,10 +230,10 @@ public class Update extends FragmentActivity {
             desc.setVisibility(View.VISIBLE);
         }
 
-        namePreview.setText(updateViewModel.name);
-        dateField.setText(updateViewModel.date + "");
+        namePreview.setText(updateViewModel.birthdayInfo.name);
+        dateField.setText(updateViewModel.birthdayInfo.date);
         monthField.setText(Util.getStringFromDate(updateViewModel.dateOfBirth.getDobDate(), "MMM"));
-        yearField.setText(updateViewModel.year + "");
+        yearField.setText(updateViewModel.birthdayInfo.year + "");
         desc.setText(updateViewModel.dateOfBirth.getDescription());
     }
 
