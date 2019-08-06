@@ -1,0 +1,41 @@
+{
+  "project_info": {
+    "project_number": "405608185466",
+    "firebase_url": "https://birthdayreminder-f5306.firebaseio.com",
+    "project_id": "birthdayreminder-f5306",
+    "storage_bucket": "birthdayreminder-f5306.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:405608185466:android:7f2e5b09eaf6aaf2",
+        "android_client_info": {
+          "package_name": "com.antandbuffalo.birthdayreminder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "405608185466-3t2k5fdu70m29e40h8alqm6kkb3m0aq4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxqvfi3Gdui0-YCI34mMihgmP6bLMKMj4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "405608185466-3t2k5fdu70m29e40h8alqm6kkb3m0aq4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      },
+      "admob_app_id": "ca-app-pub-7116389331562728~4210792343"
+    }
+  ],
+  "configuration_version": "1"
+}
