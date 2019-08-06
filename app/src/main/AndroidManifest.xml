@@ -11,6 +11,11 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/CustomActionBarTheme">
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-7116389331562728~4210792343"/>
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name">
@@ -56,9 +61,9 @@
             android:name=".wishtemplate.WishTemplate"
             android:label="@string/title_wish_template"
             android:theme="@style/CustomActionBarTheme" />
-        <activity android:name=".sharewish.ShareWish"
-            android:label="@string/title_share_wish"
-        />
+        <activity
+            android:name=".sharewish.ShareWish"
+            android:label="@string/title_share_wish" />
     </application>
 
 </manifest>

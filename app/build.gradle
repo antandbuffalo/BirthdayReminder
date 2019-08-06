@@ -35,6 +35,17 @@ dependencies {
     implementation "android.arch.lifecycle:common-java8:1.1.0"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
+    // Add the Firebase SDK for Google Analytics
+    // implementation 'com.google.firebase:firebase-analytics:17.0.1'
+
+    // Add the SDKs for any other Firebase products you want to use in your app
+    // For example, to use Firebase Authentication and Cloud Firestore
+    // implementation 'com.google.firebase:firebase-auth:16.0.9'
+    // implementation 'com.google.firebase:firebase-firestore:20.2.0'
+
+    // https://stackoverflow.com/questions/49208772/error-resource-androidattr-fontvariationsettings-not-found
+    implementation 'com.google.firebase:firebase-ads:17.2.0'
+    // 17.1.3
 }
 repositories {
     mavenCentral()
