@@ -21,7 +21,6 @@ import java.util.Map;
 public class UpdateViewModel extends ViewModel {
 
     //months starts from 0 for Jan
-    private Boolean isRemoveYear = false;
     private static final int MONTH_FEB = 1;
     DateOfBirth dateOfBirth;
     BirthdayInfo birthdayInfo;
@@ -53,14 +52,14 @@ public class UpdateViewModel extends ViewModel {
     }
 
     public Boolean getRemoveYear() {
-        return isRemoveYear;
+        return birthdayInfo.isRemoveYear;
     }
 
     public void setRemoveYear(Boolean removeYear) {
         if(removeYear) {
             birthdayInfo.year = Constants.REMOVE_YEAR_VALUE.toString();
         }
-        isRemoveYear = removeYear;
+        birthdayInfo.isRemoveYear = removeYear;
     }
 
 
@@ -105,7 +104,7 @@ public class UpdateViewModel extends ViewModel {
         return birthdayInfo.name.equalsIgnoreCase("");
     }
 
-    public Boolean setDateOfBirth() {
+    public Boolean setDateOfBirth(BirthdayInfo birthdayInfo) {
         Calendar calendar = Calendar.getInstance();
         int intDate, intMonth, intYear;
 
@@ -128,6 +127,51 @@ public class UpdateViewModel extends ViewModel {
             Log.e("PARSE_INT", e.getLocalizedMessage());
             return false;
         }
+    }
+
+    public boolean isValidDateOfBirth(BirthdayInfo birthdayInfo) {
+        int intDate, intMonth, intYear;
+        Calendar calendar = Calendar.getInstance();
+        try {
+            intDate = Integer.parseInt(birthdayInfo.date);
+            intMonth = Integer.parseInt(birthdayInfo.month);
+            intYear = Integer.parseInt(birthdayInfo.year);
+            calendar.set(intYear, intMonth, intDate);
+            Date plainDate = calendar.getTime();
+            calendar.setTime(plainDate);
+
+            if(calendar.get(Calendar.DATE) != intDate || calendar.get(Calendar.MONTH) != intMonth || calendar.get(Calendar.YEAR) != intYear) {
+                return false;
+            }
+            return  true;
+        }
+        catch (Exception e) {
+            Log.e("PARSE_INT", e.getLocalizedMessage());
+            return false;
+        }
+    }
+
+    public void setBirthdayInfo(String name, String date, Integer month, String year, Boolean flag) {
+        birthdayInfo.name = (name != null)? name : birthdayInfo.name;
+        birthdayInfo.date = (date != null)? date : birthdayInfo.date;
+        birthdayInfo.month = (month != null)? month.toString() : birthdayInfo.month;
+        birthdayInfo.year = (year != null)? year : birthdayInfo.year;
+        birthdayInfo.isRemoveYear = (flag != null)? flag : birthdayInfo.isRemoveYear;
+    }
+    public void setBirthdayInfoName(String name) {
+        setBirthdayInfo(name, null, null, null, null);
+    }
+    public void setBirthdayInfoDate(String date) {
+        setBirthdayInfo(null, date, null, null, null);
+    }
+    public void setBirthdayInfoMonth(Integer month) {
+        setBirthdayInfo(null, null, month, null, null);
+    }
+    public void setBirthdayInfoYear(String year) {
+        setBirthdayInfo(null, null, null, year, null);
+    }
+    public void setBirthdayInfoRemoveYear(Boolean flag) {
+        setBirthdayInfo(null, null, null, null, flag);
     }
 
     public void delete(long dobId) {

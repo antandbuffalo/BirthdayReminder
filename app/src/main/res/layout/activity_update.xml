@@ -9,7 +9,7 @@
 
     <EditText
         android:layout_width="wrap_content"
-        android:layout_height="30sp"
+        android:layout_height="40sp"
         android:inputType="textPersonName"
         android:hint="Enter Name"
         android:ems="10"
@@ -26,7 +26,7 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="40dp"
         android:layout_below="@+id/personName"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
@@ -38,34 +38,44 @@
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
+            <EditText
+                android:id="@+id/date"
+                android:layout_width="50dp"
+                android:layout_height="40sp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:background="@drawable/addnew_edittext"
+                android:elevation="2dp"
+                android:ems="10"
+                android:hint="DD"
+                android:inputType="date"
+                android:paddingLeft="2dp"
+                android:textColor="@color/addnew_font" />
+
             <Spinner
                 android:id="@+id/monthSpinner"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:dropDownWidth="80dp"
                 android:paddingLeft="3dp"
-                android:background="@color/bg_edit_text"
+                android:layout_marginLeft="15sp"
+                android:background="@drawable/addnew_edittext"
                 android:minWidth="80dp" />
 
-            <Spinner
-                android:id="@+id/dateSpinner"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:dropDownWidth="80dp"
+            <EditText
+                android:id="@+id/year"
+                android:layout_width="60dp"
+                android:layout_height="40sp"
+                android:layout_marginLeft="15sp"
+                android:background="@drawable/addnew_edittext"
+                android:elevation="2dp"
+                android:ems="10"
+                android:hint="YYYY"
+                android:inputType="date"
                 android:paddingLeft="3dp"
-                android:background="@color/bg_edit_text"
-                android:layout_marginLeft="10dp"
-                android:minWidth="80dp" />
-
-            <Spinner
-                android:id="@+id/yearSpinner"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:dropDownWidth="80dp"
-                android:paddingLeft="3dp"
-                android:background="@color/bg_edit_text"
-                android:layout_marginLeft="10dp"
-                android:minWidth="80dp" />
+                android:textColor="@color/addnew_font" />
 
         </LinearLayout>
 

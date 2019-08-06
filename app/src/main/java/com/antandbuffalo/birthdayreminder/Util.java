@@ -440,7 +440,8 @@ public class Util {
         String[] months = new DateFormatSymbols().getShortMonths();
         List<String> monthsList = Arrays.asList(months);
         for(int i = 0; i < monthsList.size(); i++) {
-            monthsList.set(i, monthsList.get(i) + " (" + (i + 1) + ")");
+            String digit = getTwoDigitsString(i + 1);
+            monthsList.set(i, digit + " - " + monthsList.get(i));
         }
 
         return monthsList;

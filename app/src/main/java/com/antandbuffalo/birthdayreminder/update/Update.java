@@ -37,7 +37,8 @@ public class Update extends FragmentActivity {
     private UpdateViewModel updateViewModel;
     int dayOfYear, currentDayOfYear, recentDayOfYear;
     TextView namePreview, desc, dateField, monthField, yearField;
-    Spinner yearSpinner, monthSpinner, datesSpinner;
+    Spinner monthSpinner;
+    EditText dateText, yearText;
     LinearLayout circle;
     ImageButton update, cancel, delete;
     CheckBox removeYear;
@@ -56,24 +57,24 @@ public class Update extends FragmentActivity {
         initLayout();
 
         name.setText(updateViewModel.birthdayInfo.name);
+        dateText.setText(updateViewModel.birthdayInfo.date);
+        yearText.setText(updateViewModel.birthdayInfo.year);
         removeYear.setChecked(updateViewModel.birthdayInfo.isRemoveYear);
 
         if(updateViewModel.birthdayInfo.isRemoveYear) {
-            yearSpinner.setVisibility(View.INVISIBLE);
+            yearText.setVisibility(View.INVISIBLE);
         }
         else {
-            yearSpinner.setVisibility(View.VISIBLE);
+            yearText.setVisibility(View.VISIBLE);
         }
 
         currentDayOfYear = Util.getCurrentDayOfYear();
         recentDayOfYear = Util.getRecentDayOfYear();
 
         addMonthsToSpinner(monthSpinner);
-
         monthSpinner.setSelection(updateViewModel.getSelectedMonthPosition());
 
         preview();
-
 
         monthSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -109,10 +110,10 @@ public class Update extends FragmentActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 updateViewModel.setRemoveYear(isChecked);
                 if(isChecked) {
-                    yearSpinner.setVisibility(View.INVISIBLE);
+                    yearText.setVisibility(View.INVISIBLE);
                 }
                 else {
-                    yearSpinner.setVisibility(View.VISIBLE);
+                    yearText.setVisibility(View.VISIBLE);
                 }
                 addMonthsToSpinner(monthSpinner);
                 monthSpinner.setSelection(updateViewModel.getSelectedMonthPosition());
@@ -161,7 +162,7 @@ public class Update extends FragmentActivity {
             @Override
             public void onClick(View v) {
                 updateViewModel.setName(name.getText().toString());
-                updateViewModel.setDateOfBirth();
+                updateViewModel.setDateOfBirth(updateViewModel.birthdayInfo);
 
                 if (updateViewModel.isNameEmpty()) {
                     //show error
@@ -197,8 +198,30 @@ public class Update extends FragmentActivity {
         spinner.setAdapter(dataAdapter);
     }
 
+    public void populateBirthdayInfo() {
+        updateViewModel.setBirthdayInfoName(name.getText().toString());
+        updateViewModel.setBirthdayInfoDate(dateText.getText().toString());
+        updateViewModel.setBirthdayInfoMonth(monthSpinner.getSelectedItemPosition());
+        updateViewModel.setBirthdayInfoRemoveYear(removeYear.isChecked());
+
+        updateViewModel.setBirthdayInfoYear(updateViewModel.birthdayInfo.isRemoveYear? Constants.REMOVE_YEAR_VALUE.toString() : yearText.getText().toString());
+    }
+
     public void preview() {
-        updateViewModel.setDateOfBirth();
+        if(!updateViewModel.isValidDateOfBirth(updateViewModel.birthdayInfo)) {
+            if(updateViewModel.birthdayInfo.name == null || ("".equalsIgnoreCase(updateViewModel.birthdayInfo.name))) {
+                namePreview.setText("Enter Name");
+                desc.setText("Age");
+            } else {
+                namePreview.setText("Error in birthdate");
+                desc.setText("Please enter valid date");
+            }
+            return;
+        }
+        populateBirthdayInfo();
+
+        namePreview.setText(updateViewModel.birthdayInfo.name);
+        updateViewModel.setDateOfBirth(updateViewModel.birthdayInfo);
         dayOfYear = Util.getDayOfYear(updateViewModel.dateOfBirth.getDobDate());
 
         if(dayOfYear == currentDayOfYear) {
@@ -226,11 +249,14 @@ public class Update extends FragmentActivity {
             desc.setVisibility(View.INVISIBLE);
         }
         else {
+            if(updateViewModel.dateOfBirth.getAge() < 0) {
+                desc.setVisibility(View.INVISIBLE);
+            } else {
+                desc.setVisibility(View.VISIBLE);
+            }
             yearField.setVisibility(View.VISIBLE);
-            desc.setVisibility(View.VISIBLE);
         }
 
-        namePreview.setText(updateViewModel.birthdayInfo.name);
         dateField.setText(updateViewModel.birthdayInfo.date);
         monthField.setText(Util.getStringFromDate(updateViewModel.dateOfBirth.getDobDate(), "MMM"));
         yearField.setText(updateViewModel.birthdayInfo.year + "");
@@ -241,8 +267,8 @@ public class Update extends FragmentActivity {
         name = (EditText)findViewById(R.id.personName);
 
         monthSpinner = (Spinner) findViewById(R.id.monthSpinner);
-        datesSpinner = (Spinner) findViewById(R.id.dateSpinner);
-        yearSpinner = (Spinner) findViewById(R.id.yearSpinner);
+        dateText = findViewById(R.id.date);
+        yearText = findViewById(R.id.year);
 
         removeYear = (CheckBox) findViewById(R.id.removeYear);
 
