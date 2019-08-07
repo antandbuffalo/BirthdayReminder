@@ -52,6 +52,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     RelativeLayout mainContainer;
     AlarmManager alarmManager;
     int currentTabPosition;
+    private AdView mAdView;
 
 /*    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -64,6 +65,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initValues();
+        loadAd();
         //DobDBHelper.deleteAll();
         //DobDBHelper.addDOB();
         //DobDBHelper.selectAll(); 
@@ -159,6 +161,12 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), (60   * 1000), pendingIntent);
 
         //alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(), (5 * 1000), pendingIntent);
+    }
+
+    public void loadAd() {
+        mAdView = this.findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
     }
 
     @Override

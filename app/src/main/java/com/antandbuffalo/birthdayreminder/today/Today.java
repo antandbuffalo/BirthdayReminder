@@ -23,7 +23,6 @@ import com.google.android.gms.ads.MobileAds;
  */
 public class  Today extends MyFragment {
     TodayListAdapter todayListAdapter;
-    private AdView mAdView;
 
     public static Today newInstance() {
         Today fragment = new Today();
@@ -43,10 +42,6 @@ public class  Today extends MyFragment {
         //http://stackoverflow.com/questions/6495898/findviewbyid-in-fragment
         ListView todayList = (ListView)rootView.findViewById(R.id.listView1);
         todayList.setAdapter(todayListAdapter);
-
-        mAdView = rootView.findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
 
         todayList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
