@@ -26,6 +26,8 @@ import com.antandbuffalo.birthdayreminder.R;
 import com.antandbuffalo.birthdayreminder.Util;
 import com.antandbuffalo.birthdayreminder.database.DBHelper;
 import com.antandbuffalo.birthdayreminder.model.BirthdayInfo;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 public class AddNew extends FragmentActivity {
     EditText name;
@@ -40,6 +42,7 @@ public class AddNew extends FragmentActivity {
     Spinner monthSpinner;
 
     ImageButton save, cancel;
+    AdView mAdView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +60,8 @@ public class AddNew extends FragmentActivity {
         recentDayOfYear = Util.getRecentDayOfYear();
 
         initViewValues();
+
+        loadAd();
 
         name.addTextChangedListener(new TextWatcher() {
             @Override
@@ -311,6 +316,8 @@ public class AddNew extends FragmentActivity {
         yearField = (TextView)findViewById(R.id.yearField);
 
         circle = (LinearLayout)findViewById(R.id.circlebg);
+
+        mAdView = this.findViewById(R.id.adView);
     }
 
     public void initViewValues() {
@@ -324,5 +331,10 @@ public class AddNew extends FragmentActivity {
     public void clearInputs() {
         addNewViewModel.initDefaults();
         initViewValues();
+    }
+
+    public void loadAd() {
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
     }
 }

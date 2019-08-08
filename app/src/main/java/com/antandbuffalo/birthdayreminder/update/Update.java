@@ -26,6 +26,8 @@ import com.antandbuffalo.birthdayreminder.DateOfBirth;
 import com.antandbuffalo.birthdayreminder.R;
 import com.antandbuffalo.birthdayreminder.Util;
 import com.antandbuffalo.birthdayreminder.database.DBHelper;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import java.util.Map;
 
@@ -43,6 +45,8 @@ public class Update extends FragmentActivity {
     ImageButton update, cancel, delete;
     CheckBox removeYear;
 
+    AdView mAdView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +59,8 @@ public class Update extends FragmentActivity {
         currentDOB = (DateOfBirth)getIntent().getSerializableExtra("currentDOB");
         updateViewModel.initDefaults(currentDOB);
         initLayout();
+
+        loadAd();
 
         name.setText(updateViewModel.birthdayInfo.name);
         dateText.setText(updateViewModel.birthdayInfo.date);
@@ -294,6 +300,13 @@ public class Update extends FragmentActivity {
 
         update = (ImageButton)findViewById(R.id.save);
         update.setBackgroundResource(R.drawable.save_button);
+
+        mAdView = findViewById(R.id.adView);
+    }
+
+    public void loadAd() {
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
     }
 
     public void clearInputs() {

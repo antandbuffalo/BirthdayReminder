@@ -13,4 +13,11 @@
     <string name="title_activity_notification_settings">Notification Settings</string>
     <string name="title_wish_template">Wish Template</string>
     <string name="title_share_wish">Share Wish</string>
+
+    <string name="ad_main">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="ad_today">ca-app-pub-3940256099942544/6300978111</string>
+
+    <!--<string name="ad_main">ca-app-pub-7116389331562728/5603727070</string>-->
+    <!--<string name="ad_today">ca-app-pub-7116389331562728/6247898368</string>-->
+
 </resources>

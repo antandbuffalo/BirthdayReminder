@@ -29,11 +29,6 @@
         android:layout_centerHorizontal="true"
         android:background="#00D33636"
         ads:adSize="BANNER"
-        ads:adUnitId="ca-app-pub-3940256099942544/6300978111"></com.google.android.gms.ads.AdView>
-
-    <!--main: ca-app-pub-7116389331562728/5603727070-->
-
-    <!--today: ca-app-pub-7116389331562728/6247898368>-->
-
+        ads:adUnitId="@string/ad_main"></com.google.android.gms.ads.AdView>
 
 </RelativeLayout>
