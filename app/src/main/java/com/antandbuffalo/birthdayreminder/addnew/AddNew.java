@@ -316,8 +316,6 @@ public class AddNew extends FragmentActivity {
         yearField = (TextView)findViewById(R.id.yearField);
 
         circle = (LinearLayout)findViewById(R.id.circlebg);
-
-        mAdView = this.findViewById(R.id.adView);
     }
 
     public void initViewValues() {
@@ -334,6 +332,7 @@ public class AddNew extends FragmentActivity {
     }
 
     public void loadAd() {
+        mAdView = this.findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
     }

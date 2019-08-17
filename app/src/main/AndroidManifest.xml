@@ -27,6 +27,7 @@
         </activity>
         <activity
             android:name=".addnew.AddNew"
+            android:windowSoftInputMode="adjustPan"
             android:label="@string/title_activity_add_new" />
         <activity
             android:name=".restore.RestoreBackup"

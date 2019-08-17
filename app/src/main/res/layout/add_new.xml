@@ -7,14 +7,6 @@
     android:paddingBottom="16dp"
     tools:context="com.antandbuffalo.birthdayreminder.addnew.AddNew">
 
-    <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/adView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#00D33636"
-        ads:adSize="BANNER"
-        ads:adUnitId="@string/ad_addnew"></com.google.android.gms.ads.AdView>
-
     <EditText
         android:id="@+id/personName"
         android:layout_width="wrap_content"
@@ -23,7 +15,6 @@
         android:layout_alignParentEnd="true"
         android:layout_marginLeft="2sp"
         android:layout_marginRight="2sp"
-        android:layout_marginTop="60dp"
         android:background="@drawable/addnew_edittext"
         android:elevation="2dp"
         android:ems="10"
@@ -228,5 +219,16 @@
             android:padding="12dp" />
 
     </LinearLayout>
+
+    <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView"
+        android:layout_width="320dp"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="#00D33636"
+        ads:adSize="BANNER"
+        android:layout_marginTop="10dp"
+        ads:adUnitId="@string/ad_addnew"></com.google.android.gms.ads.AdView>
 
 </RelativeLayout>

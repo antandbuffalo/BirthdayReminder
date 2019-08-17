@@ -441,7 +441,7 @@ public class Util {
         List<String> monthsList = Arrays.asList(months);
         for(int i = 0; i < monthsList.size(); i++) {
             String digit = getTwoDigitsString(i + 1);
-            monthsList.set(i, digit + " - " + monthsList.get(i));
+            monthsList.set(i, monthsList.get(i) + " (" + digit + ")");
         }
 
         return monthsList;
