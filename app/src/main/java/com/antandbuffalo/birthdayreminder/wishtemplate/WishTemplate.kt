@@ -15,6 +15,8 @@ import com.antandbuffalo.birthdayreminder.Constants
 import com.antandbuffalo.birthdayreminder.R
 import com.antandbuffalo.birthdayreminder.Util
 import com.antandbuffalo.birthdayreminder.settings.SettingsViewModel
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
 
 class WishTemplate : Activity()  {
 
@@ -33,6 +35,10 @@ class WishTemplate : Activity()  {
 
         val editText = findViewById (R.id.wishTemplate1) as EditText
         editText.setText(currentTemplate)
+
+        val adView = findViewById (R.id.adView) as AdView;
+        val adRequest = AdRequest.Builder().build()
+        adView.loadAd(adRequest)
 
         save.setOnClickListener {
             val editor = settingsPreference.edit()

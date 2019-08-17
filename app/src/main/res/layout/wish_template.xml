@@ -4,6 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingBottom="0dp"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.antandbuffalo.birthdayreminder.wishtemplate.WishTemplate">
 
     <EditText
@@ -32,13 +36,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="20dp"
-        android:layout_marginEnd="10dp"
         android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="50dp"
         android:gravity="center"
         android:orientation="horizontal"
         android:weightSum="1"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/adView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
@@ -46,10 +50,10 @@
             android:id="@+id/cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
             android:layout_marginLeft="2dp"
-            android:layout_marginRight="15dp"
             android:layout_marginTop="2dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="2dp"
             android:background="@color/cancel_button_default"
             android:elevation="2dp"
             android:padding="12dp"
@@ -61,10 +65,10 @@
             android:id="@+id/save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
             android:layout_marginLeft="15dp"
-            android:layout_marginRight="2dp"
             android:layout_marginTop="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginBottom="2dp"
             android:background="@color/save_button_default"
             android:elevation="2dp"
             android:padding="12dp"
@@ -72,7 +76,19 @@
             android:text="Save"
             android:textColor="@color/white" />
 
-
     </LinearLayout>
+
+    <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="#00D33636"
+        ads:adSize="BANNER"
+        ads:adUnitId="@string/ad_wishtemplate"
+        ads:layout_constraintBottom_toBottomOf="parent"
+        ads:layout_constraintEnd_toEndOf="parent"
+        ads:layout_constraintStart_toStartOf="parent"></com.google.android.gms.ads.AdView>
 
 </android.support.constraint.ConstraintLayout>

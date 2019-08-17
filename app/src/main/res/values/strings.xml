@@ -14,10 +14,22 @@
     <string name="title_wish_template">Wish Template</string>
     <string name="title_share_wish">Share Wish</string>
 
+    <string name="ad_addnew">ca-app-pub-3940256099942544/6300978111</string>
     <string name="ad_main">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="ad_today">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="ad_modifytoday">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="ad_notificationsetting">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="ad_sendwish">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="ad_update">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="ad_wishtemplate">ca-app-pub-3940256099942544/6300978111</string>
 
+
+    <!--<string name="ad_addnew">ca-app-pub-7116389331562728/6247898368</string>-->
     <!--<string name="ad_main">ca-app-pub-7116389331562728/5603727070</string>-->
-    <!--<string name="ad_today">ca-app-pub-7116389331562728/6247898368</string>-->
+    <!--<string name="ad_modifytoday">ca-app-pub-7116389331562728/3862160178</string>-->
+    <!--<string name="ad_notificationsetting">ca-app-pub-7116389331562728/1110313255</string>-->
+    <!--<string name="ad_sendwish">ca-app-pub-7116389331562728/2886429354</string>-->
+    <!--<string name="ad_update">ca-app-pub-7116389331562728/2531206139</string>-->
+    <!--<string name="ad_wishtemplate">ca-app-pub-7116389331562728/4391082719</string>-->
+
 
 </resources>

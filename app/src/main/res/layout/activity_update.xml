@@ -243,6 +243,6 @@
         android:background="#00D33636"
         ads:adSize="BANNER"
         android:layout_marginBottom="0dp"
-        ads:adUnitId="@string/ad_today"></com.google.android.gms.ads.AdView>
+        ads:adUnitId="@string/ad_update"></com.google.android.gms.ads.AdView>
 
 </RelativeLayout>

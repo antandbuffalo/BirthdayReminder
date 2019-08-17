@@ -16,11 +16,14 @@ import android.widget.Toast;
 import com.antandbuffalo.birthdayreminder.Constants;
 import com.antandbuffalo.birthdayreminder.R;
 import com.antandbuffalo.birthdayreminder.Util;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import java.lang.reflect.Field;
 
 public class ModifyToday extends Activity {
     Intent intent;
+    AdView mAdView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +46,9 @@ public class ModifyToday extends Activity {
 
         ImageButton cancel = (ImageButton)findViewById(R.id.cancel);
         cancel.setBackgroundResource(R.drawable.cancel_button);
+
+        mAdView = this.findViewById(R.id.adView);
+        loadAd();
 
         save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,4 +103,8 @@ public class ModifyToday extends Activity {
         return false;
     }
 
+    public void loadAd() {
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+    }
 }

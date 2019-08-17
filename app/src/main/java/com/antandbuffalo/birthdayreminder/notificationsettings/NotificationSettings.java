@@ -16,11 +16,14 @@ import android.widget.Toast;
 import com.antandbuffalo.birthdayreminder.Constants;
 import com.antandbuffalo.birthdayreminder.R;
 import com.antandbuffalo.birthdayreminder.Util;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import java.lang.reflect.Field;
 
 public class NotificationSettings extends Activity {
     Intent intent;
+    AdView adView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +47,9 @@ public class NotificationSettings extends Activity {
 
         ImageButton cancel = (ImageButton)findViewById(R.id.cancel);
         cancel.setBackgroundResource(R.drawable.cancel_button);
+
+        adView = findViewById(R.id.adView);
+        loadAd();
 
         save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,4 +104,8 @@ public class NotificationSettings extends Activity {
         return false;
     }
 
+    public void loadAd() {
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
+    }
 }

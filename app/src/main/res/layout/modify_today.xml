@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingBottom="0dp"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
@@ -36,7 +36,7 @@
         android:id="@+id/buttonsLayout"
         android:layout_alignParentBottom="true"
         android:layout_alignStart="@+id/mtLable1"
-        android:layout_marginBottom="45dp">
+        android:layout_marginBottom="70dp">
 
         <ImageButton
             android:layout_width="wrap_content"
@@ -70,5 +70,16 @@
 
 
     </LinearLayout>
+
+    <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="#00D33636"
+        ads:adSize="BANNER"
+        android:layout_marginBottom="0dp"
+        ads:adUnitId="@string/ad_update"></com.google.android.gms.ads.AdView>
 
 </RelativeLayout>
