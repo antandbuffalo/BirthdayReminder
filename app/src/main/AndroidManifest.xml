@@ -43,6 +43,7 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.REBOOT"/> <!-- This is for MIUI -->
             </intent-filter>
         </receiver>
 
