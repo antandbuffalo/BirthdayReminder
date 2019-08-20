@@ -111,6 +111,42 @@ public class Update extends FragmentActivity {
             }
         });
 
+        dateText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                updateViewModel.setBirthdayInfoDate(dateText.getText().toString());
+                preview();
+            }
+        });
+
+        yearText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                updateViewModel.setBirthdayInfoYear(yearText.getText().toString());
+                preview();
+            }
+        });
+
         removeYear.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -167,7 +203,7 @@ public class Update extends FragmentActivity {
         update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateViewModel.setName(name.getText().toString());
+                populateBirthdayInfo();
                 updateViewModel.setDateOfBirth(updateViewModel.birthdayInfo);
 
                 if (updateViewModel.isNameEmpty()) {
