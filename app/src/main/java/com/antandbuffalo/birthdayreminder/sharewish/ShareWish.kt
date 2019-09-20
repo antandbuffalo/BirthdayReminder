@@ -11,6 +11,8 @@ import com.antandbuffalo.birthdayreminder.Constants
 import com.antandbuffalo.birthdayreminder.DateOfBirth
 import com.antandbuffalo.birthdayreminder.R
 import com.antandbuffalo.birthdayreminder.Util
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
 
 class ShareWish : Activity() {
 
@@ -28,6 +30,10 @@ class ShareWish : Activity() {
 
         val btnCancel = findViewById<View>(R.id.cancel) as ImageButton
         btnCancel.setBackgroundResource(R.drawable.cancel_button)
+
+        val adView = findViewById (R.id.adView) as AdView;
+        val adRequest = AdRequest.Builder().build()
+        adView.loadAd(adRequest)
 
         btnSend.setOnClickListener(View.OnClickListener {
             //create the sharing intent

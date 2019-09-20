@@ -10,6 +10,8 @@ import android.widget.TextView;
 import com.antandbuffalo.birthdayreminder.BuildConfig;
 import com.antandbuffalo.birthdayreminder.Constants;
 import com.antandbuffalo.birthdayreminder.R;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 public class About extends Activity {
 
@@ -20,6 +22,10 @@ public class About extends Activity {
 
         TextView version = (TextView)findViewById(R.id.version);
         version.setText("Version " + BuildConfig.VERSION_NAME + " (" + BuildConfig.VERSION_CODE + ")");
+
+        AdView mAdView = this.findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
         Button contactUs = (Button)findViewById(R.id.contactUs);
         contactUs.setOnClickListener(new View.OnClickListener() {
