@@ -40,6 +40,7 @@ import com.antandbuffalo.birthdayreminder.database.OptionsDBHelper;
 import com.antandbuffalo.birthdayreminder.fragments.MyFragment;
 import com.antandbuffalo.birthdayreminder.modifytoday.ModifyToday;
 import com.antandbuffalo.birthdayreminder.notificationsettings.NotificationSettings;
+import com.antandbuffalo.birthdayreminder.notificationtime.NotificationTime;
 import com.antandbuffalo.birthdayreminder.wishtemplate.WishTemplate;
 
 import java.util.Date;
@@ -122,6 +123,10 @@ public class Settings extends MyFragment {
                     getActivity().startActivityForResult(intent, Constants.REFRESH_SETTINGS);
                 } else if (selectedOption.getKey().equalsIgnoreCase(Constants.SETTINGS_WISH_TEMPLATE)) {
                     Intent intent = new Intent(view.getContext(), WishTemplate.class);
+                    getActivity().startActivityForResult(intent, Constants.REFRESH_SETTINGS);
+                }
+                else if (selectedOption.getKey().equalsIgnoreCase(Constants.SETTINGS_NOTIFICATION_TIME)) {
+                    Intent intent = new Intent(view.getContext(), NotificationTime.class);
                     getActivity().startActivityForResult(intent, Constants.REFRESH_SETTINGS);
                 }
             }
