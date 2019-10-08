@@ -15,13 +15,13 @@ import java.util.Set;
 public class Constants {
 
     public static final String ADMOB_APP_ID = "ca-app-pub-7116389331562728~4210792343";
-    public static final String ad_main = "ca-app-pub-7116389331562728/5603727070";
-    public static final String ad_today = "ca-app-pub-7116389331562728/6247898368";
 
     // Database Name
     public static final String DATABASE_NAME = "BirthdayReminder";
     public static final int DATABASE_VERSION = 3;
     //version - 3 adding optional year column
+
+    public static final long OPTIONS_TABLE_NUMBER_OF_ROWS = 8;
 
     // Contacts table name
     public static final String TABLE_DATE_OF_BIRTH = "DATE_OF_BIRTH";
@@ -74,6 +74,7 @@ public class Constants {
     public static final String SETTINGS_ABOUT = "ABOUT";
     public static final String SETTINGS_MODIFY_TODAY = "SETTINGS_MODIFY_TODAY";
     public static final String SETTINGS_NOTIFICATION = "SETTINGS_NOTIFICATION";
+    public static final String SETTINGS_NOTIFICATION_TIME = "SETTINGS_NOTIFICATION_TIME";
     public static final String SETTINGS_WISH_TEMPLATE = "SETTINGS_WISH_TEMPLATE";
 
     public static final Map<String, Integer> OPIONS_SNO_MAPPER = new HashMap<String, Integer>() {{
@@ -154,8 +155,6 @@ public class Constants {
     public static final String PREFERENCE_WISH_TEMPLATE = "PREFERENCE_WISH_TEMPLATE";
 
     public static final String TYPE_ADD_NEW = "AddNew";
-
-    public static final long OPTIONS_TABLE_NUMBER_OF_ROWS = 7;
 
     public static final String SETTINGS_ICON_LETTER = "SETTINGS_ICON_LETTER";
 
