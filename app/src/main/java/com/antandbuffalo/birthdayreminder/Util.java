@@ -6,8 +6,12 @@ import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.graphics.Paint;
 import android.os.Environment;
 import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.Toast;
 
 import com.antandbuffalo.birthdayreminder.database.DBHelper;
@@ -29,6 +33,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.lang.reflect.Field;
 import java.text.DateFormat;
 import java.text.DateFormatSymbols;
 import java.text.ParseException;
@@ -483,5 +488,33 @@ public class Util {
         cal.setTime(new Date());
         cal.add(Calendar.DATE, days);
         return cal.getTime();
+    }
+
+    public static boolean setNumberPickerTextColor(NumberPicker numberPicker, int color) {
+        final int count = numberPicker.getChildCount();
+        for(int i = 0; i < count; i++){
+            View child = numberPicker.getChildAt(i);
+            if(child instanceof EditText){
+                try{
+                    Field selectorWheelPaintField = numberPicker.getClass()
+                            .getDeclaredField("mSelectorWheelPaint");
+                    selectorWheelPaintField.setAccessible(true);
+                    ((Paint)selectorWheelPaintField.get(numberPicker)).setColor(color);
+                    ((EditText)child).setTextColor(color);
+                    numberPicker.invalidate();
+                    return true;
+                }
+                catch(NoSuchFieldException e){
+                    Log.w("setNumberPickerTextCol", e);
+                }
+                catch(IllegalAccessException e){
+                    Log.w("setNumberPickerTextCol", e);
+                }
+                catch(IllegalArgumentException e){
+                    Log.w("setNumberPickerTextC", e);
+                }
+            }
+        }
+        return false;
     }
 }
