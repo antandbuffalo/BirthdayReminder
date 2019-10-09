@@ -1,7 +1,10 @@
 package com.antandbuffalo.birthdayreminder;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
@@ -18,6 +21,7 @@ import com.antandbuffalo.birthdayreminder.database.DBHelper;
 import com.antandbuffalo.birthdayreminder.database.DateOfBirthDBHelper;
 
 import com.antandbuffalo.birthdayreminder.database.OptionsDBHelper;
+import com.antandbuffalo.birthdayreminder.notification.AlarmReceiver;
 import com.antandbuffalo.birthdayreminder.settings.SettingsModel;
 
 import org.json.JSONException;
@@ -490,31 +494,25 @@ public class Util {
         return cal.getTime();
     }
 
-    public static boolean setNumberPickerTextColor(NumberPicker numberPicker, int color) {
-        final int count = numberPicker.getChildCount();
-        for(int i = 0; i < count; i++){
-            View child = numberPicker.getChildAt(i);
-            if(child instanceof EditText){
-                try{
-                    Field selectorWheelPaintField = numberPicker.getClass()
-                            .getDeclaredField("mSelectorWheelPaint");
-                    selectorWheelPaintField.setAccessible(true);
-                    ((Paint)selectorWheelPaintField.get(numberPicker)).setColor(color);
-                    ((EditText)child).setTextColor(color);
-                    numberPicker.invalidate();
-                    return true;
-                }
-                catch(NoSuchFieldException e){
-                    Log.w("setNumberPickerTextCol", e);
-                }
-                catch(IllegalAccessException e){
-                    Log.w("setNumberPickerTextCol", e);
-                }
-                catch(IllegalArgumentException e){
-                    Log.w("setNumberPickerTextC", e);
-                }
-            }
-        }
-        return false;
+    public static void setRepeatingAlarm(Context context, AlarmManager alarmManager, int hour, int minute) {
+        Log.i("UTIL", "Setting repeating alarm in util");
+
+        Intent intent = new Intent(context, AlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 123,
+                intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        Calendar calendar = Calendar.getInstance();
+        // 12:00 AM
+        calendar.set(Calendar.HOUR_OF_DAY, hour);
+        calendar.set(Calendar.MINUTE, minute);
+        calendar.set(Calendar.SECOND, 0);
+
+        //Send notification twice a day
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_HALF_DAY, pendingIntent);
+
+        //Send notification every 5 seconds
+        //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), (60   * 1000), pendingIntent);
+
+        //alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(), (5 * 1000), pendingIntent);
     }
+
 }

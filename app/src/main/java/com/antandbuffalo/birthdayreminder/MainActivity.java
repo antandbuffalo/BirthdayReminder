@@ -144,18 +144,24 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     }
 
     public void setRepeatingAlarm() {
-        System.out.println("Setting alarm");
-        Intent intent = new Intent(this, AlarmReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 123,
-                intent, PendingIntent.FLAG_CANCEL_CURRENT);
-        Calendar calendar = Calendar.getInstance();
-        // 12:00 AM
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
+        Log.i("MAIN", "Setting repeating alarm in main activity");
+        SharedPreferences settings = getSharedPreferences(Constants.PREFERENCE_NAME, 0);
+        int hour = settings.getInt(Constants.PREFERENCE_NOTIFICATION_TIME_HOURS, 0);
+        int minute = settings.getInt(Constants.PREFERENCE_NOTIFICATION_TIME_MINUTES, 0);
 
-        //Send notification twice a day
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_HALF_DAY, pendingIntent);
+        Util.setRepeatingAlarm(this, alarmManager, hour, minute);
+
+//        Intent intent = new Intent(this, AlarmReceiver.class);
+//        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 123,
+//                intent, PendingIntent.FLAG_CANCEL_CURRENT);
+//        Calendar calendar = Calendar.getInstance();
+//        // 12:00 AM
+//        calendar.set(Calendar.HOUR_OF_DAY, 0);
+//        calendar.set(Calendar.MINUTE, 0);
+//        calendar.set(Calendar.SECOND, 0);
+//
+//        //Send notification twice a day
+//        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_HALF_DAY, pendingIntent);
 
         //Send notification every 5 seconds
         //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), (60   * 1000), pendingIntent);

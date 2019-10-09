@@ -1,15 +1,22 @@
 package com.antandbuffalo.birthdayreminder.notificationtime;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.NumberPicker;
+import android.widget.TimePicker;
+import android.widget.Toast;
 
+import com.antandbuffalo.birthdayreminder.Constants;
 import com.antandbuffalo.birthdayreminder.R;
 import com.antandbuffalo.birthdayreminder.Util;
 import com.google.android.gms.ads.AdRequest;
@@ -19,6 +26,7 @@ import java.text.DateFormat;
 
 public class NotificationTime extends Activity {
     Intent intent;
+    boolean is24HourFormat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,12 +36,9 @@ public class NotificationTime extends Activity {
         final SharedPreferences settings = Util.getSharedPreference();
         intent = new Intent();
 
-        final NumberPicker numberPicker = (NumberPicker) findViewById(R.id.notificationTimeHrs);
-        Util.setNumberPickerTextColor(numberPicker, Color.WHITE);
-        numberPicker.setWrapSelectorWheel(true);
-        numberPicker.setMaxValue(23);
-        numberPicker.setMinValue(0);
-        numberPicker.setWrapSelectorWheel(false);
+        TimePicker picker=(TimePicker)findViewById(R.id.notificationTimePicker);
+        is24HourFormat = android.text.format.DateFormat.is24HourFormat(this);
+        picker.setIs24HourView(is24HourFormat);
 
         ImageButton save = findViewById(R.id.save);
         save.setBackgroundResource(R.drawable.save_button);
@@ -41,10 +46,33 @@ public class NotificationTime extends Activity {
         ImageButton cancel = findViewById(R.id.cancel);
         cancel.setBackgroundResource(R.drawable.cancel_button);
 
-        loadAd();
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int hour, minute;
+                if (Build.VERSION.SDK_INT >= 23 ){
+                    hour = picker.getHour();
+                    minute = picker.getMinute();
+                }
+                else{
+                    hour = picker.getCurrentHour();
+                    minute = picker.getCurrentMinute();
+                }
+                AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                Util.setRepeatingAlarm(getApplicationContext(), alarmManager, hour, minute);
 
-        boolean is24HourFormat = android.text.format.DateFormat.is24HourFormat(this);
-        Log.i("format", is24HourFormat + "");
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putInt(Constants.PREFERENCE_NOTIFICATION_TIME_HOURS, hour);
+                editor.putInt(Constants.PREFERENCE_NOTIFICATION_TIME_MINUTES, minute);
+                editor.commit();
+                Toast toast = Toast.makeText(getApplicationContext(), "Notification Time updated successfully", Toast.LENGTH_SHORT);
+                toast.show();
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+        });
+
+        loadAd();
     }
 
     public void loadAd() {
