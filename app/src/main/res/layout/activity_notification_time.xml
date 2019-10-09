@@ -6,17 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".notificationtime.NotificationTime">
 
-    <NumberPicker
-        android:id="@+id/notificationTimeHrs"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/mtLable2"
-        android:layout_centerHorizontal="true"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
-
     <TextView
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
@@ -106,5 +95,32 @@
         ads:layout_constraintBottom_toBottomOf="parent"
         ads:layout_constraintEnd_toEndOf="parent"
         ads:layout_constraintStart_toStartOf="parent"></com.google.android.gms.ads.AdView>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView6">
+
+        <NumberPicker
+            android:id="@+id/notificationTimeHrs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mtLable2"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="0"
+            android:orientation="vertical" />
+
+        <NumberPicker
+            android:id="@+id/notificationTimeHrs2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mtLable2"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="0"
+            android:orientation="vertical" />
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

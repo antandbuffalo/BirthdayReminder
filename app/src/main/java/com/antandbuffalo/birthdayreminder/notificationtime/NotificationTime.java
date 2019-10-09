@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.NumberPicker;
@@ -13,6 +14,8 @@ import com.antandbuffalo.birthdayreminder.R;
 import com.antandbuffalo.birthdayreminder.Util;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+
+import java.text.DateFormat;
 
 public class NotificationTime extends Activity {
     Intent intent;
@@ -38,8 +41,10 @@ public class NotificationTime extends Activity {
         ImageButton cancel = findViewById(R.id.cancel);
         cancel.setBackgroundResource(R.drawable.cancel_button);
 
-
         loadAd();
+
+        boolean is24HourFormat = android.text.format.DateFormat.is24HourFormat(this);
+        Log.i("format", is24HourFormat + "");
     }
 
     public void loadAd() {
