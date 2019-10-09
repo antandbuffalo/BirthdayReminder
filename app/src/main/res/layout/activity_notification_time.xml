@@ -26,6 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="50dp"
         android:text="Hours"
         android:textAlignment="center"
@@ -34,7 +35,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/notificationTimeHrs" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
     <LinearLayout
         android:id="@+id/buttonsLayout"
@@ -97,6 +98,7 @@
         ads:layout_constraintStart_toStartOf="parent"></com.google.android.gms.ads.AdView>
 
     <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -113,14 +115,14 @@
             android:layout_marginTop="0"
             android:orientation="vertical" />
 
-        <NumberPicker
-            android:id="@+id/notificationTimeHrs2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/mtLable2"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="0"
-            android:orientation="vertical" />
     </LinearLayout>
+
+    <Spinner
+        android:id="@+id/spinner2"
+        android:layout_width="79dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="70dp"
+        app:layout_constraintStart_toEndOf="@+id/linearLayout2"
+        app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
 </android.support.constraint.ConstraintLayout>
