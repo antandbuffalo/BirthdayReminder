@@ -87,10 +87,10 @@ public class OptionsDBHelper {
 
         datum = SettingsModel.newInstance();
         datum.setKey(Constants.SETTINGS_NOTIFICATION_TIME);
-        datum.setTitle("Notify me at");
+        datum.setTitle("Set Notification Time");
         datum.setSubTitle("");
         extraFields = new JSONObject();
-        Util.validateAndSetExtra(extraFields, Constants.SETTINGS_ICON_LETTER, "N");
+        Util.validateAndSetExtra(extraFields, Constants.SETTINGS_ICON_LETTER, "S");
         datum.setExtra(extraFields.toString());
         datum.setSno(6);
         data.add(datum);

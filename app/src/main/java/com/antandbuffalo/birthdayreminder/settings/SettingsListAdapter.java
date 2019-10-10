@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.antandbuffalo.birthdayreminder.Constants;
@@ -155,19 +156,26 @@ public class SettingsListAdapter extends BaseAdapter {
             }
 
             TextView currentValue = (TextView)convertView.findViewById(R.id.currentValue);
-            if(option.getKey().equalsIgnoreCase(Constants.SETTINGS_MODIFY_TODAY) || option.getKey().equalsIgnoreCase(Constants.SETTINGS_NOTIFICATION)) {
-                currentValue.setVisibility(View.VISIBLE);
-                int currVal = getSelectedValueForKey(option.getKey());
-                if(currVal == 1) {
-                    currentValue.setText(currVal + " day");
-                }
-                else {
-                    currentValue.setText(currVal + " days");
-                }
+            String givenKey = option.getKey().toUpperCase();
+            currentValue.setVisibility(View.VISIBLE);
 
-            }
-            else {
-                currentValue.setVisibility(View.INVISIBLE);
+            switch (givenKey) {
+                case Constants.SETTINGS_MODIFY_TODAY:
+                case Constants.SETTINGS_NOTIFICATION: {
+                    int currVal = getSelectedValueForKey(option.getKey());
+                    if (currVal == 1) {
+                        currentValue.setText(currVal + " day");
+                    } else {
+                        currentValue.setText(currVal + " days");
+                    }
+                    break;
+                }
+                case Constants.SETTINGS_NOTIFICATION_TIME: {
+                    currentValue.setText(getSelectedNotificationTime(parent.getContext()));
+                    break;
+                }
+                default:
+                    currentValue.setVisibility(View.INVISIBLE);
             }
         }
         else {
@@ -189,6 +197,20 @@ public class SettingsListAdapter extends BaseAdapter {
             preNotifDays = settingsPref.getInt(Constants.PREFERENCE_PRE_NOTIFICATION_DAYS, 0);
         }
         return preNotifDays;
+    }
+
+    public String getSelectedNotificationTime(Context context) {
+        int hours = settingsPref.getInt(Constants.PREFERENCE_NOTIFICATION_TIME_HOURS, 0);
+        int minutes = settingsPref.getInt(Constants.PREFERENCE_NOTIFICATION_TIME_MINUTES, 0);
+        boolean is24HourFormat = android.text.format.DateFormat.is24HourFormat(context);
+        String amOrPm = "AM";
+        if(!is24HourFormat) {
+            if(hours > 12) {
+                hours = hours - 12;
+                amOrPm = "PM";
+            }
+        }
+        return Util.getTwoDigitsString(hours) + ":" + Util.getTwoDigitsString(minutes) + " " + amOrPm;
     }
 
 
