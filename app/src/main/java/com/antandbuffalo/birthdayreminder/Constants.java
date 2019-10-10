@@ -21,7 +21,7 @@ public class Constants {
     public static final int DATABASE_VERSION = 3;
     //version - 3 adding optional year column
 
-    public static final long OPTIONS_TABLE_NUMBER_OF_ROWS = 8;
+    public static final long OPTIONS_TABLE_NUMBER_OF_ROWS = 9;
     public static final boolean REFRESH_SETTINGS_PAGE = true;
 
     // Contacts table name
@@ -76,6 +76,7 @@ public class Constants {
     public static final String SETTINGS_MODIFY_TODAY = "SETTINGS_MODIFY_TODAY";
     public static final String SETTINGS_NOTIFICATION = "SETTINGS_NOTIFICATION";
     public static final String SETTINGS_NOTIFICATION_TIME = "SETTINGS_NOTIFICATION_TIME";
+    public static final String SETTINGS_NOTIFICATIONS_PER_DAY = "SETTINGS_NOTIFICATIONS_PER_DAY";
     public static final String SETTINGS_WISH_TEMPLATE = "SETTINGS_WISH_TEMPLATE";
 
     public static final Map<String, Integer> OPIONS_SNO_MAPPER = new HashMap<String, Integer>() {{

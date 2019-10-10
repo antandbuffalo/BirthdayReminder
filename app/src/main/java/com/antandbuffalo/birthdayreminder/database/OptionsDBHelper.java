@@ -46,14 +46,14 @@ public class OptionsDBHelper {
         datum.setTitle("Modify Today Section");
         datum.setSubTitle("");
         extraFields = new JSONObject();
-        Util.validateAndSetExtra(extraFields, Constants.SETTINGS_ICON_LETTER, "T");
+        Util.validateAndSetExtra(extraFields, Constants.SETTINGS_ICON_LETTER, "M");
         datum.setExtra(extraFields.toString());
         datum.setSno(1);
         data.add(datum);
 
         datum = SettingsModel.newInstance();
         datum.setKey(Constants.SETTINGS_NOTIFICATION);
-        datum.setTitle("Set Pre Notification");
+        datum.setTitle("Pre Notification");
         datum.setSubTitle("");
         extraFields = new JSONObject();
         Util.validateAndSetExtra(extraFields, Constants.SETTINGS_ICON_LETTER, "P");
@@ -63,12 +63,22 @@ public class OptionsDBHelper {
 
         datum = SettingsModel.newInstance();
         datum.setKey(Constants.SETTINGS_NOTIFICATION_TIME);
-        datum.setTitle("Set Notification Time");
+        datum.setTitle("Notification Time");
         datum.setSubTitle("");
         extraFields = new JSONObject();
-        Util.validateAndSetExtra(extraFields, Constants.SETTINGS_ICON_LETTER, "T");
+        Util.validateAndSetExtra(extraFields, Constants.SETTINGS_ICON_LETTER, "N");
         datum.setExtra(extraFields.toString());
         datum.setSno(3);
+        data.add(datum);
+
+        datum = SettingsModel.newInstance();
+        datum.setKey(Constants.SETTINGS_NOTIFICATIONS_PER_DAY);
+        datum.setTitle("Notifications Per Day");
+        datum.setSubTitle("");
+        extraFields = new JSONObject();
+        Util.validateAndSetExtra(extraFields, Constants.SETTINGS_ICON_LETTER, "N");
+        datum.setExtra(extraFields.toString());
+        datum.setSno(4);
         data.add(datum);
 
         datum = SettingsModel.newInstance();
@@ -78,7 +88,7 @@ public class OptionsDBHelper {
         extraFields = new JSONObject();
         Util.validateAndSetExtra(extraFields, Constants.SETTINGS_ICON_LETTER, "W");
         datum.setExtra(extraFields.toString());
-        datum.setSno(4);
+        datum.setSno(5);
         data.add(datum);
 
         datum = SettingsModel.newInstance();
@@ -86,7 +96,7 @@ public class OptionsDBHelper {
         datum.setTitle(Constants.SETTINGS_WRITE_FILE_TITLE);
         datum.setSubTitle(Constants.SETTINGS_WRITE_FILE_SUB_TITLE);
         //datum.setUpdatedOn(new Date());
-        datum.setSno(5);
+        datum.setSno(6);
         data.add(datum);
 
         datum = SettingsModel.newInstance();
@@ -94,7 +104,7 @@ public class OptionsDBHelper {
         datum.setTitle(Constants.SETTINGS_READ_FILE_TITLE);
         datum.setSubTitle(Constants.SETTINGS_READ_FILE_SUB_TITLE);
         //datum.setUpdatedOn(new Date());
-        datum.setSno(6);
+        datum.setSno(7);
         data.add(datum);
 
         datum = SettingsModel.newInstance();
@@ -102,7 +112,7 @@ public class OptionsDBHelper {
         datum.setTitle(Constants.SETTINGS_DELETE_ALL_TITLE);
         datum.setSubTitle("");
         //datum.setUpdatedOn(new Date());
-        datum.setSno(7);
+        datum.setSno(8);
         data.add(datum);
 
         datum = SettingsModel.newInstance();
@@ -112,7 +122,7 @@ public class OptionsDBHelper {
         extraFields = new JSONObject();
         Util.validateAndSetExtra(extraFields, Constants.SETTINGS_ICON_LETTER, "A");
         datum.setExtra(extraFields.toString());
-        datum.setSno(8);
+        datum.setSno(9);
         data.add(datum);
 
         return data;
