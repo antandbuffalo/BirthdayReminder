@@ -40,6 +40,8 @@ public class NotificationTime extends Activity {
         ImageButton cancel = findViewById(R.id.cancel);
         cancel.setBackgroundResource(R.drawable.cancel_button);
 
+        populateInitialValues(picker, settings.getInt(Constants.PREFERENCE_NOTIFICATION_TIME_HOURS, 0), settings.getInt(Constants.PREFERENCE_NOTIFICATION_TIME_MINUTES, 0), is24HourFormat);
+
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -74,6 +76,18 @@ public class NotificationTime extends Activity {
         });
 
         loadAd();
+    }
+
+    public void populateInitialValues(TimePicker timePicker, int hours, int minutes, boolean is24Hours) {
+        if (Build.VERSION.SDK_INT >= 23 ){
+            timePicker.setHour(hours);
+            timePicker.setMinute(minutes);
+        }
+        else {
+            timePicker.setCurrentHour(hours);
+            timePicker.setCurrentMinute(minutes);
+        }
+        timePicker.setIs24HourView(is24Hours);
     }
 
     public void loadAd() {
