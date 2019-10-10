@@ -22,6 +22,7 @@ public class Constants {
     //version - 3 adding optional year column
 
     public static final long OPTIONS_TABLE_NUMBER_OF_ROWS = 8;
+    public static final boolean REFRESH_SETTINGS_PAGE = true;
 
     // Contacts table name
     public static final String TABLE_DATE_OF_BIRTH = "DATE_OF_BIRTH";

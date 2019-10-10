@@ -42,47 +42,23 @@ public class OptionsDBHelper {
 //        data.add(datum);
 
         datum = SettingsModel.newInstance();
-        datum.setKey(Constants.SETTINGS_WRITE_FILE);
-        datum.setTitle(Constants.SETTINGS_WRITE_FILE_TITLE);
-        datum.setSubTitle(Constants.SETTINGS_WRITE_FILE_SUB_TITLE);
-        //datum.setUpdatedOn(new Date());
-        datum.setSno(1);
-        data.add(datum);
-
-        datum = SettingsModel.newInstance();
-        datum.setKey(Constants.SETTINGS_READ_FILE);
-        datum.setTitle(Constants.SETTINGS_READ_FILE_TITLE);
-        datum.setSubTitle(Constants.SETTINGS_READ_FILE_SUB_TITLE);
-        //datum.setUpdatedOn(new Date());
-        datum.setSno(2);
-        data.add(datum);
-
-        datum = SettingsModel.newInstance();
-        datum.setKey(Constants.SETTINGS_DELETE_ALL);
-        datum.setTitle(Constants.SETTINGS_DELETE_ALL_TITLE);
-        datum.setSubTitle("");
-        //datum.setUpdatedOn(new Date());
-        datum.setSno(3);
-        data.add(datum);
-
-        datum = SettingsModel.newInstance();
         datum.setKey(Constants.SETTINGS_MODIFY_TODAY);
         datum.setTitle("Modify Today Section");
         datum.setSubTitle("");
         extraFields = new JSONObject();
         Util.validateAndSetExtra(extraFields, Constants.SETTINGS_ICON_LETTER, "T");
         datum.setExtra(extraFields.toString());
-        datum.setSno(4);
+        datum.setSno(1);
         data.add(datum);
 
         datum = SettingsModel.newInstance();
         datum.setKey(Constants.SETTINGS_NOTIFICATION);
-        datum.setTitle("Notification Settings");
+        datum.setTitle("Set Pre Notification");
         datum.setSubTitle("");
         extraFields = new JSONObject();
-        Util.validateAndSetExtra(extraFields, Constants.SETTINGS_ICON_LETTER, "N");
+        Util.validateAndSetExtra(extraFields, Constants.SETTINGS_ICON_LETTER, "P");
         datum.setExtra(extraFields.toString());
-        datum.setSno(5);
+        datum.setSno(2);
         data.add(datum);
 
         datum = SettingsModel.newInstance();
@@ -90,9 +66,9 @@ public class OptionsDBHelper {
         datum.setTitle("Set Notification Time");
         datum.setSubTitle("");
         extraFields = new JSONObject();
-        Util.validateAndSetExtra(extraFields, Constants.SETTINGS_ICON_LETTER, "S");
+        Util.validateAndSetExtra(extraFields, Constants.SETTINGS_ICON_LETTER, "T");
         datum.setExtra(extraFields.toString());
-        datum.setSno(6);
+        datum.setSno(3);
         data.add(datum);
 
         datum = SettingsModel.newInstance();
@@ -102,6 +78,30 @@ public class OptionsDBHelper {
         extraFields = new JSONObject();
         Util.validateAndSetExtra(extraFields, Constants.SETTINGS_ICON_LETTER, "W");
         datum.setExtra(extraFields.toString());
+        datum.setSno(4);
+        data.add(datum);
+
+        datum = SettingsModel.newInstance();
+        datum.setKey(Constants.SETTINGS_WRITE_FILE);
+        datum.setTitle(Constants.SETTINGS_WRITE_FILE_TITLE);
+        datum.setSubTitle(Constants.SETTINGS_WRITE_FILE_SUB_TITLE);
+        //datum.setUpdatedOn(new Date());
+        datum.setSno(5);
+        data.add(datum);
+
+        datum = SettingsModel.newInstance();
+        datum.setKey(Constants.SETTINGS_READ_FILE);
+        datum.setTitle(Constants.SETTINGS_READ_FILE_TITLE);
+        datum.setSubTitle(Constants.SETTINGS_READ_FILE_SUB_TITLE);
+        //datum.setUpdatedOn(new Date());
+        datum.setSno(6);
+        data.add(datum);
+
+        datum = SettingsModel.newInstance();
+        datum.setKey(Constants.SETTINGS_DELETE_ALL);
+        datum.setTitle(Constants.SETTINGS_DELETE_ALL_TITLE);
+        datum.setSubTitle("");
+        //datum.setUpdatedOn(new Date());
         datum.setSno(7);
         data.add(datum);
 
@@ -114,6 +114,7 @@ public class OptionsDBHelper {
         datum.setExtra(extraFields.toString());
         datum.setSno(8);
         data.add(datum);
+
         return data;
     }
     public static void insertDefaultValues() {
@@ -260,7 +261,7 @@ public class OptionsDBHelper {
             OptionsDBHelper.insertDefaultValues();
         }
         else {
-            if(totalRows != Constants.OPTIONS_TABLE_NUMBER_OF_ROWS) {
+            if(totalRows != Constants.OPTIONS_TABLE_NUMBER_OF_ROWS || Constants.REFRESH_SETTINGS_PAGE) {
                 List<SettingsModel> optionsDbData = selectAll();
                 for(SettingsModel defaultOption : defaultData) {
                     boolean isAlreadyInDB = false;
