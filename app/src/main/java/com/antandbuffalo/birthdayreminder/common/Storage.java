@@ -56,4 +56,14 @@ public class Storage {
         return preferences.getInt(Constants.PREFERENCE_NOTIFINCATION_FREQUENCY, 1);
     }
 
+    public static Integer getFeaturesNotificationStatus(SharedPreferences preferences, String key) {
+        return preferences.getInt(key, 0);
+    }
+
+    public static void setFeaturesNotificationStatus(SharedPreferences preferences, String key, Integer value) {
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt(key, value);
+        editor.commit();
+    }
+
 }

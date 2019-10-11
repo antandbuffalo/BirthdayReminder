@@ -177,4 +177,6 @@ public class Constants {
     public static final int MY_PERMISSIONS_READ_EXTERNAL_STORAGE = 2;
 
     public static final String WISH_TEMPLATE_DEFAULT = "Wish you many more happy returns of the day";
+
+    public static final String NEW_FEATURE_2_6_0_34 = "NEW_FEATURE_2_6_0_34";
 }
