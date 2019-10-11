@@ -494,7 +494,7 @@ public class Util {
         return cal.getTime();
     }
 
-    public static void setRepeatingAlarm(Context context, AlarmManager alarmManager, int hour, int minute) {
+    public static void setRepeatingAlarm(Context context, AlarmManager alarmManager, int hour, int minute, int frequency) {
         Log.i("UTIL", "Setting repeating alarm in util");
 
         Intent intent = new Intent(context, AlarmReceiver.class);
@@ -506,8 +506,10 @@ public class Util {
         calendar.set(Calendar.MINUTE, minute);
         calendar.set(Calendar.SECOND, 0);
 
+        long frequencyTime = AlarmManager.INTERVAL_DAY / frequency;
+
         //Send notification twice a day
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_HALF_DAY, pendingIntent);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), frequencyTime, pendingIntent);
 
         //Send notification every 5 seconds
         //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), (60   * 1000), pendingIntent);
@@ -515,4 +517,31 @@ public class Util {
         //alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(), (5 * 1000), pendingIntent);
     }
 
+    public static boolean setNumberPickerTextColor(NumberPicker numberPicker, int color) {
+        final int count = numberPicker.getChildCount();
+        for(int i = 0; i < count; i++){
+            View child = numberPicker.getChildAt(i);
+            if(child instanceof EditText){
+                try{
+                    Field selectorWheelPaintField = numberPicker.getClass()
+                            .getDeclaredField("mSelectorWheelPaint");
+                    selectorWheelPaintField.setAccessible(true);
+                    ((Paint)selectorWheelPaintField.get(numberPicker)).setColor(color);
+                    ((EditText)child).setTextColor(color);
+                    numberPicker.invalidate();
+                    return true;
+                }
+                catch(NoSuchFieldException e){
+                    Log.w("setNumberPickerTextCol", e);
+                }
+                catch(IllegalAccessException e){
+                    Log.w("setNumberPickerTextCol", e);
+                }
+                catch(IllegalArgumentException e){
+                    Log.w("setNumberPickerTextC", e);
+                }
+            }
+        }
+        return false;
+    }
 }

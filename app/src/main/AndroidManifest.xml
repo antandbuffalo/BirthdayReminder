@@ -12,14 +12,15 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/CustomActionBarTheme">
+        <activity android:name=".notificationfrequency.NotificationFrequency"></activity>
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-7116389331562728~4210792343" />
 
-        <activity android:name=".notificationtime.NotificationTime"
-            android:label="@string/title_notification_time"></activity>
-
+        <activity
+            android:name=".notificationtime.NotificationTime"
+            android:label="@string/title_notification_time" />
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name">

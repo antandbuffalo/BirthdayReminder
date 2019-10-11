@@ -149,7 +149,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         int hour = settings.getInt(Constants.PREFERENCE_NOTIFICATION_TIME_HOURS, 0);
         int minute = settings.getInt(Constants.PREFERENCE_NOTIFICATION_TIME_MINUTES, 0);
 
-        Util.setRepeatingAlarm(this, alarmManager, hour, minute);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        int frequency =  settings.getInt(Constants.PREFERENCE_NOTIFINCATION_FREQUENCY, 1);
+        Util.setRepeatingAlarm(this, alarmManager, hour, minute, frequency);
 
 //        Intent intent = new Intent(this, AlarmReceiver.class);
 //        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 123,

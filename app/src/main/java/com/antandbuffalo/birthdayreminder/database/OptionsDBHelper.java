@@ -72,7 +72,7 @@ public class OptionsDBHelper {
         data.add(datum);
 
         datum = SettingsModel.newInstance();
-        datum.setKey(Constants.SETTINGS_NOTIFICATIONS_PER_DAY);
+        datum.setKey(Constants.SETTINGS_NOTIFICATION_FREQUENCY);
         datum.setTitle("Notifications Per Day");
         datum.setSubTitle("");
         extraFields = new JSONObject();

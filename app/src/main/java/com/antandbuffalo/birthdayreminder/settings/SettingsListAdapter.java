@@ -2,6 +2,7 @@ package com.antandbuffalo.birthdayreminder.settings;
 
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -174,6 +175,10 @@ public class SettingsListAdapter extends BaseAdapter {
                     currentValue.setText(getSelectedNotificationTime(parent.getContext()));
                     break;
                 }
+                case Constants.SETTINGS_NOTIFICATION_FREQUENCY: {
+                    currentValue.setText(getSelectedFrequency(parent.getContext()));
+                    break;
+                }
                 default:
                     currentValue.setVisibility(View.INVISIBLE);
             }
@@ -213,6 +218,10 @@ public class SettingsListAdapter extends BaseAdapter {
         return Util.getTwoDigitsString(hours) + ":" + Util.getTwoDigitsString(minutes) + " " + amOrPm;
     }
 
+    public String getSelectedFrequency(Context context) {
+        Integer frequency = settingsPref.getInt(Constants.PREFERENCE_NOTIFINCATION_FREQUENCY, 0);
+        return frequency.toString();
+    }
 
     public void refreshData() {
         listData = OptionsDBHelper.selectAll();

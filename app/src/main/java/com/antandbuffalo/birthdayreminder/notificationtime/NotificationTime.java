@@ -55,7 +55,8 @@ public class NotificationTime extends Activity {
                     minute = picker.getCurrentMinute();
                 }
                 AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-                Util.setRepeatingAlarm(getApplicationContext(), alarmManager, hour, minute);
+                int frequency =  settings.getInt(Constants.PREFERENCE_NOTIFINCATION_FREQUENCY, 1);
+                Util.setRepeatingAlarm(getApplicationContext(), alarmManager, hour, minute, frequency);
 
                 SharedPreferences.Editor editor = settings.edit();
                 editor.putInt(Constants.PREFERENCE_NOTIFICATION_TIME_HOURS, hour);
@@ -71,6 +72,7 @@ public class NotificationTime extends Activity {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                setResult(RESULT_CANCELED, intent);
                 finish();
             }
         });

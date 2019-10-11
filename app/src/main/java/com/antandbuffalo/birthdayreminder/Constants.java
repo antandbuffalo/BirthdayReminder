@@ -76,7 +76,7 @@ public class Constants {
     public static final String SETTINGS_MODIFY_TODAY = "SETTINGS_MODIFY_TODAY";
     public static final String SETTINGS_NOTIFICATION = "SETTINGS_NOTIFICATION";
     public static final String SETTINGS_NOTIFICATION_TIME = "SETTINGS_NOTIFICATION_TIME";
-    public static final String SETTINGS_NOTIFICATIONS_PER_DAY = "SETTINGS_NOTIFICATIONS_PER_DAY";
+    public static final String SETTINGS_NOTIFICATION_FREQUENCY = "SETTINGS_NOTIFICATION_FREQUENCY";
     public static final String SETTINGS_WISH_TEMPLATE = "SETTINGS_WISH_TEMPLATE";
 
     public static final Map<String, Integer> OPIONS_SNO_MAPPER = new HashMap<String, Integer>() {{
@@ -157,6 +157,7 @@ public class Constants {
     public static final String PREFERENCE_WISH_TEMPLATE = "PREFERENCE_WISH_TEMPLATE";
     public static final String PREFERENCE_NOTIFICATION_TIME_HOURS = "PREFERENCE_NOTIFICATION_TIME_HOURS";
     public static final String PREFERENCE_NOTIFICATION_TIME_MINUTES = "PREFERENCE_NOTIFICATION_TIME_MINUTES";
+    public static final String PREFERENCE_NOTIFINCATION_FREQUENCY = "PREFERENCE_NOTIFINCATION_FREQUENCY";
 
     public static final String TYPE_ADD_NEW = "AddNew";
 

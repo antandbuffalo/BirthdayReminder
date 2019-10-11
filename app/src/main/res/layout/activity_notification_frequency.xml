@@ -4,17 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="0dp"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="0dp"
-    tools:context=".notificationtime.NotificationTime">
+    tools:context=".notificationfrequency.NotificationFrequency">
 
     <TextView
         android:id="@+id/textView6"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Set Notification Time"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:text="Set Number of notifications you want to receive in a day"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="18sp"
@@ -22,16 +20,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TimePicker
-        android:id="@+id/notificationTimePicker"
+    <NumberPicker
+        android:id="@+id/notificationFrequency"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:headerBackground="@color/bg_edit_text"
-        android:timePickerMode="clock"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
 
     <LinearLayout
         android:id="@+id/buttonsLayout"
@@ -92,6 +91,5 @@
         ads:layout_constraintBottom_toBottomOf="parent"
         ads:layout_constraintEnd_toEndOf="parent"
         ads:layout_constraintStart_toStartOf="parent"></com.google.android.gms.ads.AdView>
-
 
 </android.support.constraint.ConstraintLayout>
