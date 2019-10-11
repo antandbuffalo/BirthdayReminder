@@ -15,18 +15,20 @@ import android.widget.Toast;
 import com.antandbuffalo.birthdayreminder.Constants;
 import com.antandbuffalo.birthdayreminder.R;
 import com.antandbuffalo.birthdayreminder.Util;
+import com.antandbuffalo.birthdayreminder.common.Storage;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
 public class NotificationFrequency extends Activity {
     Intent intent;
+    SharedPreferences settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification_frequency);
 
-        final SharedPreferences settings = Util.getSharedPreference();
+        settings = Util.getSharedPreference();
 
         intent = new Intent();
         final NumberPicker numberPicker = (NumberPicker) findViewById(R.id.notificationFrequency);
@@ -41,6 +43,8 @@ public class NotificationFrequency extends Activity {
 
         ImageButton cancel = (ImageButton)findViewById(R.id.cancel);
         cancel.setBackgroundResource(R.drawable.cancel_button);
+
+        populateSpinnerFrequency(numberPicker);
 
         int hours = settings.getInt(Constants.PREFERENCE_NOTIFICATION_TIME_HOURS, 0);
         int minutes = settings.getInt(Constants.PREFERENCE_NOTIFICATION_TIME_MINUTES, 0);
@@ -71,6 +75,10 @@ public class NotificationFrequency extends Activity {
         });
 
         loadAd();
+    }
+
+    public void populateSpinnerFrequency(NumberPicker numberPicker) {
+        numberPicker.setValue(Storage.getNotificationFrequency(settings));
     }
 
     public void loadAd() {

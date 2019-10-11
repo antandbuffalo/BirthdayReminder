@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.antandbuffalo.birthdayreminder.Constants;
 import com.antandbuffalo.birthdayreminder.R;
 import com.antandbuffalo.birthdayreminder.Util;
+import com.antandbuffalo.birthdayreminder.common.Storage;
 import com.antandbuffalo.birthdayreminder.database.OptionsDBHelper;
 
 import java.text.SimpleDateFormat;
@@ -219,7 +220,7 @@ public class SettingsListAdapter extends BaseAdapter {
     }
 
     public String getSelectedFrequency(Context context) {
-        Integer frequency = settingsPref.getInt(Constants.PREFERENCE_NOTIFINCATION_FREQUENCY, 0);
+        Integer frequency = Storage.getNotificationFrequency(settingsPref);
         return frequency.toString();
     }
 

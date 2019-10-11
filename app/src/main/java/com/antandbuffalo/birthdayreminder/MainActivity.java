@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.antandbuffalo.birthdayreminder.addnew.AddNew;
+import com.antandbuffalo.birthdayreminder.common.Storage;
 import com.antandbuffalo.birthdayreminder.database.DBHelper;
 import com.antandbuffalo.birthdayreminder.database.DateOfBirthDBHelper;
 import com.antandbuffalo.birthdayreminder.database.OptionsDBHelper;
@@ -150,7 +151,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         int minute = settings.getInt(Constants.PREFERENCE_NOTIFICATION_TIME_MINUTES, 0);
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        int frequency =  settings.getInt(Constants.PREFERENCE_NOTIFINCATION_FREQUENCY, 1);
+        int frequency = Storage.getNotificationFrequency(settings);
         Util.setRepeatingAlarm(this, alarmManager, hour, minute, frequency);
 
 //        Intent intent = new Intent(this, AlarmReceiver.class);
