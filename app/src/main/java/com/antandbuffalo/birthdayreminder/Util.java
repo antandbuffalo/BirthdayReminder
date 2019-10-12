@@ -501,12 +501,13 @@ public class Util {
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 123,
                 intent, PendingIntent.FLAG_CANCEL_CURRENT);
         Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
         // 12:00 AM
         calendar.set(Calendar.HOUR_OF_DAY, hour);
         calendar.set(Calendar.MINUTE, minute);
         calendar.set(Calendar.SECOND, 0);
 
-        long frequencyTime = AlarmManager.INTERVAL_DAY / frequency;
+        long frequencyTime = Math.round(AlarmManager.INTERVAL_DAY / frequency);
 
         //Send notification twice a day
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), frequencyTime, pendingIntent);
@@ -515,6 +516,8 @@ public class Util {
         //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), (60   * 1000), pendingIntent);
 
         //alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(), (5 * 1000), pendingIntent);
+
+        //https://developer.android.com/training/scheduling/alarms.html#type
     }
 
     public static boolean setNumberPickerTextColor(NumberPicker numberPicker, int color) {
