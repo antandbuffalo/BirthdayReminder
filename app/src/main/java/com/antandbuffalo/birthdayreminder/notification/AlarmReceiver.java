@@ -91,9 +91,11 @@ public class AlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         // This method is called when the BroadcastReceiver is receiving
-        showNewFeatureNotification(context);
-        DataHolder.getInstance().setAppContext(context);
         System.out.println("inside schedule receiver");
+        // Need to set the context first to make the app work properly
+        DataHolder.getInstance().setAppContext(context);
+
+        showNewFeatureNotification(context);
         final SharedPreferences settings = Util.getSharedPreference();
         int preNotifDays = settings.getInt(Constants.PREFERENCE_PRE_NOTIFICATION_DAYS, 0);
         if(preNotifDays > 0) {

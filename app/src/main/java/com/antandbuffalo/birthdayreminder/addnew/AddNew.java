@@ -322,6 +322,7 @@ public class AddNew extends FragmentActivity {
         name.setText(addNewViewModel.birthdayInfo.name);
         dateInput.setText(addNewViewModel.birthdayInfo.date);
         addMonthsToSpinner(monthSpinner);
+        monthSpinner.setSelection(addNewViewModel.getMonthSpinnerPosition(addNewViewModel.birthdayInfo.month));
         yearInput.setText(addNewViewModel.birthdayInfo.year);
         removeYear.setChecked(addNewViewModel.birthdayInfo.isRemoveYear);
     }

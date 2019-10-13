@@ -17,25 +17,23 @@ import java.util.List;
 
 public class AddNewViewModel extends ViewModel {
 
-    Calendar cal = Util.getCalendar();
-
     // months starts from 0 for Jan
     DateOfBirth dateOfBirth;
     BirthdayInfo birthdayInfo;
 
     public void initDefaults() {
-//        cal.setTime(new Date());
-//        date = cal.get(Calendar.DATE);
-//        month = cal.get(Calendar.MONTH);
-//        year = cal.get(Calendar.YEAR);
-        //year = Constants.REMOVE_YEAR_VALUE;
+        Calendar cal = Calendar.getInstance();
 
         dateOfBirth = new DateOfBirth();
         birthdayInfo = new BirthdayInfo();
+
+        dateOfBirth.setDobDate(cal.getTime());
+
         birthdayInfo.name = "";
-        birthdayInfo.date = "";
-        birthdayInfo.month = "0";
-        birthdayInfo.year = Constants.REMOVE_YEAR_VALUE.toString();
+        birthdayInfo.date = cal.get(Calendar.DATE) + "";
+        birthdayInfo.month = cal.get(Calendar.MONTH) + "";
+        //birthdayInfo.year = Constants.REMOVE_YEAR_VALUE.toString();
+        birthdayInfo.year = cal.get(Calendar.YEAR) + "";
         birthdayInfo.isRemoveYear = true;
     }
 
@@ -69,6 +67,7 @@ public class AddNewViewModel extends ViewModel {
         dateOfBirth.setName(birthdayInfo.name);
 
         try {
+            Calendar cal = Calendar.getInstance();
             intDate = Integer.parseInt(birthdayInfo.date);
             intMonth = Integer.parseInt(birthdayInfo.month);
             intYear = Integer.parseInt(birthdayInfo.year);
@@ -137,7 +136,17 @@ public class AddNewViewModel extends ViewModel {
         setBirthdayInfo(null, null, null, null, flag);
     }
 
-
+    public Integer getMonthSpinnerPosition(String month) {
+        try {
+            Integer monthPosition = Integer.parseInt(month);
+            return monthPosition;
+        }
+        catch (Exception e) {
+            Log.e("PARSE_INT", e.getLocalizedMessage());
+            Calendar calendar = Calendar.getInstance();
+            return calendar.get(Calendar.MONTH);
+        }
+    }
 
     public void clearInputs() {
         initDefaults();

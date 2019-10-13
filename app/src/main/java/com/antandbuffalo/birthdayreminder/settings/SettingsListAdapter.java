@@ -209,14 +209,17 @@ public class SettingsListAdapter extends BaseAdapter {
         int hours = settingsPref.getInt(Constants.PREFERENCE_NOTIFICATION_TIME_HOURS, 0);
         int minutes = settingsPref.getInt(Constants.PREFERENCE_NOTIFICATION_TIME_MINUTES, 0);
         boolean is24HourFormat = android.text.format.DateFormat.is24HourFormat(context);
-        String amOrPm = "AM";
-        if(!is24HourFormat) {
+        if(is24HourFormat) {
+            return Util.getTwoDigitsString(hours) + ":" + Util.getTwoDigitsString(minutes);
+        }
+        else {
+            String amOrPm = "AM";
             if(hours > 12) {
                 hours = hours - 12;
                 amOrPm = "PM";
             }
+            return Util.getTwoDigitsString(hours) + ":" + Util.getTwoDigitsString(minutes) + " " + amOrPm;
         }
-        return Util.getTwoDigitsString(hours) + ":" + Util.getTwoDigitsString(minutes) + " " + amOrPm;
     }
 
     public String getSelectedFrequency(Context context) {
