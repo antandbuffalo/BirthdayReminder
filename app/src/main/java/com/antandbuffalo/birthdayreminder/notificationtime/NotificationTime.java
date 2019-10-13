@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.antandbuffalo.birthdayreminder.Constants;
 import com.antandbuffalo.birthdayreminder.R;
 import com.antandbuffalo.birthdayreminder.Util;
+import com.antandbuffalo.birthdayreminder.common.Storage;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
@@ -55,7 +56,7 @@ public class NotificationTime extends Activity {
                     minute = picker.getCurrentMinute();
                 }
                 AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-                int frequency =  settings.getInt(Constants.PREFERENCE_NOTIFINCATION_FREQUENCY, 1);
+                int frequency = Storage.getNotificationFrequency(settings);
                 Util.setRepeatingAlarm(getApplicationContext(), alarmManager, hour, minute, frequency);
 
                 SharedPreferences.Editor editor = settings.edit();
