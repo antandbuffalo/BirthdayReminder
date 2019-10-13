@@ -29,8 +29,6 @@ import com.antandbuffalo.birthdayreminder.database.DBHelper;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
-import java.util.Map;
-
 public class Update extends FragmentActivity {
     EditText name;
     DateOfBirth currentDOB;

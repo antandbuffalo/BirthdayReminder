@@ -1,35 +1,22 @@
 package com.antandbuffalo.birthdayreminder.upcoming;
 
-import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.antandbuffalo.birthdayreminder.Constants;
-import com.antandbuffalo.birthdayreminder.DataHolder;
 import com.antandbuffalo.birthdayreminder.DateOfBirth;
-import com.antandbuffalo.birthdayreminder.MainActivity;
 import com.antandbuffalo.birthdayreminder.R;
-import com.antandbuffalo.birthdayreminder.TabsAdapter;
-import com.antandbuffalo.birthdayreminder.addnew.AddNew;
-import com.antandbuffalo.birthdayreminder.database.DateOfBirthDBHelper;
 import com.antandbuffalo.birthdayreminder.fragments.MyFragment;
-import com.antandbuffalo.birthdayreminder.today.TodayListAdapter;
 import com.antandbuffalo.birthdayreminder.update.Update;
-
-import java.util.Date;
-import java.util.List;
 
 /**
  * Created by i677567 on 28/8/15.

@@ -1,20 +1,13 @@
 package com.antandbuffalo.birthdayreminder.wishtemplate
 
 import android.app.Activity
-import android.app.Fragment
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleOwner
-import android.arch.lifecycle.ViewModelProviders
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageButton
-import android.widget.Toast
 import com.antandbuffalo.birthdayreminder.Constants
 import com.antandbuffalo.birthdayreminder.R
 import com.antandbuffalo.birthdayreminder.Util
-import com.antandbuffalo.birthdayreminder.settings.SettingsViewModel
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 

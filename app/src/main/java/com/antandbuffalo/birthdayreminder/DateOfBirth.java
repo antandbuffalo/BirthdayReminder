@@ -1,10 +1,7 @@
 package com.antandbuffalo.birthdayreminder;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.util.Locale;
 
 /**
  * Created by i677567 on 23/9/15.

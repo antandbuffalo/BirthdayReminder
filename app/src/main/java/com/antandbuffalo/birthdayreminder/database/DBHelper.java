@@ -1,22 +1,12 @@
 package com.antandbuffalo.birthdayreminder.database;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.antandbuffalo.birthdayreminder.Constants;
-import com.antandbuffalo.birthdayreminder.Util;
-import com.antandbuffalo.birthdayreminder.settings.SettingsModel;
-
-import org.json.JSONObject;
-
-import java.util.List;
-
-import org.json.JSONObject;
 
 public final class DBHelper extends SQLiteOpenHelper {
 

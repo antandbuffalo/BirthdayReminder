@@ -25,7 +25,6 @@ import com.antandbuffalo.birthdayreminder.Constants;
 import com.antandbuffalo.birthdayreminder.R;
 import com.antandbuffalo.birthdayreminder.Util;
 import com.antandbuffalo.birthdayreminder.database.DBHelper;
-import com.antandbuffalo.birthdayreminder.model.BirthdayInfo;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 

@@ -1,12 +1,14 @@
 package com.antandbuffalo.birthdayreminder.notification;
 
 import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 
-import java.util.Calendar;
+import com.antandbuffalo.birthdayreminder.DataHolder;
+import com.antandbuffalo.birthdayreminder.Util;
+import com.antandbuffalo.birthdayreminder.common.Storage;
 
 public class BootComplete extends BroadcastReceiver {
     public BootComplete() {
@@ -25,18 +27,26 @@ public class BootComplete extends BroadcastReceiver {
     }
 
     public void setRepeatingAlarm(Context context) {
-        Intent intent = new Intent(context, AlarmReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0,
-                intent, PendingIntent.FLAG_CANCEL_CURRENT);
-        Calendar calendar = Calendar.getInstance();
-        // 9 AM
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
+        DataHolder.getInstance().setAppContext(context);
 
-        am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                AlarmManager.INTERVAL_HALF_DAY, pendingIntent);
+//        Intent intent = new Intent(context, AlarmReceiver.class);
+//        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0,
+//                intent, PendingIntent.FLAG_CANCEL_CURRENT);
+//        Calendar calendar = Calendar.getInstance();
+//        // 9 AM
+//        calendar.set(Calendar.HOUR_OF_DAY, 0);
+//        calendar.set(Calendar.MINUTE, 0);
+//        calendar.set(Calendar.SECOND, 0);
+//
+//        am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+//                AlarmManager.INTERVAL_HALF_DAY, pendingIntent);
         // am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),
         // (5 * 1000), pendingIntent);
+
+        SharedPreferences preference = Util.getSharedPreference();
+        Integer hours = Storage.getNotificationHours(preference);
+        Integer minutes = Storage.getNotificationMinutes(preference);
+        Integer frequency = Storage.getNotificationFrequency(preference);
+        Util.setRepeatingAlarm(context, am, hours, minutes, frequency);
     }
 }
