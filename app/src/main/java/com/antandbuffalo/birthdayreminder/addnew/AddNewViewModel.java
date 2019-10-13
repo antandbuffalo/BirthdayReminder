@@ -32,8 +32,10 @@ public class AddNewViewModel extends ViewModel {
         birthdayInfo.name = "";
         birthdayInfo.date = cal.get(Calendar.DATE) + "";
         birthdayInfo.month = cal.get(Calendar.MONTH) + "";
-        //birthdayInfo.year = Constants.REMOVE_YEAR_VALUE.toString();
-        birthdayInfo.year = cal.get(Calendar.YEAR) + "";
+        // Cannot set current year as default. Because when user selects leap year,
+        // then we need a lear year (2016) to make the date a valid one
+        birthdayInfo.year = Constants.REMOVE_YEAR_VALUE.toString();
+        //birthdayInfo.year = cal.get(Calendar.YEAR) + "";
         birthdayInfo.isRemoveYear = true;
     }
 
