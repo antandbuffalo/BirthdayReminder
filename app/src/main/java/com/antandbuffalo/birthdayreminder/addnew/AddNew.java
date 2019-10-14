@@ -196,7 +196,7 @@ public class AddNew extends FragmentActivity {
                             addNewViewModel.saveToDB();
                             System.out.println("Inserted successfully");
                             String status = Constants.NOTIFICATION_ADD_MEMBER_SUCCESS + ". You will get notified at 12:00am and 12:00pm on " + Util.getStringFromDate(addNewViewModel.dateOfBirth.getDobDate(), "dd MMM") + " every year";
-                            Toast toast = Toast.makeText(getApplicationContext(), status, Toast.LENGTH_LONG);
+                            Toast toast = Toast.makeText(getApplicationContext(), addNewViewModel.getAddSuccessMessage(getApplicationContext()), Toast.LENGTH_LONG);
                             toast.show();
                             clearInputs();
                             intent.putExtra(Constants.IS_USER_ADDED, Constants.FLAG_SUCCESS.toString());

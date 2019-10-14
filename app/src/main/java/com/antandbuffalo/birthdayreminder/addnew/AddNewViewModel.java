@@ -1,11 +1,13 @@
 package com.antandbuffalo.birthdayreminder.addnew;
 
 import android.arch.lifecycle.ViewModel;
+import android.content.Context;
 import android.util.Log;
 
 import com.antandbuffalo.birthdayreminder.Constants;
 import com.antandbuffalo.birthdayreminder.DateOfBirth;
 import com.antandbuffalo.birthdayreminder.Util;
+import com.antandbuffalo.birthdayreminder.common.Storage;
 import com.antandbuffalo.birthdayreminder.database.DateOfBirthDBHelper;
 import com.antandbuffalo.birthdayreminder.model.BirthdayInfo;
 
@@ -151,5 +153,37 @@ public class AddNewViewModel extends ViewModel {
 
     public void clearInputs() {
         initDefaults();
+    }
+
+    public String getAddSuccessMessage(Context context) {
+        boolean is24HourFormat = android.text.format.DateFormat.is24HourFormat(context);
+        String time = "";
+        if(is24HourFormat) {
+            time = Storage.getNotificationHours(Util.getSharedPreference())
+                    + ":"
+                    + Storage.getNotificationMinutes(Util.getSharedPreference());
+        }
+        else {
+            int hours = Storage.getNotificationHours(Util.getSharedPreference());
+            if(hours > 12) {
+                hours = hours - 12;
+                time = hours
+                        + ":"
+                        + Storage.getNotificationMinutes(Util.getSharedPreference())
+                        + "pm";
+            }
+            else {
+                time = hours
+                        + ":"
+                        + Storage.getNotificationMinutes(Util.getSharedPreference())
+                        + "am";
+            }
+        }
+        String message = Constants.NOTIFICATION_ADD_MEMBER_SUCCESS
+                + ". You will get notified at "
+                + time
+                + " on "
+                + Util.getStringFromDate(dateOfBirth.getDobDate(), "dd MMM") + " every year";
+        return  message;
     }
 }

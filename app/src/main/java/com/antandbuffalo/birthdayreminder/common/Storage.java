@@ -30,5 +30,4 @@ public class Storage {
     public static Integer getNotificationMinutes(SharedPreferences preferences) {
         return preferences.getInt(Constants.PREFERENCE_NOTIFICATION_TIME_MINUTES, 0);
     }
-
 }
