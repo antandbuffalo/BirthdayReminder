@@ -44,7 +44,7 @@ public class OptionsDBHelper {
 
         datum = SettingsModel.newInstance();
         datum.setKey(Constants.SETTINGS_NOTIFICATION);
-        datum.setTitle("Pre Notification");
+        datum.setTitle("Pre Notification 1");
         datum.setSubTitle("");
         extraFields = new JSONObject();
         Util.validateAndSetExtra(extraFields, Constants.SETTINGS_ICON_LETTER, "P");
@@ -240,12 +240,13 @@ public class OptionsDBHelper {
         }
     }
 
-    public static long updateSNO(SettingsModel newOption) {
+    public static long updateSNOAndTitle(SettingsModel newOption) {
         DBHelper dbHelper = DBHelper.getInstace();
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         ContentValues values = new ContentValues();
         values.put(Constants.COLUMN_OPTION_SNO, newOption.getSno()); //update sno to new one
+        values.put(Constants.COLUMN_OPTION_TITLE, newOption.getTitle()); //update sno to new one
         // update Row
         String optionCode = Constants.COLUMN_OPTION_CODE + "='" + newOption.getKey() + "'";
         long returnValue = db.update(Constants.TABLE_OPTIONS, values, optionCode, null);
@@ -266,20 +267,23 @@ public class OptionsDBHelper {
                 List<SettingsModel> optionsDbData = selectAll();
                 for(SettingsModel defaultOption : defaultData) {
                     boolean isAlreadyInDB = false;
-                    boolean needToUpdateSno = false;
+                    boolean needToUpdate = false;
                     for(SettingsModel currentOption : optionsDbData) {
                         if(defaultOption.getKey().equalsIgnoreCase(currentOption.getKey())) {
                             isAlreadyInDB = true;
                             if(defaultOption.getSno() != currentOption.getSno()) {
-                                needToUpdateSno = true;
+                                needToUpdate = true;
+                            }
+                            if(!defaultOption.getTitle().equalsIgnoreCase(currentOption.getTitle())) {
+                                needToUpdate = true;
                             }
                         }
                     }
                     if(!isAlreadyInDB) {
                         insertOption(defaultOption);
                     }
-                    if(needToUpdateSno) {
-                        updateSNO(defaultOption);
+                    if(needToUpdate) {
+                        updateSNOAndTitle(defaultOption);
                     }
                 }
             }
