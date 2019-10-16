@@ -44,7 +44,7 @@ public class OptionsDBHelper {
 
         datum = SettingsModel.newInstance();
         datum.setKey(Constants.SETTINGS_NOTIFICATION);
-        datum.setTitle("Pre Notification 1");
+        datum.setTitle("Pre Notification");
         datum.setSubTitle("");
         extraFields = new JSONObject();
         Util.validateAndSetExtra(extraFields, Constants.SETTINGS_ICON_LETTER, "P");
