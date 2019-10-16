@@ -16,28 +16,31 @@
     <string name="title_share_wish">Share Wish</string>
 
     <!--for testing-->
-    <string name="ad_addnew">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="ad_main">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="ad_modifytoday">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="ad_notificationsetting">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="ad_sendwish">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="ad_update">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="ad_wishtemplate">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="ad_share_wish">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="ad_about">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="title_activity_notification_time">NotificationTime</string>
-    <string name="ad_notificationtime">ca-app-pub-3940256099942544/6300978111</string>
+    <!--<string name="ad_addnew">ca-app-pub-3940256099942544/6300978111</string>-->
+    <!--<string name="ad_main">ca-app-pub-3940256099942544/6300978111</string>-->
+    <!--<string name="ad_modifytoday">ca-app-pub-3940256099942544/6300978111</string>-->
+    <!--<string name="ad_notificationsetting">ca-app-pub-3940256099942544/6300978111</string>-->
+    <!--<string name="ad_sendwish">ca-app-pub-3940256099942544/6300978111</string>-->
+    <!--<string name="ad_update">ca-app-pub-3940256099942544/6300978111</string>-->
+    <!--<string name="ad_wishtemplate">ca-app-pub-3940256099942544/6300978111</string>-->
+    <!--<string name="ad_share_wish">ca-app-pub-3940256099942544/6300978111</string>-->
+    <!--<string name="ad_about">ca-app-pub-3940256099942544/6300978111</string>-->
+    <!--<string name="ad_notificationtime">ca-app-pub-3940256099942544/6300978111</string>-->
+    <!--<string name="ad_notificationfrequency">ca-app-pub-3940256099942544/6300978111</string>-->
 
 
     <!--Actual-->
-    <!--<string name="ad_addnew">ca-app-pub-7116389331562728/6247898368</string>-->
-    <!--<string name="ad_main">ca-app-pub-7116389331562728/5603727070</string>-->
-    <!--<string name="ad_modifytoday">ca-app-pub-7116389331562728/3862160178</string>-->
-    <!--<string name="ad_notificationsetting">ca-app-pub-7116389331562728/1110313255</string>-->
-    <!--<string name="ad_sendwish">ca-app-pub-7116389331562728/2886429354</string>-->
-    <!--<string name="ad_update">ca-app-pub-7116389331562728/2531206139</string>-->
-    <!--<string name="ad_wishtemplate">ca-app-pub-7116389331562728/4391082719</string>-->
-    <!--<string name="ad_share_wish">ca-app-pub-7116389331562728/3988631148</string>-->
-    <!--<string name="ad_about">ca-app-pub-7116389331562728/4955417829</string>-->
+    <string name="ad_addnew">ca-app-pub-7116389331562728/6247898368</string>
+    <string name="ad_main">ca-app-pub-7116389331562728/5603727070</string>
+    <string name="ad_modifytoday">ca-app-pub-7116389331562728/3862160178</string>
+    <string name="ad_notificationsetting">ca-app-pub-7116389331562728/1110313255</string>
+    <string name="ad_sendwish">ca-app-pub-7116389331562728/2886429354</string>
+    <string name="ad_update">ca-app-pub-7116389331562728/2531206139</string>
+    <string name="ad_wishtemplate">ca-app-pub-7116389331562728/4391082719</string>
+    <string name="ad_share_wish">ca-app-pub-7116389331562728/3988631148</string>
+    <string name="ad_about">ca-app-pub-7116389331562728/4955417829</string>
+    <string name="ad_notificationtime">ca-app-pub-7116389331562728/2215332125</string>
+    <string name="ad_notificationfrequency">ca-app-pub-7116389331562728/4230766154</string>
+
 
 </resources>
