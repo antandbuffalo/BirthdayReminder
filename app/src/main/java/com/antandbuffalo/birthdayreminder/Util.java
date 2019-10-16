@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.Toast;
 
+import com.antandbuffalo.birthdayreminder.common.Storage;
 import com.antandbuffalo.birthdayreminder.database.DateOfBirthDBHelper;
 import com.antandbuffalo.birthdayreminder.database.OptionsDBHelper;
 import com.antandbuffalo.birthdayreminder.notification.AlarmReceiver;
@@ -538,5 +539,38 @@ public class Util {
             }
         }
         return false;
+    }
+
+    public static String getNotificationMessageWithTime(Context context, Date dob) {
+        boolean is24HourFormat = android.text.format.DateFormat.is24HourFormat(context);
+        String time = "";
+        Integer hours, minutes;
+        hours = Storage.getNotificationHours(Util.getSharedPreference());
+        minutes = Storage.getNotificationMinutes(Util.getSharedPreference());
+        if(is24HourFormat) {
+            time = Util.getTwoDigitsString(hours)
+                    + ":"
+                    + Util.getTwoDigitsString(minutes);
+        }
+        else {
+            if(hours > 12) {
+                hours = hours - 12;
+                time = Util.getTwoDigitsString(hours)
+                        + ":"
+                        + Util.getTwoDigitsString(minutes)
+                        + "pm";
+            }
+            else {
+                time = Util.getTwoDigitsString(hours)
+                        + ":"
+                        + Util.getTwoDigitsString(minutes)
+                        + "am";
+            }
+        }
+        String message = "You will get notified at "
+                + time
+                + " on "
+                + Util.getStringFromDate(dob, "dd MMM") + " every year";
+        return  message;
     }
 }

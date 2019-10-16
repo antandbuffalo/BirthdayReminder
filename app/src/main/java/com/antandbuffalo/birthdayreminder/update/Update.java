@@ -221,6 +221,7 @@ public class Update extends FragmentActivity {
                         Log.i("after update", currentDOB.getName());
                         updateViewModel.update();
                         String status = Constants.NOTIFICATION_UPDATE_MEMBER_SUCCESS + ". You will get notified at 12:00am and 12:00pm on " + Util.getStringFromDate(currentDOB.getDobDate(), "dd MMM") + " every year";
+                        status = Constants.NOTIFICATION_UPDATE_MEMBER_SUCCESS + ". " + Util.getNotificationMessageWithTime(getApplicationContext(), updateViewModel.dateOfBirth.getDobDate());
                         Toast toast = Toast.makeText(getApplicationContext(), status, Toast.LENGTH_LONG);
                         toast.show();
                         setResult(RESULT_OK, intent);

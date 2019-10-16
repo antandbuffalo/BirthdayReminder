@@ -1,11 +1,13 @@
 package com.antandbuffalo.birthdayreminder.update;
 
 import android.arch.lifecycle.ViewModel;
+import android.content.Context;
 import android.util.Log;
 
 import com.antandbuffalo.birthdayreminder.Constants;
 import com.antandbuffalo.birthdayreminder.DateOfBirth;
 import com.antandbuffalo.birthdayreminder.Util;
+import com.antandbuffalo.birthdayreminder.common.Storage;
 import com.antandbuffalo.birthdayreminder.database.DateOfBirthDBHelper;
 import com.antandbuffalo.birthdayreminder.model.BirthdayInfo;
 
@@ -179,5 +181,4 @@ public class UpdateViewModel extends ViewModel {
     public void update() {
         DateOfBirthDBHelper.updateDOB(dateOfBirth);
     }
-
 }

@@ -156,34 +156,6 @@ public class AddNewViewModel extends ViewModel {
     }
 
     public String getAddSuccessMessage(Context context) {
-        boolean is24HourFormat = android.text.format.DateFormat.is24HourFormat(context);
-        String time = "";
-        if(is24HourFormat) {
-            time = Storage.getNotificationHours(Util.getSharedPreference())
-                    + ":"
-                    + Storage.getNotificationMinutes(Util.getSharedPreference());
-        }
-        else {
-            int hours = Storage.getNotificationHours(Util.getSharedPreference());
-            if(hours > 12) {
-                hours = hours - 12;
-                time = hours
-                        + ":"
-                        + Storage.getNotificationMinutes(Util.getSharedPreference())
-                        + "pm";
-            }
-            else {
-                time = hours
-                        + ":"
-                        + Storage.getNotificationMinutes(Util.getSharedPreference())
-                        + "am";
-            }
-        }
-        String message = Constants.NOTIFICATION_ADD_MEMBER_SUCCESS
-                + ". You will get notified at "
-                + time
-                + " on "
-                + Util.getStringFromDate(dateOfBirth.getDobDate(), "dd MMM") + " every year";
-        return  message;
+        return Constants.NOTIFICATION_ADD_MEMBER_SUCCESS + ". " + Util.getNotificationMessageWithTime(context, dateOfBirth.getDobDate());
     }
 }
