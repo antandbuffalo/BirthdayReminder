@@ -222,6 +222,7 @@ public class DateOfBirthDBHelper {
                     + "select " + Constants.COLUMN_DOB_ID + ", "
                     + Constants.COLUMN_DOB_NAME + ", "
                     + Constants.COLUMN_DOB_DATE + ", "
+                    + Constants.COLUMN_DOB_OPTIONAL_YEAR + ", "
                     + "1 as TYPE, "
                     + "cast(strftime('%m%d', "
                     + Constants.COLUMN_DOB_DATE + ") as int) as day from "
