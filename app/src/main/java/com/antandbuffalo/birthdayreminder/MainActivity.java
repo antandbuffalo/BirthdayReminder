@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -27,6 +28,19 @@ import com.antandbuffalo.birthdayreminder.fragments.MyFragment;
 import com.antandbuffalo.birthdayreminder.restore.RestoreBackup;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.Scopes;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.Scope;
+import com.google.android.gms.drive.Drive;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+
+import java.io.File;
+import java.util.Collections;
 
 
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
@@ -42,6 +56,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     AlarmManager alarmManager;
     int currentTabPosition;
     private AdView mAdView;
+    public GoogleSignInClient googleSignInClient;
 
 /*    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -130,6 +145,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         }
         OptionsDBHelper.populatePage();
         Util.createEmptyFolder();
+
+        DriveSignIn();
     }
 
     public void setRepeatingAlarm() {
@@ -168,7 +185,25 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        System.out.println("In main activity");
+
+        if(requestCode == 999) {
+            GoogleSignIn.getSignedInAccountFromIntent(data)
+                    .addOnSuccessListener(new OnSuccessListener<GoogleSignInAccount>() {
+                        @Override
+                        public void onSuccess(GoogleSignInAccount googleSignInAccount) {
+                            Log.i("SUCC", "login success");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.i("FAIL", e.getLocalizedMessage());
+                        }
+                    });
+        }
+
+
+        System.out.println("In main activity " + requestCode);
         switch (requestCode) {
             case Constants.ADD_NEW_MEMBER: {
                 if (resultCode == RESULT_OK) {
@@ -303,4 +338,28 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         }
         //Log.i("BACK", mTabsAdapter.toString());
     }
+
+    public void DriveSignIn() {
+        // https://stackoverflow.com/questions/54052220/how-to-access-the-application-data-on-google-drive-on-android-with-its-rest-api
+
+        GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken("405608185466-1ertijbnjfc99cgdvbmplv7r0c840vu6.apps.googleusercontent.com")
+                .requestScopes(new Scope(Scopes.DRIVE_APPFOLDER))
+                .build();
+        GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
+        startActivityForResult(googleSignInClient.getSignInIntent(), 999);
+
+    }
+
+//    public void createFileToDrive() {
+//        File fileMetadata = new File();
+//        fileMetadata.setName("config.json");
+//        fileMetadata.setParents(Collections.singletonList("appDataFolder"));
+//        java.io.File filePath = new java.io.File("files/config.json");
+//        FileContent mediaContent = new FileContent("application/json", filePath);
+//        File file = driveService.files().create(fileMetadata, mediaContent)
+//                .setFields("id")
+//                .execute();
+//        System.out.println("File ID: " + file.getId());
+//    }
 }
