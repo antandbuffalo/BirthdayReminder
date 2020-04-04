@@ -343,7 +343,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         // https://stackoverflow.com/questions/54052220/how-to-access-the-application-data-on-google-drive-on-android-with-its-rest-api
 
         GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken("405608185466-1ertijbnjfc99cgdvbmplv7r0c840vu6.apps.googleusercontent.com")
+                //.requestIdToken("405608185466-1ertijbnjfc99cgdvbmplv7r0c840vu6.apps.googleusercontent.com")x
                 .requestScopes(new Scope(Scopes.DRIVE_APPFOLDER))
                 .build();
         GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
